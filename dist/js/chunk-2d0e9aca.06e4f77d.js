@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e9aca"],{"8f17":function(e,n,a){"use strict";a.r(n);var t=function(){var e=this,n=e.$createElement,a=e._self._c||n;return a("div",[e._v(" client ")])},c=[],i={name:"ClientDashboard"},l=i,r=a("2877"),s=Object(r["a"])(l,t,c,!1,null,"6ca37137",null);n["default"]=s.exports}}]);
+//# sourceMappingURL=chunk-2d0e9aca.06e4f77d.js.map
