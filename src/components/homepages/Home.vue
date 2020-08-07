@@ -17,14 +17,14 @@
 
                 <span class="scale-in-centersubheader">
                         <router-link to="/">
-                        <a-button type="primary" style="height: 3rem;width: 14rem;margin-right: 1%;margin-bottom: 1rem"
+                        <a-button type="primary" class="ctabutton" style="margin-right: 1%;"
                                   :size="large">
                           Create a project
                         </a-button>
                       </router-link>
                       <router-link to="/">
-                        <a-button type="primary"
-                                  style="height: 3rem;width: 14rem;"
+                        <a-button type="primary" class="ctabutton"
+                                  style=""
                                   ghost>See available gigs
                         </a-button>
                       </router-link>
@@ -527,14 +527,14 @@
                       <div  >
                 <span class="scale-in-centersubheader">
                   <router-link to="/">
-                      <a-button type="primary" style="height: 3rem;width: 14rem;margin-right: 1rem;margin-bottom: 1rem"
+                      <a-button type="primary" class="ctabutton" style="margin-right: 1rem;"
                                 :size="large">
                         Create a project
                       </a-button>
                     </router-link>
                     <router-link to="/">
-                      <a-button type="primary"
-                                style="height: 3rem;width: 14rem;"
+                      <a-button type="primary" class="ctabutton"
+
                                 ghost>See available gigs
                       </a-button>
                     </router-link>
@@ -581,6 +581,9 @@ export default {
 </script>
 
 <style scoped>
+.ctabutton{
+  height: 3rem;width: 14rem;
+}
 
 
 .maintitle {
@@ -899,6 +902,11 @@ export default {
 }
 /* small laptops*/
 @media (max-width:1024px) and (min-width:769px){
+  .ctabutton{
+    height: 3rem;width: 9rem;
+    margin-bottom: 1rem
+  }
+
   .mainheader {
     background: #fff;
     overflow: hidden;
@@ -1034,6 +1042,11 @@ export default {
 }
 /* tabs*/
 @media (max-width:768px) and (min-width:425px){
+  .ctabutton{
+    height: 3rem;width: 9rem;
+    margin-bottom: 1rem
+  }
+
   .mainheader {
     background: #fff;
     overflow: hidden;
@@ -1086,6 +1099,10 @@ export default {
 }
 /* small phone*/
 @media (max-width:375px) and (min-width:320px){
+  .ctabutton{
+    height: 3rem;width: 9rem;
+    margin-bottom: 1rem
+  }
   .maintitle {
     font-family: sofia_probold;
     font-weight: 700;
@@ -1132,7 +1149,7 @@ export default {
   .mainheader {
     background: #fff;
     overflow: hidden;
-    height: 80vh;
+    height: 43vh;
     position: relative;
     z-index: 0;
   }
