@@ -12,35 +12,35 @@
 
 
               <div class="headercontainer">
-                <p class="maintitle scale-in-centerheader">Access the Best Remote Developers Workforce</p>
-                <p class="text__paragraph-big scale-in-centersubheader">An innovative application for managing projects
-                  tasks ,timelines and personnel</p>
-                <!--                      <p class="text__paragraph-small">Make your Project into Reality & Enjoy an Amazing Project Management Experience</p>-->
+                <p class="maintitle scale-in-centerheader">Access Top African Freelance Programmers</p>
+                <p class="text__paragraph-big scale-in-centersubheader">An innovative platform for managing your project, timelines and freelancer’s tasks</p>
+
                 <span class="scale-in-centersubheader">
                         <router-link to="/">
-                        <a-button type="primary" style="height: 3rem;width: 14rem;"
+                        <a-button type="primary" style="height: 3rem;width: 14rem;margin-right: 1%;margin-bottom: 1rem"
                                   :size="large">
                           Create a project
                         </a-button>
                       </router-link>
                       <router-link to="/">
                         <a-button type="primary"
-                                  style="margin-left: 1rem;height: 3rem;width: 14rem;"
-                                  ghost>Available Gigs
+                                  style="height: 3rem;width: 14rem;"
+                                  ghost>See available gigs
                         </a-button>
                       </router-link>
                       </span>
 
               </div>
               <div class="mainpresentation scale-in-centerimages" style="margin-top: 5%">
-                <div>
+                <hide-at breakpoint="mediumAndBelow">
+                <div >
                   <img class="dots-4 noselect" src="https://finezjo.pl/src/assets/images/dots-4.svg" alt="">
 
-                    <img class="folder" src="@/assets/images/note.png" style="width: 21%"/>
+                  <img class="folder" src="@/assets/images/note.png" style="width: 17%"/>
 
 
-                  <div
-                      style="border:5px solid #242a49  ;padding: 1%;border-radius: 2rem;background-color: #FAFBFF;width: 984px;height: 615px ">
+                  <div class="tablet"
+                      style=" ">
                     <a-row gutter="4">
                       <a-col span="2" style="background-color: white;height: 100%">
                         <div style="padding: 1rem">
@@ -48,7 +48,7 @@
                         </div>
                       </a-col>
                       <a-col span="22">
-                        <a-card style="width: 45rem;margin-left: 6%;border: none;background-color:#FAFBFF ">
+                        <a-card style="margin-left: 6%;border: none;background-color:#FAFBFF ">
                           <span class="text__paragraph-big">Awesome Project</span>
 
                         </a-card>
@@ -91,13 +91,13 @@
                               <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
                                 <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
                                 <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                                <p style="font-family: sofia_prolight">database structure</p>
+                                <p style="font-family: sofia_prolight">Database structure</p>
 
                               </a-card>
                               <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
                                 <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
                                 <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                                <p style="font-family: sofia_prolight">UX Ui design</p>
+                                <p style="font-family: sofia_prolight">UI/UX</p>
 
                               </a-card>
 
@@ -142,11 +142,14 @@
 
                     </div>
                   </div>
-                  <div class="newtask slide-right"
+
+                  <div class="newtask slide-right "
                        style="border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff; ">
 
                     <span style="color: white;font-family: sofia_prosemibold;"><a-icon type="plus"/> Add new task</span>
+
                   </div>
+
                   <div class="ongoingtaskcard  slide-top">
                     <a-card size="small" style="width: 16rem">
                       <span slot="title" style="font-family: sofia_proregular">Add task</span>
@@ -177,78 +180,94 @@
                   </div>
 
                 </div>
+                </hide-at>
+                <show-at breakpoint="medium">
+                  <img src="@/assets/images/tabletmain.png" style="width: 100%;">
+                </show-at>
               </div>
             </div>
           </div>
 
-          <div id="features" style="">
+          <div id="features" style="margin-bottom: 2rem">
             <section class="featuresection">
-              <div>
-                <h5 class="featuresmallheader">features</h5>
+              <div style="padding: 2% 5%;margin: 0 auto;text-align: center">
+                <div>
+                  <h5 class="featuresmallheader">Features</h5>
+                </div>
+                <div>
+                  <h2 class="featurebigheader">
+                    A unique tool that allows you to efficiently manage product development with your Programmer
+                  </h2>
+                </div>
+
               </div>
-              <div style="margin-right: 50%">
-                <h2 class="featurebigheader">
-                  A unique tool that allows you to efficiently manage work with your developer
-                </h2>
-              </div>
+
 
 
             </section>
 
             <div style=" padding-top: 2%;padding-left: 10%;padding-right: 10%">
               <a-row :gutter="16">
-                <a-col :span="6">
+                <a-col :xs="{span: 24, offset: 0  }" :sm="{span: 12, offset: 0 }"
+                       :md="{span:6, offset: 0 }"
+                       :lg="{span: 6, offset: 0 }" :xl="{span: 6,offset: 0 }" style="margin-bottom: 1rem">
                   <a-card class="featurecard">
                     <div style="text-align: center;padding-top: 20%">
-                      <img src="@/assets/images/touch.svg" style="width: 40%;">
+                      <img src="@/assets/images/talent.svg" style="width: 40%;">
                     </div>
                     <div style="text-align: center;">
-                    <p class="featurecardtext">intuitive interface</p>
-                    <p style="font-family: sofia_proregular">
-                      a friendly,modern design,clear information and unprecidented ease of use
-                    </p>
+                      <p class="featurecardtext">Verified talent</p>
+                      <p style="font-family: sofia_proregular">
+                        access an exclusive list of verified talent ready to bring your dream project to reality
+                      </p>
                     </div>
 
                   </a-card>
                 </a-col>
-                <a-col :span="6">
+                <a-col :xs="{span: 24, offset: 0  }" :sm="{span: 12, offset: 0 }"
+                       :md="{span:6, offset: 0 }"
+                       :lg="{span: 6, offset: 0 }" :xl="{span: 6,offset: 0 }" style="margin-bottom: 1rem">
+                  <a-card class="featurecard">
+                    <div style="text-align: center;padding-top: 20%">
+                      <img src="@/assets/images/project.svg" style="width: 40%;">
+                    </div>
+                    <div style="text-align: center;">
+                      <p class="featurecardtext">Project tracking</p>
+                      <p style="font-family: sofia_proregular">
+                        effectively track and manage your product development process from start to finish
+                      </p>
+                    </div>
+
+                  </a-card>
+                </a-col>
+                <a-col :xs="{span: 24, offset: 0  }" :sm="{span: 12, offset: 0 }"
+                       :md="{span:6, offset: 0 }"
+                       :lg="{span: 6, offset: 0 }" :xl="{span: 6,offset: 0 }" style="margin-bottom: 1rem">
                   <a-card class="featurecard">
                     <div style="text-align: center;padding-top: 20%">
                       <img src="@/assets/images/money.svg" style="width: 40%;">
                     </div>
+
                     <div style="text-align: center;">
-                      <p class="featurecardtext">escrow management</p>
+                      <p class="featurecardtext">Pay in escrow</p>
                       <p style="font-family: sofia_proregular">
-                        enables accountabilty through task driven payouts
+                        seamlessly manage your payment based on your milestones using escrow
                       </p>
                     </div>
 
                   </a-card>
                 </a-col>
-                <a-col :span="6">
-                  <a-card class="featurecard">
-                    <div style="text-align: center;padding-top: 20%">
-                      <img src="@/assets/images/blackphone.svg" style="width: 40%;">
-                    </div>
-
-                    <div style="text-align: center;">
-                      <p class="featurecardtext">mobility</p>
-                      <p style="font-family: sofia_proregular">
-                        available on mobile devices enabling you always keep tabs
-                      </p>
-                    </div>
-
-                  </a-card>
-                </a-col>
-                <a-col :span="6">
+                <a-col :xs="{span: 24, offset: 0  }" :sm="{span: 12, offset: 0 }"
+                       :md="{span:6, offset: 0 }"
+                       :lg="{span: 6, offset: 0 }" :xl="{span: 6,offset: 0 }" style="margin-bottom: 1rem">
                   <a-card class="featurecard">
                     <div style="text-align: center;padding-top: 20%">
                       <img src="@/assets/images/team.svg" style="width: 40%;">
                     </div>
                     <div style="text-align: center;">
-                      <p class="featurecardtext">conflict resolution</p>
+                      <p class="featurecardtext">Conflict resolution</p>
                       <p style="font-family: sofia_proregular">
-                        a third party to always help you solve issues
+                        experience swift conflict resolution to carter for any eventuality
                       </p>
                     </div>
 
@@ -259,313 +278,278 @@
 
           </div>
 
-          <div id="howitworks" style="margin-bottom: 5rem">
-            <section class="featuresection">
-              <div style="padding: 100px 30px;margin: 0 auto;text-align: center">
-                <div>
-                  <h5 class="featuresmallheader">how it works</h5>
-                </div>
-                <div>
-                  <h2 class="featurebigheader">
-                    Our intuitive process to ensure a successful project
-                  </h2>
-                </div>
 
-              </div>
-              <div class="mainpresentation ">
-                <div class="taskshow">
-
-                    <a-card size="small" class="" style="width: 18rem;box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;padding: 4%;">
-                      <span slot="title" style="font-family: sofia_prosemibold;font-size: 18px">1. Express what you want</span>
-
-
-                      <a-form :form="form" :label-col="{ span: 10 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
-                        <a-form-item label="Project title">
-                          <a-input
-
-                          />
-                        </a-form-item>
-                        <a-form-item label="Description">
-                          <a-input
-
-                          />
-                        </a-form-item>
-                        <a-form-item label="Budget&time:">
-                          <a-input
-
-                          />
-                        </a-form-item>
-                      </a-form>
-
-                    </a-card>
-
+          <hide-at breakpoint="mediumAndBelow">
+            <div id="howitworksbig" style="margin-bottom: 5rem">
+              <section class="featuresection">
+                <div class style="margin: 0 auto;text-align: center">
+                  <div>
+                    <h5 class="featuresmallheader">How it works</h5>
+                  </div>
+                  <div>
+                    <h2 class="featurebigheader">
+                      Intuitive process to ensure a successful project
+                    </h2>
+                  </div>
 
                 </div>
-                <div id="mangeats"
-                  style="border:5px solid #242a49 ;padding: 1%;border-radius: 2rem;background-color: #FAFBFF;width: 984px;height: 615px ">
-                <a-row gutter="4">
-                  <a-col span="2" style="background-color: white;height: 100%">
-                    <div style="padding: 1rem">
-                      <img src="@/assets/logobg.svg" style="width: 100%"/>
+
+                <div class="mainpresentation ">
+                  <div class="express text__paragraph-big "
+                  >
+
+                    <p style="font-family: sofia_proregular;margin-bottom: 1rem"><a-icon type="form"/> 1: Express your needs</p>
+
+                    <a-input placeholder="Project title" style="margin-bottom: 1rem"
+
+                    />
+                    <a-input placeholder="Description" style="margin-bottom: 1rem"
+
+                    />
+                    <a-input placeholder="Budget&time" style="margin-bottom: 1rem"
+
+                    />
+
+
+
+
+                  </div>
+
+
+                  <div id="mangeats"
+                       style="border:5px solid #242a49 ;padding: 1%;border-radius: 2rem;background-color: #FAFBFF;width: 984px;height: 615px ">
+                    <a-row gutter="4">
+                      <a-col span="2" >
+
+                      </a-col>
+                      <a-col span="22">
+                        <a-card style="margin-left: 6%;border: none;background-color:#FAFBFF ">
+                          <span class="text__paragraph-big">5 : Manage</span>
+
+                        </a-card>
+                        <a-row
+                            style="margin-top: 1.5rem;background-color: #F4F7FC;border-radius: 1rem;height: 29rem;padding: 2%;">
+                          <a-col span="8">
+                            <div style="">
+                              <p style="font-family: sofia_proregular">Todo</p>
+
+
+                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
+                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
+                                <p style="font-family: sofia_prolight">Login pages</p>
+
+                              </a-card>
+
+                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
+                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
+                                <p style="font-family: sofia_prolight">Admin dashboard</p>
+
+                              </a-card>
+                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
+                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
+                                <p style="font-family: sofia_prolight">Profile</p>
+
+                              </a-card>
+
+
+                            </div>
+
+
+                          </a-col>
+                          <a-col span="8">
+                            <div style="">
+                              <p style="font-family: sofia_proregular">In progress</p>
+
+                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
+                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
+                                <p style="font-family: sofia_prolight">Database structure</p>
+
+                              </a-card>
+                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
+                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
+                                <p style="font-family: sofia_prolight">UX/Ui</p>
+
+                              </a-card>
+
+
+                            </div>
+
+
+                          </a-col>
+                          <a-col span="8">
+                            <div style="">
+                              <p style="font-family: sofia_proregular">Done</p>
+
+                              <a-card size="small" style="width: 13rem" class="shadowsmall">
+                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
+                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
+                                <p style="font-family: sofia_prolight">Landing page</p>
+
+                              </a-card>
+
+                            </div>
+
+
+                          </a-col>
+                        </a-row>
+                      </a-col>
+
+
+                    </a-row>
+                  </div>
+                  <div class="bids">
+                    <div  class="shadowsmall bidcard" >
+                      <span  class="text__paragraph-big">2 :Accept Bids</span>
                     </div>
-                  </a-col>
-                  <a-col span="22">
-                    <a-card style="width: 45rem;margin-left: 6%;border: none;background-color:#FAFBFF ">
-                      <span class="text__paragraph-big">5 : Manage</span>
+                    <a-row class="shadowsmallbid">
+                      <a-col span="18">
+                        <p>Name: Jessica Jone</p>
+                        <p>Proposal : Am skilled at ...</p>
 
-                    </a-card>
-                    <a-row
-                        style="margin-top: 1.5rem;background-color: #F4F7FC;border-radius: 1rem;height: 29rem;padding: 2%;">
-                      <a-col span="8">
-                        <div style="">
-                          <p style="font-family: sofia_proregular">Todo</p>
-
-
-                          <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                            <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                            <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                            <p style="font-family: sofia_prolight">Login pages</p>
-
-                          </a-card>
-
-                          <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                            <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                            <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                            <p style="font-family: sofia_prolight">Admin dashboard</p>
-
-                          </a-card>
-                          <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                            <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                            <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                            <p style="font-family: sofia_prolight">Profile</p>
-
-                          </a-card>
-
-
-                        </div>
-
-
+                        <p>Quote : $2000</p>
                       </a-col>
-                      <a-col span="8">
-                        <div style="">
-                          <p style="font-family: sofia_proregular">In progress</p>
-
-                          <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                            <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                            <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                            <p style="font-family: sofia_prolight">database structure</p>
-
-                          </a-card>
-                          <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                            <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                            <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                            <p style="font-family: sofia_prolight">UX Ui design</p>
-
-                          </a-card>
-
-
+                      <a-col span="4">
+                        <div>
+                          <a-tag color="#F0F6FD" style="color: #007BFF">
+                            <a-icon type="environment" />SA
+                          </a-tag>
                         </div>
-
-
-                      </a-col>
-                      <a-col span="8">
-                        <div style="">
-                          <p style="font-family: sofia_proregular">Done</p>
-
-                          <a-card size="small" style="width: 13rem" class="shadowsmall">
-                            <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                            <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                            <p style="font-family: sofia_prolight">Landing page</p>
-
-                          </a-card>
-
+                        <div style="margin-top: 1rem">
+                          <a-button type="primary" ghost>View bid</a-button>
                         </div>
-
-
                       </a-col>
                     </a-row>
-                  </a-col>
+                    <a-row class="shadowsmallbid">
+                      <a-col span="18">
+                        <p>Name: Jessica Jone</p>
+                        <p>Proposal : Here is my port ...</p>
 
+                        <p>Quote : $3000</p>
+                      </a-col>
+                      <a-col span="4">
+                        <div>
+                          <a-tag color="#F0F6FD" style="color: #007BFF">
+                            <a-icon type="environment" />NG
+                          </a-tag>
+                        </div>
+                        <div style="margin-top: 1rem">
+                          <a-button type="primary" ghost>View bid</a-button>
+                        </div>
+                      </a-col>
+                    </a-row>
+                    <a-row class="shadowsmallbid">
+                      <a-col span="18">
+                        <p>Name: Jessica Jone</p>
+                        <p>Proposal : Am available to ...</p>
 
-                </a-row>
-              </div>
-                <div class="bids ">
-                  <a-card size="small" class="shadowsmall" style="width: 28rem;font-size: 18px">
-                    <span slot="title" style="font-family: sofia_prosemibold">2 :Accept Bids</span>
-
-
-
-
-
-                  </a-card>
-                  <a-row class="shadowsmallbid" >
-
-                    <a-col span="18" >
-                      <p>Name: Jessica Jone</p>
-                      <p>Proposal : hello there text ...
-                      </p>
-
-                      <p>
-                        Quote : $2000
-
-                      </p>
-
-
-                    </a-col>
-                    <a-col span="4">
-                      <div>
-
-                        <a-tag color="#F0F6FD"
-                               style='color: #007BFF'>
-                          <a-icon type="environment"/>
-                          KE
-                        </a-tag>
-
-
-
-                      </div>
-                      <div style="margin-top: 1rem">
-                        <a-button type="primary" ghost
-                                  >
-                          View bid
-                        </a-button>
-                      </div>
-
-
-                    </a-col>
-
-
-                  </a-row>
-                  <a-row class="shadowsmallbid" >
-
-                    <a-col span="18" >
-                      <p>Name: Jessica Jone</p>
-                      <p>Proposal : hello there text ...
-                      </p>
-
-                      <p>
-                        Quote : $2000
-
-                      </p>
-
-
-                    </a-col>
-                    <a-col span="4">
-                      <div>
-
-                        <a-tag color="#F0F6FD"
-                               style='color: #007BFF'>
-                          <a-icon type="environment"/>
-                          KE
-                        </a-tag>
+                        <p>Quote : $2500</p>
+                      </a-col>
+                      <a-col span="4">
+                        <div>
+                          <a-tag color="#F0F6FD" style="color: #007BFF">
+                            <a-icon type="environment" />GH
+                          </a-tag>
+                        </div>
+                        <div style="margin-top: 1rem">
+                          <a-button type="primary" ghost>View bid</a-button>
+                        </div>
+                      </a-col>
+                    </a-row>
+                  </div>
 
 
 
-                      </div>
-                      <div style="margin-top: 1rem">
-                        <a-button type="primary" ghost
-                        >
-                          View bid
-                        </a-button>
-                      </div>
 
+                  <div class="contract "
+                  >
 
-                    </a-col>
+                    <span style="color: white;font-family: sofia_prosemibold;"><a-icon type="file-text"/> 3: Contract</span>
+                  </div>
 
+                  <div class="escrow "
+                  >
 
-                  </a-row>
-                  <a-row class="shadowsmallbid" >
-
-                    <a-col span="18" >
-                      <p>Name: Jessica Jone</p>
-                      <p>Proposal : hello there text ...
-                      </p>
-
-                      <p>
-                        Quote : $2000
-
-                      </p>
-
-
-                    </a-col>
-                    <a-col span="4">
-                      <div>
-
-                        <a-tag color="#F0F6FD"
-                               style='color: #007BFF'>
-                          <a-icon type="environment"/>
-                          KE
-                        </a-tag>
-
-
-
-                      </div>
-                      <div style="margin-top: 1rem">
-                        <a-button type="primary" ghost
-                        >
-                          View bid
-                        </a-button>
-                      </div>
-
-
-                    </a-col>
-
-
-                  </a-row>
-
-
+                    <span style="color: white;font-family: sofia_prosemibold;"><a-icon type="bank"/> 4: Escrow Payment</span>
+                  </div>
                 </div>
-                <div class="contract "
-                     >
-
-                  <span style="color: white;font-family: sofia_prosemibold;"><a-icon type="form"/> 3: Contract</span>
-                </div>
-                <div class="escrow "
-                >
-
-                  <span style="color: white;font-family: sofia_prosemibold;"><a-icon type="bank"/> 4: Escrow</span>
-                </div>
-              </div>
-
-
-            </section>
-
-
-          </div>
-          <div id="getstarted" style="margin-bottom: 5rem">
-            <section class="featuresection">
-              <section class="featuresection">
-                <div>
-                  <h5 class="featuresmallheader">get started</h5>
-                </div>
-                <div style="margin-right: 50%">
-                  <h2 class="featurebigheader">
-                    Ready to express yourself and make your idea into a reality
-                  </h2>
-
-                </div>
-
-
               </section>
-              <div  class="cta ">
+            </div>
+
+
+
+
+
+
+          </hide-at>
+          <show-at breakpoint="medium">
+            <div id="howitworkssmall" style="margin-bottom: 5rem">
+              <section class="featuresection">
+                <div class style="margin: 0 auto;text-align: center">
+                  <div>
+                    <h5 class="featuresmallheader">how it works</h5>
+                  </div>
+                  <div>
+                    <h2 class="featurebigheader">
+                      Our intuitive process to ensure a successful project
+                    </h2>
+                  </div>
+
+                </div>
+            <img src="@/assets/images/works.png" style="width: 100%;">
+              </section>
+            </div>
+          </show-at>
+
+          <div id="getstarted" style="margin-bottom: 5rem">
+            <section  style="padding: 2% 5%">
+              <a-row gutter="16">
+                <a-col :xs="{span: 24, offset: 0  }" :sm="{span: 24, offset: 0 }"
+                       :md="{span: 12, offset: 0 }"
+                       :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }" style="">
+                  <img src="@/assets/images/smile.png" style="width: 100%"/>
+                </a-col>
+                <a-col :xs="{span: 24, offset: 0  }" :sm="{span: 24, offset: 0 }"
+                       :md="{span: 12, offset: 0 }"
+                       :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
+                  <div style="width: 100%;padding: 2%">
+                    <div>
+                      <h5 class="featuresmallheader">Get started</h5>
+                    </div>
+                    <div>
+                      <h2 class="featurebigheader">
+                        Ready to turn your idea into a reality?
+                      </h2>
+                      <div  >
                 <span class="scale-in-centersubheader">
-                        <router-link to="/">
-                        <a-button type="primary" style="height: 3rem;width: 14rem;"
-                                  :size="large">
-                          Create a project
-                        </a-button>
-                      </router-link>
-                      <router-link to="/">
-                        <a-button type="primary"
-                                  style="margin-left: 1rem;height: 3rem;width: 14rem;"
-                                  ghost>Available Gigs
-                        </a-button>
-                      </router-link>
+                  <router-link to="/">
+                      <a-button type="primary" style="height: 3rem;width: 14rem;margin-right: 1rem;margin-bottom: 1rem"
+                                :size="large">
+                        Create a project
+                      </a-button>
+                    </router-link>
+                    <router-link to="/">
+                      <a-button type="primary"
+                                style="height: 3rem;width: 14rem;"
+                                ghost>See available gigs
+                      </a-button>
+                    </router-link>
+
                       </span>
-              </div>
-              <div class="mainpresentation ">
-               <img src="@/assets/images/smile.png"/>
-              </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </a-col>
+              </a-row>
+
+
+
 
 
             </section>
@@ -584,11 +568,13 @@
 <script>
 import Pageheader from '@/components/homepages/layout/Header.vue'
 import Footer from '@/components/homepages/layout/Footer'
+import {hideAt,showAt} from 'vue-breakpoints'
 
 export default {
   name: "Home",
   components: {
-    Pageheader,Footer
+    Pageheader,Footer,
+    hideAt,showAt
 
   },
 }
@@ -600,7 +586,7 @@ export default {
 .maintitle {
   font-family: sofia_probold;
   font-weight: 700;
-  font-size: 44px;
+  font-size: 3rem;
   line-height: 1.36;
   letter-spacing: -1px;
   color: #007bff;
@@ -611,17 +597,17 @@ export default {
   display: flex;
   flex-direction: column;
   text-align: center;
-  max-width: 1246px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
-  margin-left: 22%;
-  margin-right: 22%;
-  margin-top: 8rem;
+  padding: 2%;
+
+  margin-top: 6rem;
 
 }
 
 .text__paragraph-big {
-  font-size: 22px;
+  font-size: 1.5rem;
   text-align: center;
   color: #272848;
 
@@ -655,31 +641,40 @@ export default {
   background: #ffffff;
   position: absolute;
 }
+.tablet{
+  border:5px solid #242a49  ;
+  padding: 1%;
+  border-radius: 2rem;
+  background-color: #FAFBFF;
+  width: 61.5rem;
+  height: 38.4375rem
 
+}
 .mainpresentation {
   display: flex;
   position: relative;
-  max-width: 1024px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 20px;
+  justify-content: center;
 }
 
 .dots-4 {
   position: absolute;
-  left: -160px;
+  left: 233px;
   top: 292px;
 }
 
 .calendar {
   position: absolute;
-  left: -190px;
+  left: 190px;
   top: 335px;
 }
 
 .tasks {
   position: absolute;
   top: -36px;
-  left: -200px;
+  left: 210px;
 }
 .taskshow {
   position: absolute;
@@ -689,39 +684,56 @@ export default {
 
 .newtask {
   position: absolute;
-  left: -60px;
+  left:280px;
+
   top: 75px;
 }
 .contract{
   position: absolute;
-  left: -60px;
+  left: 300px;
   top: 400px;
   border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
 }
+.express{
+  position: absolute;
+  left: 238px;
+  top: 20px;
+  border:1px  ;padding: 1%;border-radius: 1%;
+  background-color: #ffffff;
+  width: 13rem;
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+
+}
 .escrow{
   position: absolute;
-  left: -50px;
+  left: 300px;
   top: 480px;
   border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
 }
 
 .ongoingtaskcard {
   position: absolute;
-  right: -154px;
+  right: 268px;
   top: 260px;
 }
 .folder{
   position: absolute;
-  right: -210px;
+  right: 82px;
   top: 413px;
 }
 
 .bids{
   position: absolute;
-  right: -332px;
+  right: 40px;
   top: 60px;
 
 }
+.bidcard{
+  width: 28rem;
+  font-size: 18px;
+  padding: 2%
+}
+
 
 .shadowsmall {
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
@@ -739,7 +751,7 @@ export default {
 }
 
 .featuresection {
-  max-width: 1316px;
+  width: 100%;
   padding: 0 30px;
   margin: 0 auto;
   position: relative;
@@ -754,7 +766,7 @@ export default {
 }
 
 .featuresmallheader {
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: 600;
   color: #0086ff;
   font-family: sofia_prosemibold;
@@ -762,7 +774,7 @@ export default {
 }
 
 .featurebigheader {
-  font-size: 42px;
+  font-size: 2rem;
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;
@@ -774,9 +786,8 @@ export default {
 }
 
 .featurecard {
-  height: 376px;
+  height: 23rem;
   border-radius: 14px;
-
   border: 1px solid #d4d4ee;
 
 }
@@ -797,6 +808,510 @@ export default {
 }
 
 
+
+/* media query */
+/*large laptops */
+@media (max-width:2560px) and (min-width:1440px){
+
+}
+/* medium laptops*/
+@media (max-width:1440px) and (min-width:1025px){
+  .tasks {
+    position: absolute;
+    top: -36px;
+    left: 40px;
+  }
+  .mainheader {
+    background: #fff;
+    overflow: hidden;
+    height: 1180px;
+    position: relative;
+    z-index: 0;
+  }
+  .newtask {
+    position: absolute;
+    left:100px;
+
+    top: 75px;
+  }
+  .ongoingtaskcard {
+    position: absolute;
+    right: 40px;
+    top: 260px;
+  }
+  .contract{
+    position: absolute;
+    left: 115px;
+    top: 400px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+  .express{
+    position: absolute;
+    left: 40px;
+    top: 20px;
+    border:1px  ;padding: 1%;border-radius: 1%;
+    background-color: #ffffff;
+    width: 13rem;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    z-index: 1;
+
+  }
+  .escrow{
+    position: absolute;
+    left: 115px;
+    top: 480px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+  .calendar {
+    position: absolute;
+    left: 14px;
+    top: 335px;
+  }
+  .folder{
+    position: absolute;
+    right: 10px;
+    top: 413px;
+  }
+  .taskshow {
+    position: absolute;
+    top: -36px;
+    left: -183px;
+  }
+  .bids{
+    position: absolute;
+    right: 0px;
+    top: 105px;
+
+  }
+  .bidcard{
+    width: 18rem;
+    font-size: 18px
+  }
+  .dots-4 {
+    position: absolute;
+    left: 40px;
+    top: 292px;
+  }
+
+
+
+
+}
+/* small laptops*/
+@media (max-width:1024px) and (min-width:769px){
+  .mainheader {
+    background: #fff;
+    overflow: hidden;
+    height: 910px;
+    position: relative;
+    z-index: 0;
+  }
+  .maintitle {
+    font-family: sofia_probold;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.36;
+    letter-spacing: -1px;
+    color: #007bff;
+
+  }
+  .text__paragraph-big {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #272848;
+
+
+    letter-spacing: 0 !important;
+    font-family: sofia_proregular !important;
+  }
+  .featuresmallheader {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0086ff;
+    font-family: sofia_prosemibold;
+    letter-spacing: 0 !important;
+  }
+
+  .featurebigheader {
+    font-size: 2rem;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: -1px;
+    color: #07092f;
+    font-family: sofia_prosemibold;
+
+  }
+
+  .calendar {
+    position: absolute;
+    left: -168px;
+    top: 335px;
+  }
+
+  .tasks {
+    position: absolute;
+    top: -67px;
+    left: 4px;
+  }
+
+  .newtask {
+    position: absolute;
+    left: -20px;
+    top: 75px;
+  }
+  .folder{
+    position: absolute;
+    right: -179px;
+    top: 413px;
+  }
+  .taskshow {
+    position: absolute;
+    top: -36px;
+    left: -183px;
+  }
+  .bids{
+    position: absolute;
+    right: -9px;
+    top: 280px;
+
+  }
+  .dots-4 {
+    position: absolute;
+    left: 238px;
+    top: 292px;
+  }
+  .bidcard{
+    width: 21rem;
+    font-size: 18px
+  }
+  .folder{
+    position: absolute;
+    right: 82px;
+    top: 413px;
+  }
+  .tablet{
+    border:5px solid #242a49  ;
+    padding: 1%;
+    border-radius: 2rem;
+    background-color: #FAFBFF;
+    width: 54.5rem;
+    height: 38.4375rem
+
+  }
+  .ongoingtaskcard {
+    position: absolute;
+    right: 2px;
+    top: 260px;
+  }
+  .express{
+    position: absolute;
+    left: -43px;
+    top: 20px;
+    border:1px  ;padding: 2%;border-radius: 1%;
+    background-color: #ffffff;
+    width: 13rem;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    z-index: 1;
+
+  }
+  .contract{
+    position: absolute;
+    left: -26px;
+    top: 400px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+
+  .escrow{
+    position: absolute;
+    left: -26px;
+    top: 480px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+
+
+}
+/* tabs*/
+@media (max-width:768px) and (min-width:425px){
+  .mainheader {
+    background: #fff;
+    overflow: hidden;
+    height: 910px;
+    position: relative;
+    z-index: 0;
+  }
+  .maintitle {
+    font-family: sofia_probold;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.36;
+    letter-spacing: -1px;
+    color: #007bff;
+
+  }
+  .text__paragraph-big {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #272848;
+
+
+    letter-spacing: 0 !important;
+    font-family: sofia_proregular !important;
+  }
+  .featuresmallheader {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0086ff;
+    font-family: sofia_prosemibold;
+    letter-spacing: 0 !important;
+  }
+
+  .featurebigheader {
+    font-size: 2rem;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: -1px;
+    color: #07092f;
+    font-family: sofia_prosemibold;
+
+  }
+
+}
+/* big phone*/
+@media (max-width:425px) and (min-width:375px){
+
+}
+/* small phone*/
+@media (max-width:375px) and (min-width:320px){
+  .maintitle {
+    font-family: sofia_probold;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1.36;
+    letter-spacing: -1px;
+    color: #007bff;
+
+  }
+
+  .headercontainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    padding: 2%;
+
+    margin-top: 6rem;
+
+  }
+
+  .text__paragraph-big {
+    font-size: 1rem;
+    text-align: center;
+    color: #272848;
+
+
+    letter-spacing: 0 !important;
+    font-family: sofia_proregular !important;
+  }
+
+  .text__paragraph-small {
+    font-size: 1rem;
+    text-align: center;
+    color: #272848;
+
+
+    letter-spacing: 0 !important;
+    font-family: sofia_prolight !important;
+  }
+
+  .mainheader {
+    background: #fff;
+    overflow: hidden;
+    height: 80vh;
+    position: relative;
+    z-index: 0;
+  }
+
+  .hero {
+    display: block;
+    height: 883px;
+    width: 100%;
+    background: #ffffff;
+    position: absolute;
+  }
+  .tablet{
+    border:5px solid #242a49  ;
+    padding: 1%;
+    border-radius: 2rem;
+    background-color: #FAFBFF;
+    width: 61.5rem;
+    height: 38.4375rem
+
+  }
+  .mainpresentation {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    justify-content: center;
+  }
+
+  .dots-4 {
+    position: absolute;
+    left: 233px;
+    top: 292px;
+  }
+
+  .calendar {
+    position: absolute;
+    left: 190px;
+    top: 335px;
+  }
+
+  .tasks {
+    position: absolute;
+    top: -36px;
+    left: 210px;
+  }
+  .taskshow {
+    position: absolute;
+    top: -36px;
+    left: -296px;
+  }
+
+  .newtask {
+    position: absolute;
+    left:280px;
+
+    top: 75px;
+  }
+  .contract{
+    position: absolute;
+    left: 300px;
+    top: 400px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+  .express{
+    position: absolute;
+    left: 238px;
+    top: 20px;
+    border:1px  ;padding: 1%;border-radius: 1%;
+    background-color: #ffffff;
+    width: 13rem;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+
+  }
+  .escrow{
+    position: absolute;
+    left: 300px;
+    top: 480px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+
+  .ongoingtaskcard {
+    position: absolute;
+    right: 268px;
+    top: 260px;
+  }
+  .folder{
+    position: absolute;
+    right: 82px;
+    top: 413px;
+  }
+
+  .bids{
+    position: absolute;
+    right: 40px;
+    top: 60px;
+
+  }
+  .bidcard{
+    width: 28rem;
+    font-size: 18px;
+    padding: 2%
+  }
+
+
+  .shadowsmall {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border: none;
+    background: white;
+    border-radius: 3%;
+  }
+  .shadowsmallbid{
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border: none;
+    background: white;
+    border-radius: 1%;
+    font-family:sofia_prolight;height: 7rem;margin-top: 1rem;padding: 3%
+
+  }
+
+  .featuresection {
+    width: 100%;
+    padding: 5% 30px;
+    margin: 0 auto;
+    position: relative;
+
+  }
+  .cta{
+    display: flex;
+    width: 100%;
+    flex: 1 1 calc(100% - 797px);
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .featuresmallheader {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0086ff;
+    font-family: sofia_prosemibold;
+    letter-spacing: 0 !important;
+  }
+
+  .featurebigheader {
+    font-size: 2rem;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: -1px;
+    color: #07092f;
+    font-family: sofia_prosemibold;
+
+  }
+
+  .featurecard {
+    height: 23rem;
+    border-radius: 14px;
+    border: 1px solid #d4d4ee;
+
+  }
+
+  .featurecardtext {
+    font-size: 18px;
+    font-weight: 600;
+    color: #272848;
+    font-family: sofia_prosemibold;
+  }
+  .poolavatar {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 30px;
+    background-color: #0679FB;
+    margin: 29% 14%;
+  }
+
+
+}
 .slide-right {
   -webkit-animation: slide-right 10s cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s infinite alternate both;
   animation: slide-right 10s cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s infinite alternate both;

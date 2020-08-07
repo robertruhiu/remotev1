@@ -8,7 +8,7 @@
                 <div class="ant-row gutter">
                     <hide-at breakpoint="mediumAndBelow">
                         <div class="ant-col-xs-12 ant-col-sm-12 ant-col-md-6 ">
-                            <img class="imagecenter" src="@/assets/logobg.svg" style="width: 50%">
+                            <img class="imagecenter" src="@/assets/logo.svg" style="width: 50%">
                         </div>
                     </hide-at>
                     <div class="ant-col-xs-12 ant-col-sm-12 ant-col-md-6" style="margin-bottom: 1rem">

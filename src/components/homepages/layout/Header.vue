@@ -1,6 +1,6 @@
 <template>
 
-    <a-layout-header id="components-layout-demo-fixed" :style="{ position: 'fixed', zIndex: 3, width: '100%',
+    <a-layout-header id="components-layout-demo-fixed" :style="{ position: 'fixed', zIndex: 20, width: '100%',
     backgroundColor:'#ffffff',borderBottom: '1px solid #e8e8e8',}">
         <div class="logo">
             <router-link to="/">
