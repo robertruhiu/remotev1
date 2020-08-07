@@ -815,6 +815,235 @@ export default {
 /* media query */
 /*large laptops */
 @media (max-width:2560px) and (min-width:1440px){
+  .ctabutton{
+    height: 3rem;width: 14rem;
+  }
+
+
+  .maintitle {
+    font-family: sofia_probold;
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 1.36;
+    letter-spacing: -1px;
+    color: #007bff;
+
+  }
+
+  .headercontainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    padding: 2%;
+
+    margin-top: 6rem;
+
+  }
+
+  .text__paragraph-big {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #272848;
+
+
+    letter-spacing: 0 !important;
+    font-family: sofia_proregular !important;
+  }
+
+  .text__paragraph-small {
+    font-size: 22px;
+    text-align: center;
+    color: #272848;
+
+
+    letter-spacing: 0 !important;
+    font-family: sofia_prolight !important;
+  }
+
+  .mainheader {
+    background: #fff;
+    overflow: hidden;
+    height: 1180px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .hero {
+    display: block;
+    height: 883px;
+    width: 100%;
+    background: #ffffff;
+    position: absolute;
+  }
+  .tablet{
+    border:5px solid #242a49  ;
+    padding: 1%;
+    border-radius: 2rem;
+    background-color: #FAFBFF;
+    width: 61.5rem;
+    height: 38.4375rem
+
+  }
+  .mainpresentation {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    justify-content: center;
+  }
+
+  .dots-4 {
+    position: absolute;
+    left: 233px;
+    top: 292px;
+  }
+
+  .calendar {
+    position: absolute;
+    left: 190px;
+    top: 335px;
+  }
+
+  .tasks {
+    position: absolute;
+    top: -36px;
+    left: 210px;
+  }
+  .taskshow {
+    position: absolute;
+    top: -36px;
+    left: -296px;
+  }
+
+  .newtask {
+    position: absolute;
+    left:280px;
+
+    top: 75px;
+  }
+  .contract{
+    position: absolute;
+    left: 300px;
+    top: 400px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+  .express{
+    position: absolute;
+    left: 238px;
+    top: 20px;
+    border:1px  ;padding: 1%;border-radius: 1%;
+    background-color: #ffffff;
+    width: 13rem;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+
+  }
+  .escrow{
+    position: absolute;
+    left: 300px;
+    top: 480px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+
+  .ongoingtaskcard {
+    position: absolute;
+    right: 268px;
+    top: 260px;
+  }
+  .folder{
+    position: absolute;
+    right: 82px;
+    top: 413px;
+  }
+
+  .bids{
+    position: absolute;
+    right: 40px;
+    top: 60px;
+
+  }
+  .bidcard{
+    width: 28rem;
+    font-size: 18px;
+    padding: 2%
+  }
+
+
+  .shadowsmall {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border: none;
+    background: white;
+    border-radius: 3%;
+  }
+  .shadowsmallbid{
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border: none;
+    background: white;
+    border-radius: 1%;
+    font-family:sofia_prolight;height: 7rem;margin-top: 1rem;padding: 3%
+
+  }
+
+  .featuresection {
+    width: 100%;
+    padding: 0 30px;
+    margin: 0 auto;
+    position: relative;
+
+  }
+  .cta{
+    display: flex;
+    width: 100%;
+    flex: 1 1 calc(100% - 797px);
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .featuresmallheader {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0086ff;
+    font-family: sofia_prosemibold;
+    letter-spacing: 0 !important;
+  }
+
+  .featurebigheader {
+    font-size: 2rem;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: -1px;
+    color: #07092f;
+    font-family: sofia_prosemibold;
+
+  }
+
+  .featurecard {
+    height: 23rem;
+    border-radius: 14px;
+    border: 1px solid #d4d4ee;
+
+  }
+
+  .featurecardtext {
+    font-size: 18px;
+    font-weight: 600;
+    color: #272848;
+    font-family: sofia_prosemibold;
+  }
+  .poolavatar {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 30px;
+    background-color: #0679FB;
+    margin: 29% 14%;
+  }
+
 
 }
 /* medium laptops*/
@@ -1041,7 +1270,7 @@ export default {
 
 }
 /* tabs*/
-@media (max-width:768px) and (min-width:425px){
+@media (max-width:768px) and (min-width:426px){
   .ctabutton{
     height: 3rem;width: 9rem;
     margin-bottom: 1rem
@@ -1094,7 +1323,239 @@ export default {
 
 }
 /* big phone*/
-@media (max-width:425px) and (min-width:375px){
+@media (max-width:425px) and (min-width:376px){
+
+  .ctabutton{
+    height: 3rem;width: 9rem;
+    margin-bottom: 1rem
+  }
+  .ctabutton{
+    height: 3rem;width: 9rem;
+    margin-bottom: 1rem
+  }
+  .maintitle {
+    font-family: sofia_probold;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1.36;
+    letter-spacing: -1px;
+    color: #007bff;
+
+  }
+
+  .headercontainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    padding: 2%;
+
+    margin-top: 6rem;
+
+  }
+
+  .text__paragraph-big {
+    font-size: 1rem;
+    text-align: center;
+    color: #272848;
+
+
+    letter-spacing: 0 !important;
+    font-family: sofia_proregular !important;
+  }
+
+  .text__paragraph-small {
+    font-size: 1rem;
+    text-align: center;
+    color: #272848;
+
+
+    letter-spacing: 0 !important;
+    font-family: sofia_prolight !important;
+  }
+
+  .mainheader {
+    background: #fff;
+    overflow: hidden;
+    height: 69vh;
+    position: relative;
+    z-index: 0;
+  }
+
+  .hero {
+    display: block;
+    height: 883px;
+    width: 100%;
+    background: #ffffff;
+    position: absolute;
+  }
+  .tablet{
+    border:5px solid #242a49  ;
+    padding: 1%;
+    border-radius: 2rem;
+    background-color: #FAFBFF;
+    width: 61.5rem;
+    height: 38.4375rem
+
+  }
+  .mainpresentation {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    justify-content: center;
+  }
+
+  .dots-4 {
+    position: absolute;
+    left: 233px;
+    top: 292px;
+  }
+
+  .calendar {
+    position: absolute;
+    left: 190px;
+    top: 335px;
+  }
+
+  .tasks {
+    position: absolute;
+    top: -36px;
+    left: 210px;
+  }
+  .taskshow {
+    position: absolute;
+    top: -36px;
+    left: -296px;
+  }
+
+  .newtask {
+    position: absolute;
+    left:280px;
+
+    top: 75px;
+  }
+  .contract{
+    position: absolute;
+    left: 300px;
+    top: 400px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+  .express{
+    position: absolute;
+    left: 238px;
+    top: 20px;
+    border:1px  ;padding: 1%;border-radius: 1%;
+    background-color: #ffffff;
+    width: 13rem;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+
+  }
+  .escrow{
+    position: absolute;
+    left: 300px;
+    top: 480px;
+    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  }
+
+  .ongoingtaskcard {
+    position: absolute;
+    right: 268px;
+    top: 260px;
+  }
+  .folder{
+    position: absolute;
+    right: 82px;
+    top: 413px;
+  }
+
+  .bids{
+    position: absolute;
+    right: 40px;
+    top: 60px;
+
+  }
+  .bidcard{
+    width: 28rem;
+    font-size: 18px;
+    padding: 2%
+  }
+
+
+  .shadowsmall {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border: none;
+    background: white;
+    border-radius: 3%;
+  }
+  .shadowsmallbid{
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border: none;
+    background: white;
+    border-radius: 1%;
+    font-family:sofia_prolight;height: 7rem;margin-top: 1rem;padding: 3%
+
+  }
+
+  .featuresection {
+    width: 100%;
+    padding: 5% 30px;
+    margin: 0 auto;
+    position: relative;
+
+  }
+  .cta{
+    display: flex;
+    width: 100%;
+    flex: 1 1 calc(100% - 797px);
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .featuresmallheader {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0086ff;
+    font-family: sofia_prosemibold;
+    letter-spacing: 0 !important;
+  }
+
+  .featurebigheader {
+    font-size: 2rem;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.26;
+    letter-spacing: -1px;
+    color: #07092f;
+    font-family: sofia_prosemibold;
+
+  }
+
+  .featurecard {
+    height: 23rem;
+    border-radius: 14px;
+    border: 1px solid #d4d4ee;
+
+  }
+
+  .featurecardtext {
+    font-size: 18px;
+    font-weight: 600;
+    color: #272848;
+    font-family: sofia_prosemibold;
+  }
+  .poolavatar {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 30px;
+    background-color: #0679FB;
+    margin: 29% 14%;
+  }
 
 }
 /* small phone*/
@@ -1149,7 +1610,7 @@ export default {
   .mainheader {
     background: #fff;
     overflow: hidden;
-    height: 43vh;
+    height: 69vh;
     position: relative;
     z-index: 0;
   }
