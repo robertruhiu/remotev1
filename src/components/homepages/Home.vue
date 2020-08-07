@@ -1379,7 +1379,7 @@ export default {
   .mainheader {
     background: #fff;
     overflow: hidden;
-    height: 60vh;
+    height: 340px;
     position: relative;
     z-index: 0;
   }
@@ -1610,7 +1610,7 @@ export default {
   .mainheader {
     background: #fff;
     overflow: hidden;
-    height: 60vh;
+    height: 340px;
     position: relative;
     z-index: 0;
   }
