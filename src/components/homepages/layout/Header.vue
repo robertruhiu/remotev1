@@ -9,7 +9,13 @@
             </router-link>
 
 
+
         </div>
+      <div class="ant-menu-horizontal " :style="{ lineHeight: '64px',float: 'right',borderBottom: 0}">
+
+        <router-link to="/ClientDashboard" class="ant-menu-item" style="margin-bottom: 0">Dashboard</router-link>
+      </div>
+
 
 
 

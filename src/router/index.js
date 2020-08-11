@@ -18,12 +18,12 @@ let router = new Router({
             component: Home
         },
         {
-            path: '/',
+            path: '/ClientDashboard',
             name: 'ClientDashboard',
             component: ClientDashboard
         },
         {
-            path: '/',
+            path: '/DeveloperDashboard',
             name: 'DeveloperDashboard',
             component: DeveloperDashboard
         },

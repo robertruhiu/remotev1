@@ -13,7 +13,8 @@
 
               <div class="headercontainer">
                 <p class="maintitle scale-in-centerheader">Access Top African Freelance Programmers</p>
-                <p class="text__paragraph-big scale-in-centersubheader">An innovative platform for managing your project, timelines and freelancer’s tasks</p>
+                <p class="text__paragraph-big scale-in-centersubheader">An innovative platform for managing your
+                  project, timelines and freelancer’s tasks</p>
 
                 <span class="scale-in-centersubheader">
                         <router-link to="/">
@@ -31,155 +32,216 @@
                       </span>
 
               </div>
+
+
               <div class="mainpresentation scale-in-centerimages" style="margin-top: 5%">
                 <hide-at breakpoint="mediumAndBelow">
-                <div >
-                  <img class="dots-4 noselect" src="https://finezjo.pl/src/assets/images/dots-4.svg" alt="">
+                  <div>
+                    <img class="dots-4 noselect" src="https://finezjo.pl/src/assets/images/dots-4.svg" alt="">
 
-                  <img class="folder" src="@/assets/images/note.png" style="width: 17%"/>
+                    <img class="folder" src="@/assets/images/note.png" style="width: 17%"/>
 
 
-                  <div class="tablet"
-                      style=" ">
-                    <a-row gutter="4">
-                      <a-col span="2" style="background-color: white;height: 100%">
-                        <div style="padding: 1rem">
-                          <img src="@/assets/logobg.svg" style="width: 100%"/>
+                    <div class="tablet"
+                         style=" ">
+                      <a-row gutter="4">
+                        <a-col span="2" style="background-color: white;height: 100%">
+                          <div style="padding: 1rem">
+                            <img src="@/assets/logobg.svg" style="width: 100%"/>
+                          </div>
+                        </a-col>
+                        <a-col span="22">
+                          <a-card style="margin-left: 6%;border: none;background-color:#FAFBFF ">
+                            <span class="text__paragraph-big">Awesome Project: </span>
+
+
+                          </a-card>
+                          <a-row gutter="16"
+                                 style="margin-top: 1.5rem;background-color: #F4F7FC;border-radius: 1rem;height: 29rem;padding: 2%;">
+                            <a-col span="8">
+                              <div>
+                                <p style="font-family: sofia_proregular">Todo</p>
+                                <div style="height:26rem;overflow: auto;">
+                                  <draggable class="list-group" style="height: 25rem" :list="list1" group="tasks"
+                                             @change="log">
+                                    <div
+                                        class="list-group-item"
+                                        v-for="(element,index) in list1"
+                                        :key="element.name"
+                                    >
+                                      <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                        <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: {{ element.deadline }}</span>
+                                        <span slot="extra" href="#" @click="remove(1,index)"><a-icon type="delete"
+                                                                                                     theme="twoTone"/></span>
+                                        <p style="font-family: sofia_prolight">{{ element.name }} </p>
+                                        <span style="font-family: sofia_prolight">Assigned to:
+                                        <a-tag color="blue">
+                                         {{ element.assignedto }}
+                                        </a-tag>
+
+                                      </span>
+
+                                      </a-card>
+
+
+                                    </div>
+                                  </draggable>
+                                </div>
+
+
+                              </div>
+
+
+                            </a-col>
+                            <a-col span="8">
+                              <div style="">
+                                <p style="font-family: sofia_proregular">In progress</p>
+                                <div style="height:26rem;overflow: auto;">
+                                  <draggable class="list-group" style="height: 25rem" :list="list2" group="tasks"
+                                             @change="log">
+                                    <div
+                                        class="list-group-item"
+                                        v-for="(element,index) in list2"
+                                        :key="element.name"
+                                    >
+                                      <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                        <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: {{ element.deadline }}</span>
+                                        <span slot="extra" href="#" @click="remove(2,index)"><a-icon type="delete"
+                                                                                                     theme="twoTone"/></span>
+                                        <p style="font-family: sofia_prolight">{{ element.name }} </p>
+                                        <span style="font-family: sofia_prolight">Assigned to:
+                                      <a-tag color="blue">
+                                         {{ element.assignedto }}
+                                        </a-tag>
+                                      </span>
+
+                                      </a-card>
+
+
+                                    </div>
+                                  </draggable>
+                                </div>
+
+
+                              </div>
+
+
+                            </a-col>
+                            <a-col span="8">
+                              <div style="">
+                                <p style="font-family: sofia_proregular">Done</p>
+                                <div style="height:26rem;overflow: auto;">
+
+                                  <draggable class="list-group" style="height: 25rem" :list="list3" group="tasks"
+                                             @change="log">
+                                    <div
+                                        class="list-group-item"
+                                        v-for="(element,index) in list3"
+                                        :key="element.name"
+                                    >
+                                      <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                        <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: {{ element.deadline }}</span>
+                                        <span slot="extra" href="#" @click="remove(3,index)"><a-icon type="delete"
+                                                                                                     theme="twoTone"/></span>
+                                        <p style="font-family: sofia_prolight">{{ element.name }} </p>
+                                        <span style="font-family: sofia_prolight">Assigned to:
+                                      <a-tag color="blue">
+                                         {{ element.assignedto }}
+                                        </a-tag>
+                                      </span>
+
+                                      </a-card>
+
+
+                                    </div>
+                                  </draggable>
+                                </div>
+
+
+                              </div>
+
+
+                            </a-col>
+                          </a-row>
+                        </a-col>
+
+
+                      </a-row>
+                    </div>
+
+                    <div class="tasks">
+                      <div
+                          style="border:1px  ;padding: 2%;width: 80px;height: 81px;border-radius: 18%;background-color: #c4d7ec; ">
+                        <div style="margin: 25%">
+                          <svg data-v-34a11419="" viewBox="64 64 896 896" data-icon="calendar" width="1em" height="1em"
+                               fill="currentColor" aria-hidden="true" focusable="false"
+                               style="width: 36px;height: 42px;color: #6C71FA;">
+                            <path data-v-34a11419=""
+                                  d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z"></path>
+                          </svg>
                         </div>
-                      </a-col>
-                      <a-col span="22">
-                        <a-card style="margin-left: 6%;border: none;background-color:#FAFBFF ">
-                          <span class="text__paragraph-big">Awesome Project</span>
 
-                        </a-card>
-                        <a-row
-                            style="margin-top: 1.5rem;background-color: #F4F7FC;border-radius: 1rem;height: 29rem;padding: 2%;">
-                          <a-col span="8">
-                            <div style="">
-                              <p style="font-family: sofia_proregular">Todo</p>
-
-
-                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                                <p style="font-family: sofia_prolight">Login pages</p>
-
-                              </a-card>
-
-                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                                <p style="font-family: sofia_prolight">Admin dashboard</p>
-
-                              </a-card>
-                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                                <p style="font-family: sofia_prolight">Profile</p>
-
-                              </a-card>
-
-
-                            </div>
-
-
-                          </a-col>
-                          <a-col span="8">
-                            <div style="">
-                              <p style="font-family: sofia_proregular">In progress</p>
-
-                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                                <p style="font-family: sofia_prolight">Database structure</p>
-
-                              </a-card>
-                              <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
-                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                                <p style="font-family: sofia_prolight">UI/UX</p>
-
-                              </a-card>
-
-
-                            </div>
-
-
-                          </a-col>
-                          <a-col span="8">
-                            <div style="">
-                              <p style="font-family: sofia_proregular">Done</p>
-
-                              <a-card size="small" style="width: 13rem" class="shadowsmall">
-                                <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: 12/8/2020</span>
-                                <span slot="extra" href="#"><a-icon type="delete" theme="twoTone"/></span>
-                                <p style="font-family: sofia_prolight">Landing page</p>
-
-                              </a-card>
-
-                            </div>
-
-
-                          </a-col>
-                        </a-row>
-                      </a-col>
-
-
-                    </a-row>
-                  </div>
-
-                  <div class="tasks">
-                    <div
-                        style="border:1px  ;padding: 2%;width: 80px;height: 81px;border-radius: 18%;background-color: #c4d7ec; ">
-                      <div style="margin: 25%">
-                        <svg data-v-34a11419="" viewBox="64 64 896 896" data-icon="calendar" width="1em" height="1em"
-                             fill="currentColor" aria-hidden="true" focusable="false"
-                             style="width: 36px;height: 42px;color: #6C71FA;">
-                          <path data-v-34a11419=""
-                                d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z"></path>
-                        </svg>
                       </div>
+                    </div>
+
+                    <div class="newtask slide-right "
+                         style="border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff; ">
+
+                      <span style="color: white;font-family: sofia_prosemibold;"><a-icon
+                          type="plus"/> Add new task</span>
 
                     </div>
-                  </div>
 
-                  <div class="newtask slide-right "
-                       style="border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff; ">
+                    <div class="ongoingtaskcard  ">
+                      <a-card size="small" style="width: 16rem">
+                        <span slot="title" style="font-family: sofia_proregular">Add task</span>
+                        <a slot="extra" href="#"></a>
+                        <template slot="actions" class="ant-card-actions">
 
-                    <span style="color: white;font-family: sofia_prosemibold;"><a-icon type="plus"/> Add new task</span>
+                          <a-button type="primary" @click="add">
+                            submit
+                          </a-button>
+                        </template>
+                        <a-form :form="form">
+                          <a-form-item label="Title">
+                            <a-input v-model="newtask"
 
-                  </div>
+                            />
 
-                  <div class="ongoingtaskcard  slide-top">
-                    <a-card size="small" style="width: 16rem">
-                      <span slot="title" style="font-family: sofia_proregular">Add task</span>
-                      <a slot="extra" href="#"></a>
-                      <template slot="actions" class="ant-card-actions">
+                          </a-form-item>
+                          <a-form-item label="Deadline">
 
-                        <a-button type="primary">
-                          submit
-                        </a-button>
-                      </template>
-                      <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }" @submit="handleSubmit">
-                        <a-form-item label="Title">
-                          <a-input
+                            <a-date-picker v-model="deadline" @change="Deadlinepick"/>
 
-                          />
-                        </a-form-item>
-                      </a-form>
+                          </a-form-item>
+                          <a-form-item label="Assign to">
+                            <a-select default-value="lucy" style="width: 120px" v-model="assignedto" @change="Assignedto">
+                              <a-select-option value="jack">
+                                jack
+                              </a-select-option>
+                              <a-select-option value="lucy">
+                                lucy
+                              </a-select-option>
+                              <a-select-option value="yiminghe">
+                                yiminghe
+                              </a-select-option>
+                            </a-select>
 
-                    </a-card>
-                  </div>
+                          </a-form-item>
+                        </a-form>
 
-
-                  <div class="calendar">
-                    <div
-                        :style="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '14px',backgroundColor: 'white',padding:'3%' }">
-                      <a-calendar :fullscreen="false"/>
+                      </a-card>
                     </div>
-                  </div>
 
-                </div>
+
+                    <div class="calendar">
+                      <div
+                          :style="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '14px',backgroundColor: 'white',padding:'3%' }">
+                        <a-calendar :fullscreen="false"/>
+                      </div>
+                    </div>
+
+                  </div>
                 </hide-at>
                 <show-at breakpoint="medium">
                   <img src="@/assets/images/tabletmain.png" style="width: 100%;">
@@ -201,7 +263,6 @@
                 </div>
 
               </div>
-
 
 
             </section>
@@ -298,7 +359,10 @@
                   <div class="express text__paragraph-big "
                   >
 
-                    <p style="font-family: sofia_proregular;margin-bottom: 1rem"><a-icon type="form"/> 1: Express your needs</p>
+                    <p style="font-family: sofia_proregular;margin-bottom: 1rem">
+                      <a-icon type="form"/>
+                      1: Express your needs
+                    </p>
 
                     <a-input placeholder="Project title" style="margin-bottom: 1rem"
 
@@ -311,15 +375,13 @@
                     />
 
 
-
-
                   </div>
 
 
                   <div id="mangeats"
                        style="border:5px solid #242a49 ;padding: 1%;border-radius: 2rem;background-color: #FAFBFF;width: 984px;height: 615px ">
                     <a-row gutter="4">
-                      <a-col span="2" >
+                      <a-col span="2">
 
                       </a-col>
                       <a-col span="22">
@@ -403,8 +465,8 @@
                     </a-row>
                   </div>
                   <div class="bids">
-                    <div  class="shadowsmall bidcard" >
-                      <span  class="text__paragraph-big">2 :Accept Bids</span>
+                    <div class="shadowsmall bidcard">
+                      <span class="text__paragraph-big">2 :Accept Bids</span>
                     </div>
                     <a-row class="shadowsmallbid">
                       <a-col span="18">
@@ -416,7 +478,8 @@
                       <a-col span="4">
                         <div>
                           <a-tag color="#F0F6FD" style="color: #007BFF">
-                            <a-icon type="environment" />SA
+                            <a-icon type="environment"/>
+                            SA
                           </a-tag>
                         </div>
                         <div style="margin-top: 1rem">
@@ -434,7 +497,8 @@
                       <a-col span="4">
                         <div>
                           <a-tag color="#F0F6FD" style="color: #007BFF">
-                            <a-icon type="environment" />NG
+                            <a-icon type="environment"/>
+                            NG
                           </a-tag>
                         </div>
                         <div style="margin-top: 1rem">
@@ -452,7 +516,8 @@
                       <a-col span="4">
                         <div>
                           <a-tag color="#F0F6FD" style="color: #007BFF">
-                            <a-icon type="environment" />GH
+                            <a-icon type="environment"/>
+                            GH
                           </a-tag>
                         </div>
                         <div style="margin-top: 1rem">
@@ -463,26 +528,22 @@
                   </div>
 
 
-
-
                   <div class="contract "
                   >
 
-                    <span style="color: white;font-family: sofia_prosemibold;"><a-icon type="file-text"/> 3: Contract</span>
+                    <span style="color: white;font-family: sofia_prosemibold;"><a-icon
+                        type="file-text"/> 3: Contract</span>
                   </div>
 
                   <div class="escrow "
                   >
 
-                    <span style="color: white;font-family: sofia_prosemibold;"><a-icon type="bank"/> 4: Escrow Payment</span>
+                    <span style="color: white;font-family: sofia_prosemibold;"><a-icon
+                        type="bank"/> 4: Escrow Payment</span>
                   </div>
                 </div>
               </section>
             </div>
-
-
-
-
 
 
           </hide-at>
@@ -500,18 +561,18 @@
                   </div>
 
                 </div>
-            <img src="@/assets/images/works.png" style="width: 100%;">
+                <img src="@/assets/images/works.png" style="width: 100%;">
               </section>
             </div>
           </show-at>
 
           <div id="getstarted" style="margin-bottom: 5rem">
-            <section  style="padding: 2% 5%">
+            <section style="padding: 2% 5%">
               <a-row gutter="16">
                 <a-col :xs="{span: 24, offset: 0  }" :sm="{span: 24, offset: 0 }"
                        :md="{span: 12, offset: 0 }"
                        :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }" style="">
-                  <img src="@/assets/images/smile.png" style="width: 100%"/>
+                  <img src="@/assets/images/startup.svg" style="width: 100%"/>
                 </a-col>
                 <a-col :xs="{span: 24, offset: 0  }" :sm="{span: 24, offset: 0 }"
                        :md="{span: 12, offset: 0 }"
@@ -524,7 +585,7 @@
                       <h2 class="featurebigheader">
                         Ready to turn your idea into a reality?
                       </h2>
-                      <div  >
+                      <div>
                 <span class="scale-in-centersubheader">
                   <router-link to="/">
                       <a-button type="primary" class="ctabutton" style="margin-right: 1rem;"
@@ -549,9 +610,6 @@
               </a-row>
 
 
-
-
-
             </section>
 
 
@@ -568,21 +626,83 @@
 <script>
 import Pageheader from '@/components/homepages/layout/Header.vue'
 import Footer from '@/components/homepages/layout/Footer'
-import {hideAt,showAt} from 'vue-breakpoints'
+import {hideAt, showAt} from 'vue-breakpoints'
+import draggable from 'vuedraggable'
+import moment from 'moment';
 
 export default {
   name: "Home",
   components: {
-    Pageheader,Footer,
-    hideAt,showAt
+    Pageheader, Footer,
+    hideAt, showAt, draggable
 
   },
+  data() {
+    return {
+      newtask: '',
+      deadline: null,
+      assignedto: 'lucy',
+      list1: [
+        {name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
+        {name: "Admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
+        {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
+
+      ],
+      list2: [
+        {name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
+        {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'},
+
+      ],
+      list3: [
+        {name: "landing Page", id: 6, 'deadline': '2021-08-11', 'assignedto': 'jessica'},
+
+      ]
+
+    }
+  },
+  methods: {
+    moment,
+    add() {
+      this.list1.push({name: this.newtask, deadline: this.deadline, assignedto: this.assignedto});
+      this.newtask = ''
+
+    },
+    remove(listnumber, index) {
+      if (listnumber === 1) {
+        this.list1.splice(index, 1);
+
+      } else if (listnumber === 2) {
+        this.list2.splice(index, 1);
+
+      } else if (listnumber === 3) {
+        this.list3.splice(index, 1);
+
+      }
+
+    },
+
+
+    log: function (evt) {
+      window.console.log(evt);
+    },
+    Deadlinepick(date, dateString) {
+      this.deadline = dateString
+
+    },
+    Assignedto(value) {
+      this.assignedto = value
+
+    },
+
+
+  }
 }
 </script>
 
 <style scoped>
-.ctabutton{
-  height: 3rem;width: 14rem;
+.ctabutton {
+  height: 3rem;
+  width: 14rem;
 }
 
 
@@ -644,8 +764,9 @@ export default {
   background: #ffffff;
   position: absolute;
 }
-.tablet{
-  border:5px solid #242a49  ;
+
+.tablet {
+  border: 5px solid #242a49;
   padding: 1%;
   border-radius: 2rem;
   background-color: #FAFBFF;
@@ -653,6 +774,7 @@ export default {
   height: 38.4375rem
 
 }
+
 .mainpresentation {
   display: flex;
   position: relative;
@@ -679,6 +801,7 @@ export default {
   top: -36px;
   left: 210px;
 }
+
 .taskshow {
   position: absolute;
   top: -36px;
@@ -687,51 +810,64 @@ export default {
 
 .newtask {
   position: absolute;
-  left:280px;
+  left: 280px;
 
   top: 75px;
 }
-.contract{
+
+.contract {
   position: absolute;
   left: 300px;
   top: 400px;
-  border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  border: 1px;
+  padding: 1%;
+  border-radius: 1%;
+  background-color: #0086ff;
 }
-.express{
+
+.express {
   position: absolute;
   left: 238px;
   top: 20px;
-  border:1px  ;padding: 1%;border-radius: 1%;
+  border: 1px;
+  padding: 1%;
+  border-radius: 1%;
   background-color: #ffffff;
   width: 13rem;
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 
 }
-.escrow{
+
+.escrow {
   position: absolute;
   left: 300px;
   top: 480px;
-  border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+  border: 1px;
+  padding: 1%;
+  border-radius: 1%;
+  background-color: #0086ff;
 }
 
 .ongoingtaskcard {
   position: absolute;
   right: 268px;
-  top: 260px;
+  top: 126px;
 }
-.folder{
+
+.folder {
   position: absolute;
   right: 82px;
   top: 413px;
 }
 
-.bids{
+.bids {
   position: absolute;
   right: 40px;
   top: 60px;
 
 }
-.bidcard{
+
+.bidcard {
   width: 28rem;
   font-size: 18px;
   padding: 2%
@@ -744,12 +880,16 @@ export default {
   background: white;
   border-radius: 3%;
 }
-.shadowsmallbid{
+
+.shadowsmallbid {
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
   border: none;
   background: white;
   border-radius: 1%;
-  font-family:sofia_prolight;height: 7rem;margin-top: 1rem;padding: 3%
+  font-family: sofia_prolight;
+  height: 7rem;
+  margin-top: 1rem;
+  padding: 3%
 
 }
 
@@ -760,7 +900,8 @@ export default {
   position: relative;
 
 }
-.cta{
+
+.cta {
   display: flex;
   width: 100%;
   flex: 1 1 calc(100% - 797px);
@@ -801,6 +942,7 @@ export default {
   color: #272848;
   font-family: sofia_prosemibold;
 }
+
 .poolavatar {
   width: 80px;
   height: 80px;
@@ -811,12 +953,12 @@ export default {
 }
 
 
-
 /* media query */
 /*large laptops */
-@media (max-width:2560px) and (min-width:1440px){
-  .ctabutton{
-    height: 3rem;width: 14rem;
+@media (max-width: 2560px) and (min-width: 1440px) {
+  .ctabutton {
+    height: 3rem;
+    width: 14rem;
   }
 
 
@@ -878,8 +1020,9 @@ export default {
     background: #ffffff;
     position: absolute;
   }
-  .tablet{
-    border:5px solid #242a49  ;
+
+  .tablet {
+    border: 5px solid #242a49;
     padding: 1%;
     border-radius: 2rem;
     background-color: #FAFBFF;
@@ -887,6 +1030,7 @@ export default {
     height: 38.4375rem
 
   }
+
   .mainpresentation {
     display: flex;
     position: relative;
@@ -913,6 +1057,7 @@ export default {
     top: -36px;
     left: 210px;
   }
+
   .taskshow {
     position: absolute;
     top: -36px;
@@ -921,51 +1066,64 @@ export default {
 
   .newtask {
     position: absolute;
-    left:280px;
+    left: 280px;
 
     top: 75px;
   }
-  .contract{
+
+  .contract {
     position: absolute;
     left: 300px;
     top: 400px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
-  .express{
+
+  .express {
     position: absolute;
     left: 238px;
     top: 20px;
-    border:1px  ;padding: 1%;border-radius: 1%;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
     background-color: #ffffff;
     width: 13rem;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 
   }
-  .escrow{
+
+  .escrow {
     position: absolute;
     left: 300px;
     top: 480px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
 
   .ongoingtaskcard {
     position: absolute;
     right: 268px;
-    top: 260px;
+    top: 126px;
   }
-  .folder{
+
+  .folder {
     position: absolute;
     right: 82px;
     top: 413px;
   }
 
-  .bids{
+  .bids {
     position: absolute;
     right: 40px;
     top: 60px;
 
   }
-  .bidcard{
+
+  .bidcard {
     width: 28rem;
     font-size: 18px;
     padding: 2%
@@ -978,12 +1136,16 @@ export default {
     background: white;
     border-radius: 3%;
   }
-  .shadowsmallbid{
+
+  .shadowsmallbid {
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
     border: none;
     background: white;
     border-radius: 1%;
-    font-family:sofia_prolight;height: 7rem;margin-top: 1rem;padding: 3%
+    font-family: sofia_prolight;
+    height: 7rem;
+    margin-top: 1rem;
+    padding: 3%
 
   }
 
@@ -994,7 +1156,8 @@ export default {
     position: relative;
 
   }
-  .cta{
+
+  .cta {
     display: flex;
     width: 100%;
     flex: 1 1 calc(100% - 797px);
@@ -1035,6 +1198,7 @@ export default {
     color: #272848;
     font-family: sofia_prosemibold;
   }
+
   .poolavatar {
     width: 80px;
     height: 80px;
@@ -1046,13 +1210,15 @@ export default {
 
 
 }
+
 /* medium laptops*/
-@media (max-width:1440px) and (min-width:1025px){
+@media (max-width: 1440px) and (min-width: 1025px) {
   .tasks {
     position: absolute;
     top: -36px;
     left: 40px;
   }
+
   .mainheader {
     background: #fff;
     overflow: hidden;
@@ -1060,65 +1226,84 @@ export default {
     position: relative;
     z-index: 0;
   }
+
   .newtask {
     position: absolute;
-    left:100px;
+    left: 100px;
 
     top: 75px;
   }
+
   .ongoingtaskcard {
     position: absolute;
     right: 40px;
-    top: 260px;
+    top: 126px;
   }
-  .contract{
+
+  .contract {
     position: absolute;
     left: 115px;
     top: 400px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
-  .express{
+
+  .express {
     position: absolute;
     left: 40px;
     top: 20px;
-    border:1px  ;padding: 1%;border-radius: 1%;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
     background-color: #ffffff;
     width: 13rem;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
     z-index: 1;
 
   }
-  .escrow{
+
+  .escrow {
     position: absolute;
     left: 115px;
     top: 480px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
+
   .calendar {
     position: absolute;
     left: 14px;
     top: 335px;
   }
-  .folder{
+
+  .folder {
     position: absolute;
     right: 10px;
     top: 413px;
   }
+
   .taskshow {
     position: absolute;
     top: -36px;
     left: -183px;
   }
-  .bids{
+
+  .bids {
     position: absolute;
     right: 0px;
     top: 105px;
 
   }
-  .bidcard{
+
+  .bidcard {
     width: 18rem;
     font-size: 18px
   }
+
   .dots-4 {
     position: absolute;
     left: 40px;
@@ -1126,13 +1311,13 @@ export default {
   }
 
 
-
-
 }
+
 /* small laptops*/
-@media (max-width:1024px) and (min-width:769px){
-  .ctabutton{
-    height: 3rem;width: 9rem;
+@media (max-width: 1024px) and (min-width: 769px) {
+  .ctabutton {
+    height: 3rem;
+    width: 9rem;
     margin-bottom: 1rem
   }
 
@@ -1143,6 +1328,7 @@ export default {
     position: relative;
     z-index: 0;
   }
+
   .maintitle {
     font-family: sofia_probold;
     font-weight: 700;
@@ -1152,6 +1338,7 @@ export default {
     color: #007bff;
 
   }
+
   .text__paragraph-big {
     font-size: 1.5rem;
     text-align: center;
@@ -1161,6 +1348,7 @@ export default {
     letter-spacing: 0 !important;
     font-family: sofia_proregular !important;
   }
+
   .featuresmallheader {
     font-size: 1rem;
     font-weight: 600;
@@ -1198,38 +1386,45 @@ export default {
     left: -20px;
     top: 75px;
   }
-  .folder{
+
+  .folder {
     position: absolute;
     right: -179px;
     top: 413px;
   }
+
   .taskshow {
     position: absolute;
     top: -36px;
     left: -183px;
   }
-  .bids{
+
+  .bids {
     position: absolute;
     right: -9px;
     top: 280px;
 
   }
+
   .dots-4 {
     position: absolute;
     left: 238px;
     top: 292px;
   }
-  .bidcard{
+
+  .bidcard {
     width: 21rem;
     font-size: 18px
   }
-  .folder{
+
+  .folder {
     position: absolute;
     right: 82px;
     top: 413px;
   }
-  .tablet{
-    border:5px solid #242a49  ;
+
+  .tablet {
+    border: 5px solid #242a49;
     padding: 1%;
     border-radius: 2rem;
     background-color: #FAFBFF;
@@ -1237,42 +1432,55 @@ export default {
     height: 38.4375rem
 
   }
+
   .ongoingtaskcard {
     position: absolute;
     right: 2px;
-    top: 260px;
+    top: 126px;
   }
-  .express{
+
+  .express {
     position: absolute;
     left: -43px;
     top: 20px;
-    border:1px  ;padding: 2%;border-radius: 1%;
+    border: 1px;
+    padding: 2%;
+    border-radius: 1%;
     background-color: #ffffff;
     width: 13rem;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
     z-index: 1;
 
   }
-  .contract{
+
+  .contract {
     position: absolute;
     left: -26px;
     top: 400px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
 
-  .escrow{
+  .escrow {
     position: absolute;
     left: -26px;
     top: 480px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
 
 
 }
+
 /* tabs*/
-@media (max-width:768px) and (min-width:426px){
-  .ctabutton{
-    height: 3rem;width: 9rem;
+@media (max-width: 768px) and (min-width: 426px) {
+  .ctabutton {
+    height: 3rem;
+    width: 9rem;
     margin-bottom: 1rem
   }
 
@@ -1283,6 +1491,7 @@ export default {
     position: relative;
     z-index: 0;
   }
+
   .maintitle {
     font-family: sofia_probold;
     font-weight: 700;
@@ -1292,6 +1501,7 @@ export default {
     color: #007bff;
 
   }
+
   .text__paragraph-big {
     font-size: 1.5rem;
     text-align: center;
@@ -1301,6 +1511,7 @@ export default {
     letter-spacing: 0 !important;
     font-family: sofia_proregular !important;
   }
+
   .featuresmallheader {
     font-size: 1rem;
     font-weight: 600;
@@ -1322,17 +1533,22 @@ export default {
   }
 
 }
+
 /* big phone*/
-@media (max-width:425px) and (min-width:376px){
+@media (max-width: 425px) and (min-width: 376px) {
 
-  .ctabutton{
-    height: 3rem;width: 9rem;
+  .ctabutton {
+    height: 3rem;
+    width: 9rem;
     margin-bottom: 1rem
   }
-  .ctabutton{
-    height: 3rem;width: 9rem;
+
+  .ctabutton {
+    height: 3rem;
+    width: 9rem;
     margin-bottom: 1rem
   }
+
   .maintitle {
     font-family: sofia_probold;
     font-weight: 700;
@@ -1391,8 +1607,9 @@ export default {
     background: #ffffff;
     position: absolute;
   }
-  .tablet{
-    border:5px solid #242a49  ;
+
+  .tablet {
+    border: 5px solid #242a49;
     padding: 1%;
     border-radius: 2rem;
     background-color: #FAFBFF;
@@ -1400,6 +1617,7 @@ export default {
     height: 38.4375rem
 
   }
+
   .mainpresentation {
     display: flex;
     position: relative;
@@ -1426,6 +1644,7 @@ export default {
     top: -36px;
     left: 210px;
   }
+
   .taskshow {
     position: absolute;
     top: -36px;
@@ -1434,51 +1653,64 @@ export default {
 
   .newtask {
     position: absolute;
-    left:280px;
+    left: 280px;
 
     top: 75px;
   }
-  .contract{
+
+  .contract {
     position: absolute;
     left: 300px;
     top: 400px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
-  .express{
+
+  .express {
     position: absolute;
     left: 238px;
     top: 20px;
-    border:1px  ;padding: 1%;border-radius: 1%;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
     background-color: #ffffff;
     width: 13rem;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 
   }
-  .escrow{
+
+  .escrow {
     position: absolute;
     left: 300px;
     top: 480px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
 
   .ongoingtaskcard {
     position: absolute;
     right: 268px;
-    top: 260px;
+    top: 126px;
   }
-  .folder{
+
+  .folder {
     position: absolute;
     right: 82px;
     top: 413px;
   }
 
-  .bids{
+  .bids {
     position: absolute;
     right: 40px;
     top: 60px;
 
   }
-  .bidcard{
+
+  .bidcard {
     width: 28rem;
     font-size: 18px;
     padding: 2%
@@ -1491,12 +1723,16 @@ export default {
     background: white;
     border-radius: 3%;
   }
-  .shadowsmallbid{
+
+  .shadowsmallbid {
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
     border: none;
     background: white;
     border-radius: 1%;
-    font-family:sofia_prolight;height: 7rem;margin-top: 1rem;padding: 3%
+    font-family: sofia_prolight;
+    height: 7rem;
+    margin-top: 1rem;
+    padding: 3%
 
   }
 
@@ -1507,7 +1743,8 @@ export default {
     position: relative;
 
   }
-  .cta{
+
+  .cta {
     display: flex;
     width: 100%;
     flex: 1 1 calc(100% - 797px);
@@ -1548,6 +1785,7 @@ export default {
     color: #272848;
     font-family: sofia_prosemibold;
   }
+
   .poolavatar {
     width: 80px;
     height: 80px;
@@ -1558,12 +1796,15 @@ export default {
   }
 
 }
+
 /* small phone*/
-@media (max-width:375px) and (min-width:320px){
-  .ctabutton{
-    height: 3rem;width: 9rem;
+@media (max-width: 375px) and (min-width: 320px) {
+  .ctabutton {
+    height: 3rem;
+    width: 9rem;
     margin-bottom: 1rem
   }
+
   .maintitle {
     font-family: sofia_probold;
     font-weight: 700;
@@ -1622,8 +1863,9 @@ export default {
     background: #ffffff;
     position: absolute;
   }
-  .tablet{
-    border:5px solid #242a49  ;
+
+  .tablet {
+    border: 5px solid #242a49;
     padding: 1%;
     border-radius: 2rem;
     background-color: #FAFBFF;
@@ -1631,6 +1873,7 @@ export default {
     height: 38.4375rem
 
   }
+
   .mainpresentation {
     display: flex;
     position: relative;
@@ -1657,6 +1900,7 @@ export default {
     top: -36px;
     left: 210px;
   }
+
   .taskshow {
     position: absolute;
     top: -36px;
@@ -1665,51 +1909,64 @@ export default {
 
   .newtask {
     position: absolute;
-    left:280px;
+    left: 280px;
 
     top: 75px;
   }
-  .contract{
+
+  .contract {
     position: absolute;
     left: 300px;
     top: 400px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
-  .express{
+
+  .express {
     position: absolute;
     left: 238px;
     top: 20px;
-    border:1px  ;padding: 1%;border-radius: 1%;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
     background-color: #ffffff;
     width: 13rem;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 
   }
-  .escrow{
+
+  .escrow {
     position: absolute;
     left: 300px;
     top: 480px;
-    border:1px  ;padding: 1%;border-radius: 1%;background-color: #0086ff;
+    border: 1px;
+    padding: 1%;
+    border-radius: 1%;
+    background-color: #0086ff;
   }
 
   .ongoingtaskcard {
     position: absolute;
     right: 268px;
-    top: 260px;
+    top: 126px;
   }
-  .folder{
+
+  .folder {
     position: absolute;
     right: 82px;
     top: 413px;
   }
 
-  .bids{
+  .bids {
     position: absolute;
     right: 40px;
     top: 60px;
 
   }
-  .bidcard{
+
+  .bidcard {
     width: 28rem;
     font-size: 18px;
     padding: 2%
@@ -1722,12 +1979,16 @@ export default {
     background: white;
     border-radius: 3%;
   }
-  .shadowsmallbid{
+
+  .shadowsmallbid {
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
     border: none;
     background: white;
     border-radius: 1%;
-    font-family:sofia_prolight;height: 7rem;margin-top: 1rem;padding: 3%
+    font-family: sofia_prolight;
+    height: 7rem;
+    margin-top: 1rem;
+    padding: 3%
 
   }
 
@@ -1738,7 +1999,8 @@ export default {
     position: relative;
 
   }
-  .cta{
+
+  .cta {
     display: flex;
     width: 100%;
     flex: 1 1 calc(100% - 797px);
@@ -1779,6 +2041,7 @@ export default {
     color: #272848;
     font-family: sofia_prosemibold;
   }
+
   .poolavatar {
     width: 80px;
     height: 80px;
@@ -1790,6 +2053,7 @@ export default {
 
 
 }
+
 .slide-right {
   -webkit-animation: slide-right 10s cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s infinite alternate both;
   animation: slide-right 10s cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s infinite alternate both;
