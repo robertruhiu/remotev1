@@ -24,7 +24,7 @@
                         </a-button>
                       </router-link>
                       <router-link to="/">
-                        <a-button type="primary" class="ctabutton"
+                        <a-button type="primary" disabled class="ctabutton"
                                   style=""
                                   ghost>See available gigs
                         </a-button>
@@ -52,7 +52,7 @@
                         </a-col>
                         <a-col span="22">
                           <a-card style="margin-left: 6%;border: none;background-color:#FAFBFF ">
-                            <span class="text__paragraph-big">Awesome Project: </span>
+                            <span class="text__paragraph-big">Awesome Project </span>
 
 
                           </a-card>
@@ -69,7 +69,7 @@
                                         v-for="(element,index) in list1"
                                         :key="element.name"
                                     >
-                                      <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                      <a-card hoverable size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
                                         <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: {{ element.deadline }}</span>
                                         <span slot="extra" href="#" @click="remove(1,index)"><a-icon type="delete"
                                                                                                      theme="twoTone"/></span>
@@ -104,7 +104,7 @@
                                         v-for="(element,index) in list2"
                                         :key="element.name"
                                     >
-                                      <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                      <a-card hoverable size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
                                         <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: {{ element.deadline }}</span>
                                         <span slot="extra" href="#" @click="remove(2,index)"><a-icon type="delete"
                                                                                                      theme="twoTone"/></span>
@@ -139,7 +139,7 @@
                                         v-for="(element,index) in list3"
                                         :key="element.name"
                                     >
-                                      <a-card size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
+                                      <a-card hoverable size="small" style="width: 13rem;margin-bottom: 1rem" class="shadowsmall">
                                         <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: {{ element.deadline }}</span>
                                         <span slot="extra" href="#" @click="remove(3,index)"><a-icon type="delete"
                                                                                                      theme="twoTone"/></span>
@@ -194,7 +194,7 @@
 
                     <div class="ongoingtaskcard  ">
                       <a-card size="small" style="width: 16rem">
-                        <span slot="title" style="font-family: sofia_proregular">Add task</span>
+                        <span slot="title" style="font-family: sofia_proregular">Add task(try me out)</span>
                         <a slot="extra" href="#"></a>
                         <template slot="actions" class="ant-card-actions">
 
@@ -594,7 +594,7 @@
                       </a-button>
                     </router-link>
                     <router-link to="/">
-                      <a-button type="primary" class="ctabutton"
+                      <a-button type="primary" disabled class="ctabutton"
 
                                 ghost>See available gigs
                       </a-button>

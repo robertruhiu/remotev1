@@ -2,10 +2,10 @@
 
     <div>
 
-      <a-menu  mode="inline" :default-selected-keys="['1']">
+      <a-menu  mode="inline" :default-selected-keys="['1']" style="font-family: sofia_proregular;background-color: #F4F7FC">
         <a-menu-item key="1">
           <a-icon type="appstore" />
-          <span>My Projects</span>
+          <span>Manage my Projects</span>
         </a-menu-item>
         <a-menu-item key="2">
           <a-icon type="form" />
@@ -13,11 +13,11 @@
         </a-menu-item>
         <a-menu-item key="3">
           <a-icon type="bank" />
-          <span>Escrow</span>
+          <span>Escrow Management</span>
         </a-menu-item>
         <a-menu-item key="4">
           <a-icon type="calendar" />
-          <span>Meetings</span>
+          <span>My Meetings</span>
         </a-menu-item>
         <a-menu-item key="5">
           <a-icon type="flag" />
@@ -26,6 +26,14 @@
         <a-menu-item key="6">
           <a-icon type="message" />
           <span>Chat</span>
+        </a-menu-item>
+        <a-menu-item key="7">
+          <a-icon type="solution" />
+          <span>Edit Profile</span>
+        </a-menu-item>
+        <a-menu-item key="8">
+          <a-icon type="logout" />
+          <span>logout</span>
         </a-menu-item>
       </a-menu>
     </div>
