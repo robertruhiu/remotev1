@@ -17,12 +17,12 @@
                   project, timelines and freelancer’s tasks</p>
 
                 <span class="scale-in-centersubheader">
-                        <router-link to="/">
+                        <a href="https://forms.gle/wDEeGfD4mq7MF2yG8" target="_blank">
                         <a-button type="primary" class="ctabutton" style="margin-right: 1%;"
                                   :size="large">
                           Create a project
                         </a-button>
-                      </router-link>
+                      </a>
                       <router-link to="/">
                         <a-button type="primary" disabled class="ctabutton"
                                   style=""
@@ -587,12 +587,12 @@
                       </h2>
                       <div>
                 <span class="scale-in-centersubheader">
-                  <router-link to="/">
-                      <a-button type="primary" class="ctabutton" style="margin-right: 1rem;"
-                                :size="large">
-                        Create a project
-                      </a-button>
-                    </router-link>
+                 <a href="https://forms.gle/wDEeGfD4mq7MF2yG8" target="_blank">
+                        <a-button type="primary" class="ctabutton" style="margin-right: 1%;"
+                                  :size="large">
+                          Create a project
+                        </a-button>
+                      </a>
                     <router-link to="/">
                       <a-button type="primary" disabled class="ctabutton"
 
