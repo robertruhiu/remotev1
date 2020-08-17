@@ -36,7 +36,7 @@ import {
   Timeline,
   Skeleton,
   Icon,
-  Row, Upload, Switch, Tooltip, Affix, notification, Collapse, Empty, message,Calendar
+  Row, Upload, Switch, Tooltip, Affix, notification, Collapse, Empty, message,Calendar,Breadcrumb,Descriptions
 
 
 } from 'ant-design-vue';
@@ -82,6 +82,8 @@ Vue.use(Collapse)
 Vue.use(Empty)
 Vue.use(message)
 Vue.use(Calendar)
+Vue.use(Breadcrumb)
+Vue.use(Descriptions)
 Vue.config.productionTip = false
 
 sync(store, router);
