@@ -8,6 +8,7 @@ const DeveloperDashboard = () => import('@/components/developer/DeveloperDashboa
 const TrackerBoard = () => import('@/components/client/trackerboard/trackerboard')
 const MyProjects = () => import('@/components/client/MyProjects')
 const Bids = () => import('@/components/client/Bids')
+const CreateProject = () => import('@/components/client/CreateProject')
 Vue.use(Router);
 
 let router = new Router({
@@ -43,6 +44,11 @@ let router = new Router({
             path: '/Bids',
             name: 'Bids',
             component: Bids
+        },
+        {
+            path: '/Create',
+            name: 'Create',
+            component: CreateProject
         },
 
     ],

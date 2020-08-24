@@ -52,7 +52,7 @@
 
             <a-row gutter="16">
               <a-col span="14">
-                <p style="font-size: 1.2rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">Projects</p>
+                <p style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Projects</p>
                 <div>
                   <div class="projectcard" style="padding: 2%">
                     <a-row style="height: 5.5rem">
@@ -70,15 +70,17 @@
                     </a-row>
 
                     <a-row style="border-top: 1px solid #e8e8e8;padding: 1%">
-                      <a-col span="20">
-                        <a-avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />: Jessica freeman
-                      </a-col>
-                      <a-col span="4" style="text-align: center">
+                      <a-col span="4" >
                         <a-button type="primary" @click="$router.push('ProjectBoard')">
                           View project
                         </a-button>
 
                       </a-col>
+                      <a-col span="20"  >
+                        <span style="float: right"><a-avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"  />: Jessica freeman</span>
+
+                      </a-col>
+
                     </a-row>
                   </div>
                   <div class="projectcard" style="padding: 2%">
@@ -97,13 +99,14 @@
                     </a-row>
 
                     <a-row style="border-top: 1px solid #e8e8e8;padding: 1%">
-                      <a-col span="20">
 
-                      </a-col>
-                      <a-col span="4" style="text-align: center">
+                      <a-col span="4">
                         <a-button type="primary" @click="$router.push('Bids')">
                           View project
                         </a-button>
+                        <a-col span="20">
+
+                        </a-col>
 
                       </a-col>
                     </a-row>
@@ -124,15 +127,16 @@
                     </a-row>
 
                     <a-row style="border-top: 1px solid #e8e8e8;padding: 1%">
-                      <a-col span="20">
-
-                      </a-col>
-                      <a-col span="4" style="text-align: center">
+                      <a-col span="4" >
                         <a-button type="primary">
                           View project
                         </a-button>
 
                       </a-col>
+                      <a-col span="20">
+
+                      </a-col>
+
                     </a-row>
                   </div>
 
@@ -140,27 +144,7 @@
                 </div>
 
               </a-col>
-              <a-col span="10">
-                <p style="font-size: 1.2rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">Recent activity</p>
-                <div class="recentcard">
-                  <div style="padding: 3%">
-                    <a-timeline>
-                      <a-timeline-item>Create a services site 2015-09-01</a-timeline-item>
-                      <a-timeline-item>Solve initial network problems 2015-09-01</a-timeline-item>
-                      <a-timeline-item>Technical testing 2015-09-01</a-timeline-item>
-                      <a-timeline-item>Network problems being solved 2015-09-01</a-timeline-item>
-                      <a-timeline-item>Solve initial network problems 2015-09-01</a-timeline-item>
-                      <a-timeline-item>Technical testing 2015-09-01</a-timeline-item>
-                      <a-timeline-item>Network problems being solved 2015-09-01</a-timeline-item>
-                      <a-timeline-item>Solve initial network problems 2015-09-01</a-timeline-item>
-                      <a-timeline-item>Technical testing 2015-09-01</a-timeline-item>
-                      <a-timeline-item>Network problems being solved 2015-09-01</a-timeline-item>
-                    </a-timeline>
-                  </div>
 
-
-                </div>
-              </a-col>
             </a-row>
           </div>
         </div>

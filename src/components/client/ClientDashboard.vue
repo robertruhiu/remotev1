@@ -47,13 +47,16 @@
             </a-col>
             <a-col span="6">
               <a-card hoverable class="cardshadow" style="width: 100%;margin-bottom: 1rem">
-                <div>
-
-                  <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">Create a Project</p>
+                <router-link to="/Create">
                   <div>
-                    <img src="@/assets/images/createproject.svg" style="width: 30%"/>
+
+                    <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">Create a Project</p>
+                    <div>
+                      <img src="@/assets/images/createproject.svg" style="width: 30%"/>
+                    </div>
                   </div>
-                </div>
+                </router-link>
+
 
               </a-card>
 

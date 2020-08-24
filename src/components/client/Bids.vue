@@ -21,13 +21,13 @@
                   <a-breadcrumb-item><a>Cyrus web application</a></a-breadcrumb-item>
 
                 </a-breadcrumb>
-                <p style="font-size: 1.7rem;font-family: sofia_prosemibold;color: black">
-                  Cyrus web application</p>
+                <span style="font-size: 1.7rem;font-family: sofia_prosemibold;color: black">
+                  Cyrus web application</span>
 
               </a-col>
               <a-col span="6">
                 <div style="text-align: center">
-                  <img src="@/assets/images/planning.svg" style="width: 30%"/>
+                  <img src="@/assets/images/planning.svg" style="width: 20%"/>
                 </div>
 
 

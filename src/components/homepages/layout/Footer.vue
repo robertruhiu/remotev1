@@ -11,44 +11,7 @@
                             <img class="imagecenter" src="@/assets/logo.svg" style="width: 50%">
                         </div>
                     </hide-at>
-                    <div class="ant-col-xs-12 ant-col-sm-12 ant-col-md-6" style="margin-bottom: 1rem">
-                        <div class="footer-center">
-                            <h2 style="color: white;font-size: 1rem">Services</h2>
-                            <div>
-                                <router-link to="/talent">
-                                    Talent pool
-                                </router-link>
 
-
-                            </div>
-                            <div>
-                                <router-link to="/jobs">
-                                    Job Board
-                                </router-link>
-
-
-                            </div>
-                            <div>
-                                <router-link to="/prices">
-                                    Pricing
-                                </router-link>
-
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="ant-col-xs-12 ant-col-sm-12 ant-col-md-6" style="margin-bottom: 1rem">
-                        <div class="footer-center"><h2 style="color: white;font-size: 1rem">Company</h2>
-                            <div>
-                                <router-link to="privacy">Privacy</router-link>
-                            </div>
-                            <div>
-                                <router-link to="terms">Terms</router-link>
-                            </div>
-
-                        </div>
-                    </div>
                     <div class="ant-col-xs-12 ant-col-sm-12 ant-col-md-6">
                         <div class="footer-center">
 
