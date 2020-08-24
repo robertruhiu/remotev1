@@ -365,7 +365,7 @@ export default {
   name: "CreateProject",
   data() {
     return {
-      current: 4,
+      current: 0,
       steps: [
         {
           title: 'Project details',
