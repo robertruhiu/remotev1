@@ -12,8 +12,12 @@
 
         </div>
       <div class="ant-menu-horizontal " :style="{ lineHeight: '64px',float: 'right',borderBottom: 0}">
+        <router-link to="/Jobs"   class="ant-menu-item" style="margin-bottom: 0">Job board</router-link>
 
         <router-link to="/Dashboard"   class="ant-menu-item" style="margin-bottom: 0">Dashboard</router-link>
+        <router-link to="/Developer"   class="ant-menu-item" style="margin-bottom: 0">Dev</router-link>
+        <router-link to="/Draw"   class="ant-menu-item" style="margin-bottom: 0">Draw</router-link>
+        <router-link to="/Video"   class="ant-menu-item" style="margin-bottom: 0">Video</router-link>
       </div>
 
 

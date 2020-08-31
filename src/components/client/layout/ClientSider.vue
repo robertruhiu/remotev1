@@ -25,7 +25,7 @@
         <a-icon type="appstore" />
         <span>Manage my Projects</span>
       </a-menu-item>
-      <a-menu-item key="2">
+      <a-menu-item key="2" @click="$router.push('Create')">
         <a-icon type="plus" />
         <span>Create a Project</span>
       </a-menu-item>

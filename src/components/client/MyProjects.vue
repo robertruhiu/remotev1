@@ -49,27 +49,15 @@
             </a-empty>
           </div>
           <div style="padding: 1% 3%">
+            <a-tabs default-active-key="1" @change="callback">
+              <a-tab-pane key="1" tab="In developement">
+                <a-card  style="width: 60%">
+                  <span slot="title" style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</span>
 
-            <a-row gutter="16">
-              <a-col span="14">
-                <p style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Projects</p>
-                <div>
-                  <div class="projectcard" style="padding: 2%">
-                    <a-row style="height: 5.5rem">
-                      <a-col span="20">
-                        <p style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</p>
-                        <p>due time: 12/8/2020</p>
+                  <p>due time: 12/8/2020</p>
 
-                      </a-col>
-                      <a-col span="4" style="text-align: center">
-                         <a-tag color="#87d068">
-                        development stage
-                      </a-tag>
-
-                      </a-col>
-                    </a-row>
-
-                    <a-row style="border-top: 1px solid #e8e8e8;padding: 1%">
+                  <div slot="actions" >
+                    <a-row style="padding: 1%">
                       <a-col span="4" >
                         <a-button type="primary" @click="$router.push('ProjectBoard')">
                           View project
@@ -83,25 +71,20 @@
 
                     </a-row>
                   </div>
-                  <div class="projectcard" style="padding: 2%">
-                    <a-row style="height: 5.5rem">
-                      <a-col span="20">
-                        <p style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</p>
-                        <p>due time: 12/8/2020</p>
+                </a-card>
 
-                      </a-col>
-                      <a-col span="4" style="text-align: center">
-                        <a-tag color="#2db7f5">
-                          bidding stage
-                        </a-tag>
+              </a-tab-pane>
+              <a-tab-pane key="2" tab="Contract discussions" force-render>
+                <a-card  style="width: 60%">
+                  <span slot="title" style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</span>
 
-                      </a-col>
-                    </a-row>
+                  <p>due time: 12/8/2020</p>
 
-                    <a-row style="border-top: 1px solid #e8e8e8;padding: 1%">
+                  <div slot="actions">
+                    <a-row style="padding: 1%">
 
                       <a-col span="4">
-                        <a-button type="primary" @click="$router.push('Bids')">
+                        <a-button type="primary" @click="$router.push('Contract')">
                           View project
                         </a-button>
                         <a-col span="20">
@@ -111,24 +94,18 @@
                       </a-col>
                     </a-row>
                   </div>
-                  <div class="projectcard" style="padding: 2%">
-                    <a-row style="height: 5.5rem">
-                      <a-col span="20">
-                        <p style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</p>
-                        <p>due time: 12/8/2020</p>
+                </a-card>
+              </a-tab-pane>
+              <a-tab-pane key="3" tab="Bids stage">
+                <a-card  style="width: 60%">
+                  <span slot="title" style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</span>
 
-                      </a-col>
-                      <a-col span="4" style="text-align: center">
-                        <a-tag color="#108ee9">
-                          contract stage
-                        </a-tag>
+                  <p>due time: 12/8/2020</p>
 
-                      </a-col>
-                    </a-row>
-
-                    <a-row style="border-top: 1px solid #e8e8e8;padding: 1%">
+                  <div slot="actions">
+                    <a-row style="padding: 1%">
                       <a-col span="4" >
-                        <a-button type="primary">
+                        <a-button type="primary" @click="$router.push('Bids')">
                           View project
                         </a-button>
 
@@ -139,13 +116,11 @@
 
                     </a-row>
                   </div>
+                </a-card>
+              </a-tab-pane>
+            </a-tabs>
 
 
-                </div>
-
-              </a-col>
-
-            </a-row>
           </div>
         </div>
 

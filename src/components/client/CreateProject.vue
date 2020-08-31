@@ -36,319 +36,396 @@
 
 
         <div style="min-height: 40vh ;position: relative">
-          <div>
-            <div style="width: 60%;margin: 0 auto">
-              <a-steps :current="current" style="">
-                <a-step v-for="item in steps" :key="item.title" :title="item.title"/>
-              </a-steps>
-            </div>
-
-
-            <div style="margin-top: 2rem">
-              <div style="margin: 0 auto">
-                <div v-if="current===0">
-                  <a-row style="width: 60%;margin: 0 auto">
-                    <a-col span="24" class="stepcard">
-                      <div style="text-align: center">
-                        <img src="@/assets/images/new.svg" style="width: 10%"/>
-                        <p style="font-family: sofia_problack">Express what you want</p>
-                        <p>Start a new project and write up the project features and the story under each.</p>
-                      </div>
-
-                      <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
-                        <a-form-model-item label="Project title">
-                          <a-input v-model="projecttitle"/>
-                        </a-form-model-item>
-                        <a-form-model-item label="Project description">
-                          <a-textarea v-model="projectdescription"
-
-
-                                      :auto-size="{ minRows: 3, maxRows: 5 }"
-                          />
-
-                        </a-form-model-item>
-
-
-                      </a-form-model>
-
-                    </a-col>
-
-                  </a-row>
-
+          <a-row gutter="16">
+            <a-col span="20">
+              <div>
+                <div style="width: 90%;margin: 0 auto">
+                  <a-steps :current="current" style="">
+                    <a-step v-for="item in steps" :key="item.title" :title="item.title"/>
+                  </a-steps>
                 </div>
 
-                <div v-if="current===1">
-                  <a-row style="width: 80%;margin: 0 auto">
-                    <a-col span="24" class="stepcard">
-                      <div style="text-align: center">
-                        <img src="@/assets/images/feature.svg" style="width: 10%"/>
-                        <p style="font-family: sofia_problack">Breakdown your project</p>
-                        <p>Express project features with a user story on interaction.You can have multiple Features just
-                          add and submit to continue adding more</p>
-                      </div>
-                      <a-row gutter="16">
 
-                        <a-col span="12">
-                          <p style="font-family: sofia_problack">Feature list</p>
-                          <div v-if="features.length===0">
-                            <p>Add feature<span style="float: right"><a-icon type="arrow-right"/></span></p>
-                          </div>
-                          <div v-else style="overflow-y: scroll;height: 40vh">
-
-                            <div v-for="feature in features" v-bind:key="feature">
-
-                              <a-card size="small" :title="feature.title" style="width: 80%;margin-bottom: 1rem">
-                                <a slot="extra" @click="editfeature(feature)">edit feature</a>
-                                <p style="font-family: sofia_proregular" v-for="story in feature.storylist"
-                                   v-bind:key="story">
-                                  {{ story.story }}
-                                </p>
-                              </a-card>
-
-                            </div>
+                <div style="margin-top: 2rem">
+                  <div style="margin: 0 auto">
+                    <div v-if="current===0">
+                      <a-row style="width: 60%;margin: 0 auto">
+                        <a-col span="24" class="stepcard">
+                          <div style="text-align: center">
+                            <img src="@/assets/images/new.svg" style="width: 10%"/>
+                            <p style="font-family: sofia_problack">Express what you want</p>
+                            <p>Start a new project and write up the project features and the story under each.</p>
                           </div>
 
+                          <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
+                            <a-form-model-item label="Project title">
+                              <a-input v-model="projecttitle"/>
+                            </a-form-model-item>
+                            <a-form-model-item label="Project description">
+                              <a-textarea v-model="projectdescription"
 
-                        </a-col>
-                        <a-col span="12" class="addfeature">
-                          <a-form :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
-                            <a-form-item label="Feature name">
-                              <a-input v-model="featuretitle" placeholder="Registration"
 
+                                          :auto-size="{ minRows: 3, maxRows: 5 }"
                               />
-                            </a-form-item>
-                            <p style="font-family: sofia_proregular">Feature user stories
-                              <a-button @click="addstory" :size="small" style="margin-right: 1%">
-                                Add story
-                              </a-button>
-                            </p>
-                            <p style="font-family: sofia_proregular"><strong>These provide context on what the feature
-                              is supposed to do.</strong>Example:As a developer I want to be able to sign up and create
-                              a profile
+
+                            </a-form-model-item>
 
 
-                            <div
-                                v-for="(story, counter) in stories"
-                                v-bind:key="counter">
+                          </a-form-model>
 
-
-                              <a-form-item>
-                                <label slot="label">Story{{ counter + 1 }} <span style="float: right"
-                                                                                 @click="deleteStory(counter)"><a-icon
-                                    type="close"/></span></label>
-
-                                <a-textarea v-model="story.story"
-                                            placeholder="As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners"
-                                            :auto-size="{ minRows: 2, maxRows: 5 }"
-
-
-                                />
-
-                              </a-form-item>
-
-
-                            </div>
-                            <a-button v-if="featureedit" type="primary" @click="editfeaturesubmit" :size="small">
-                              Submit changes
-                            </a-button>
-
-                            <a-button v-else type="primary" @click="addFeature" :size="small">
-                              Submit Feature
-                            </a-button>
-
-
-                          </a-form>
                         </a-col>
+
                       </a-row>
 
+                    </div>
 
-                    </a-col>
+                    <div v-if="current===1">
+                      <a-row style="width: 90%;margin: 0 auto">
+                        <a-col span="24" class="stepcard">
+                          <div style="text-align: center">
+                            <img src="@/assets/images/feature.svg" style="width: 10%"/>
+                            <p style="font-family: sofia_problack">Breakdown your project</p>
+                            <p>Express project features with a user story on interaction.You can have multiple Features just
+                              add and submit to continue adding more</p>
+                          </div>
+                          <a-row gutter="16">
 
-                  </a-row>
-                </div>
+                            <a-col span="12">
+                              <p style="font-family: sofia_problack">Feature list</p>
+                              <div v-if="features.length===0">
+                                <p>Add feature<span style="float: right"><a-icon type="arrow-right"/></span></p>
+                              </div>
+                              <div v-else style="overflow-y: scroll;height: 40vh">
 
-                <div v-if="current===2">
-                  <a-row style="width: 60%;margin: 0 auto">
-                    <a-col span="24" class="stepcard">
-                      <div style="text-align: center">
-                        <img src="@/assets/images/coding.svg" style="width: 10%"/>
-                        <p style="font-family: sofia_problack">Which tools to be used</p>
+                                <div v-for="feature in features" v-bind:key="feature">
 
-                      </div>
+                                  <a-card size="small" :title="feature.title" style="width: 80%;margin-bottom: 1rem">
+                                    <a slot="extra" @click="editfeature(feature)">edit feature</a>
+                                    <p style="font-family: sofia_proregular" v-for="story in feature.storylist"
+                                       v-bind:key="story">
+                                      {{ story.story }}
+                                    </p>
+                                  </a-card>
 
-                      <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
-                        <a-form-model-item label="Project type(you can pick than one type)">
-
-
-                          <a-select
-                              mode="multiple"
-
-                              style="width: 100%"
-                              placeholder="Please select project type"
-                              @change="selectprojectype"
-                          >
-                            <a-select-option value="website">
-                              Website
-                            </a-select-option>
-                            <a-select-option value="android">
-                              Android app
-                            </a-select-option>
-                            <a-select-option value="ios">
-                              Ios app
-                            </a-select-option>
+                                </div>
+                              </div>
 
 
-                            <a-select-option value="desktop">
-                              Desktop application
-                            </a-select-option>
-                          </a-select>
+                            </a-col>
+                            <a-col span="12" class="addfeature">
+                              <a-form :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
+                                <a-form-item label="Feature name">
+                                  <a-input v-model="featuretitle" placeholder="Registration"
 
-                        </a-form-model-item>
+                                  />
+                                </a-form-item>
+                                <p style="font-family: sofia_proregular">Feature user stories
+                                  <a-button @click="addstory" :size="small" style="margin-right: 1%">
+                                    Add story
+                                  </a-button>
+                                </p>
+                                <p style="font-family: sofia_proregular"><strong>These provide context on what the feature
+                                  is supposed to do.</strong>Example:As a developer I want to be able to sign up and create
+                                  a profile
 
 
-                      </a-form-model>
-                      <div v-if="projectype">
-                        <div>
-                          <p>Development tools types</p>
-                          <template v-for="tag in projecttypetags">
-                            <a-checkable-tag
-                                :key="tag"
-                                :checked="selectedTags.indexOf(tag) > -1"
-                                @change="checked => handleChange(tag, checked)"
-                            >
-                              {{ tag }}
-                            </a-checkable-tag>
-                          </template>
+                                <div
+                                    v-for="(story, counter) in stories"
+                                    v-bind:key="counter">
 
-                        </div>
 
-                        <div style="margin-top: 1rem">
-                          <p>Add a custom framework or language</p>
-                          <template v-for="(tag, index) in tags">
-                            <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
-                              <a-tag :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
-                                {{ `${tag.slice(0, 20)}...` }}
+                                  <a-form-item>
+                                    <label slot="label">Story{{ counter + 1 }} <span style="float: right"
+                                                                                     @click="deleteStory(counter)"><a-icon
+                                        type="close"/></span></label>
+
+                                    <a-textarea v-model="story.story"
+                                                placeholder="As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners"
+                                                :auto-size="{ minRows: 2, maxRows: 5 }"
+
+
+                                    />
+
+                                  </a-form-item>
+
+
+                                </div>
+                                <a-button v-if="featureedit" type="primary" @click="editfeaturesubmit" :size="small">
+                                  Submit changes
+                                </a-button>
+
+                                <a-button v-else type="primary" @click="addFeature" :size="small">
+                                  Submit Feature
+                                </a-button>
+
+
+                              </a-form>
+                            </a-col>
+                          </a-row>
+
+
+                        </a-col>
+
+                      </a-row>
+                    </div>
+
+                    <div v-if="current===2">
+                      <a-row style="width: 70%;margin: 0 auto">
+                        <a-col span="24" class="stepcard">
+                          <div style="text-align: center">
+                            <img src="@/assets/images/coding.svg" style="width: 10%"/>
+                            <p style="font-family: sofia_problack">Which tools to be used</p>
+
+                          </div>
+
+                          <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
+                            <a-form-model-item label="Project type(you can pick than one type)">
+
+
+                              <a-select
+                                  mode="multiple"
+
+                                  style="width: 100%"
+                                  placeholder="Please select project type"
+                                  @change="selectprojectype"
+                              >
+                                <a-select-option value="website">
+                                  Website
+                                </a-select-option>
+                                <a-select-option value="android">
+                                  Android app
+                                </a-select-option>
+                                <a-select-option value="ios">
+                                  Ios app
+                                </a-select-option>
+
+
+                                <a-select-option value="desktop">
+                                  Desktop application
+                                </a-select-option>
+                              </a-select>
+
+                            </a-form-model-item>
+
+
+                          </a-form-model>
+                          <div v-if="projectype">
+                            <div>
+                              <p>Development tools types</p>
+                              <template v-for="tag in projecttypetags">
+                                <a-checkable-tag
+                                    :key="tag"
+                                    :checked="selectedTags.indexOf(tag) > -1"
+                                    @change="checked => handleChange(tag, checked)"
+                                >
+                                  {{ tag }}
+                                </a-checkable-tag>
+                              </template>
+
+                            </div>
+
+                            <div style="margin-top: 1rem">
+                              <p>Add a custom framework or language</p>
+                              <template v-for="(tag, index) in tags">
+                                <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
+                                  <a-tag :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
+                                    {{ `${tag.slice(0, 20)}...` }}
+                                  </a-tag>
+                                </a-tooltip>
+                                <a-tag v-else :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
+                                  {{ tag }}
+                                </a-tag>
+                              </template>
+                              <a-input
+                                  v-if="inputVisible"
+                                  ref="input"
+                                  type="text"
+                                  size="small"
+                                  :style="{ width: '78px' }"
+                                  :value="inputValue"
+                                  @change="handleInputChange"
+                                  @blur="handleInputConfirm"
+                                  @keyup.enter="handleInputConfirm"
+                              />
+                              <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
+                                <a-icon type="plus"/>
+                                New Tag
                               </a-tag>
-                            </a-tooltip>
-                            <a-tag v-else :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
-                              {{ tag }}
-                            </a-tag>
-                          </template>
-                          <a-input
-                              v-if="inputVisible"
-                              ref="input"
-                              type="text"
-                              size="small"
-                              :style="{ width: '78px' }"
-                              :value="inputValue"
-                              @change="handleInputChange"
-                              @blur="handleInputConfirm"
-                              @keyup.enter="handleInputConfirm"
-                          />
-                          <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
-                            <a-icon type="plus"/>
-                            New Tag
-                          </a-tag>
 
-                        </div>
+                            </div>
+                          </div>
+
+
+                        </a-col>
+
+                      </a-row>
+                    </div>
+                    <div v-if="current===3">
+                      <a-row style="width: 70%;margin: 0 auto">
+                        <a-col span="24" class="stepcard">
+                          <div style="text-align: center">
+
+                            <p style="font-family: sofia_problack;font-size: 1rem">Team composition</p>
+
+                          </div>
+
+                          <a-row>
+                            <a-col span="10">
+                              <div style="text-align: center">
+                                <img src="@/assets/images/worker.svg" style="width: 30%"/>
+                                <p>Single developer to handle both the design and development</p>
+                                <a-checkbox v-model="one" @change="teampick(1)">
+                                  pick
+                                </a-checkbox>
+                              </div>
+
+
+                            </a-col>
+                            <a-col span="2">
+                              <p style="text-align: center">or</p>
+                            </a-col>
+                            <a-col span="10">
+                              <div style="text-align: center">
+                              <img src="@/assets/images/worker.svg" style="width: 30%"/>
+                                <span style="font-family: sofia_probold">&</span>
+                              <img src="@/assets/images/graphic.svg" style="width: 30%"/>
+                                <p>I want a designer for the UI/UX stage and a developer to implement</p>
+                                <a-checkbox v-model="both" @change="teampick(2)">
+                                  pick
+                                </a-checkbox>
+                              </div>
+
+                            </a-col>
+                          </a-row>
+
+
+
+                        </a-col>
+
+                      </a-row>
+                    </div>
+                    <div v-if="current===4">
+                      <a-row style="width: 70%;margin: 0 auto">
+                        <a-col span="24" class="stepcard">
+                          <div style="text-align: center">
+                            <img src="@/assets/images/budget.svg" style="width: 10%"/>
+                            <p style="font-family: sofia_problack"> Time and budget fot the project</p>
+
+                          </div>
+                          <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
+                            <a-form-model-item label="Project budget">
+                              <a-input-number style="width: 100%"
+                                              v-model="budget"
+                                              :default-value="1000"
+                                              :formatter="value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                              :parser="value => value.replace(/\$\s?|(,*)/g, '')"
+
+                              />
+
+                            </a-form-model-item>
+                            <a-form-model-item v-if="teamcompostion==='both'" label="Designer budget(how much of the budget above should be for the designer)">
+                              <a-input-number style="width: 100%"
+                                              v-model="designbudget"
+                                              :default-value="500"
+                                              :formatter="value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                              :parser="value => value.replace(/\$\s?|(,*)/g, '')"
+
+                              />
+
+                            </a-form-model-item>
+                            <a-form-model-item label="Project timeline(weeks,months,days)">
+                              <a-input v-model="time"/>
+                            </a-form-model-item>
+
+
+                          </a-form-model>
+
+
+                        </a-col>
+
+                      </a-row>
+                    </div>
+
+                    <div v-if="current===5">
+                      <a-row style="width: 50%;margin: 0 auto">
+                        <a-col span="24" class="stepcard">
+                          <div style="text-align: center">
+                            <img src="@/assets/images/pay.svg" style="width: 30%"/>
+                            <p style="font-family: sofia_problack">Escrow Stage 1</p>
+
+                            <p>A 40 % escrow is needed to be deposited .This is to serve more as a commitment fee towards
+                              your project.
+                              Amount is held in escrow
+                            </p>
+                            <p>A second  escrow on the remaining amount will happen when you contract a developer </p>
+                            <p style="font-family: sofia_probold">Amount Payable :$ {{deposit}}</p>
+                            <paystack
+                                :amount="deposit*100"
+                                :email="email"
+                                :paystackkey="paystackkey"
+                                :currency="currency"
+                                :reference="reference"
+                                :callback="callback"
+                                :close="close"
+                                :embed="false"
+                            >
+                              <i class="fas fa-money-bill-alt"></i>
+                              Make Payment
+                            </paystack>
+
+
+                          </div>
+
+
+                        </a-col>
+
+                      </a-row>
+                    </div>
+                    <div style="text-align: center">
+                      <div class="steps-action" style="margin: 2% auto">
+                        <a-button v-if="current < steps.length - 1" type="primary" @click="next">
+                          Next
+                        </a-button>
+                        <a-button
+                            v-if="current == steps.length - 1"
+                            type="primary"
+                            @click="Done"
+                        >
+                          Done
+                        </a-button>
+                        <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
+                          Previous
+                        </a-button>
                       </div>
+                    </div>
 
 
-                    </a-col>
-
-                  </a-row>
-                </div>
-                <div v-if="current===3">
-                  <a-row style="width: 60%;margin: 0 auto">
-                    <a-col span="24" class="stepcard">
-                      <div style="text-align: center">
-                        <img src="@/assets/images/budget.svg" style="width: 10%"/>
-                        <p style="font-family: sofia_problack"> Time and budget fot the project</p>
-
-                      </div>
-                      <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
-                        <a-form-model-item label="Project budget">
-                          <a-input-number style="width: 100%"
-                                          v-model="budget"
-                                          :default-value="1000"
-                                          :formatter="value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                                          :parser="value => value.replace(/\$\s?|(,*)/g, '')"
-
-                          />
-
-                        </a-form-model-item>
-                        <a-form-model-item label="Project timeline(weeks,months,days)">
-                          <a-input v-model="time"/>
-                        </a-form-model-item>
-
-
-                      </a-form-model>
-
-
-                    </a-col>
-
-                  </a-row>
-                </div>
-
-                <div v-if="current===4">
-                  <a-row style="width: 40%;margin: 0 auto">
-                    <a-col span="24" class="stepcard">
-                      <div style="text-align: center">
-                        <img src="@/assets/images/pay.svg" style="width: 30%"/>
-                        <p style="font-family: sofia_problack">Escrow Stage 1</p>
-
-                        <p>A 40 % escrow is needed to be deposited .This is to serve more as a commitment fee towards
-                          your project.
-                          Amount is held in escrow
-                        </p>
-                        <p>A second  escrow on the remaining amount will happen when you contract a developer </p>
-                        <p style="font-family: sofia_probold">Amount Payable :$ {{deposit}}</p>
-                        <paystack
-                          :amount="deposit*100"
-                          :email="email"
-                          :paystackkey="paystackkey"
-                          :currency="currency"
-                          :reference="reference"
-                          :callback="callback"
-                          :close="close"
-                          :embed="false"
-                          >
-                          <i class="fas fa-money-bill-alt"></i>
-                          Make Payment
-                        </paystack>
-
-
-                      </div>
-
-
-                    </a-col>
-
-                  </a-row>
-                </div>
-                <div style="text-align: center">
-                  <div class="steps-action" style="margin: 2% auto">
-                    <a-button v-if="current < steps.length - 1" type="primary" @click="next">
-                      Next
-                    </a-button>
-                    <a-button
-                        v-if="current == steps.length - 1"
-                        type="primary"
-                        @click="$message.success('Processing complete!')"
-                    >
-                      Done
-                    </a-button>
-                    <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
-                      Previous
-                    </a-button>
                   </div>
-                </div>
 
+                </div>
 
               </div>
+            </a-col>
+            <a-col span="4">
+              <div class="timelinecard">
+                <p style="font-family: sofia_probold;font-size: 1.5rem">Project development timeline</p>
+                <a-timeline>
+                  <a-timeline-item>creation</a-timeline-item>
+                  <a-timeline-item>Team selection</a-timeline-item>
+                  <a-timeline-item>Budget allocation</a-timeline-item>
+                  <a-timeline-item>first escrow</a-timeline-item>
+                  <a-timeline-item>Accept bids/shortlist and Pick bid</a-timeline-item>
+                  <a-timeline-item>Contract creation - terms and feature discussions</a-timeline-item>
+                  <a-timeline-item>Second escrow</a-timeline-item>
+                  <a-timeline-item>UI/UX stage - wireframes and Ui designs </a-timeline-item>
+                  <a-timeline-item>Development-software development OF feature based on UI/UX</a-timeline-item>
+                </a-timeline>
+              </div>
 
-            </div>
 
-          </div>
+            </a-col>
+          </a-row>
+
 
         </div>
       </a-layout-content>
@@ -380,6 +457,10 @@ export default {
 
         },
         {
+          title: 'Team',
+
+        },
+        {
           title: 'Budget and Time',
 
         },
@@ -406,12 +487,15 @@ export default {
       projectype: null,
       time: '',
       budget: 0,
-
+      designbudget:0,
       paystackkey: "pk_live_33025d4840017202a65e05c8ba2d2e907aae7cf9", //paystack public key
       email: "robertruhiu@gmail.com",
       amount: 100,
       paystack_amount: 0,
       currency: "USD",
+      teamcompostion:'',
+      one:false,
+      both:false
 
 
     };
@@ -509,7 +593,7 @@ export default {
       let website = ['react', 'laravel']
       let desktop = ['electron', 'c#']
       let all = ['kotlin', 'java', 'go', 'java', 'react', 'laravel', 'electron', 'c#']
-      console.log(value)
+
       if (value.length > 1) {
         this.projecttypetags = all
 
@@ -526,6 +610,22 @@ export default {
         this.projecttypetags = android
       }
 
+    },
+    teampick(value){
+      if(value===1){
+        this.one = true
+        this.both = false
+        this.teamcompostion='one'
+
+      }else {
+        this.one = false
+        this.both = true
+        this.teamcompostion = 'both'
+      }
+
+    },
+    Done(){
+      this.$router.push('Myprojects')
     }
 
   }
@@ -546,6 +646,13 @@ export default {
 
 .stepcard {
   padding: 2%;
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+  background: white;
+  border-radius: 0;
+
+}
+.timelinecard {
+  padding: 3%;
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
   background: white;
   border-radius: 0;

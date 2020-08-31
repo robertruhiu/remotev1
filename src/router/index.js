@@ -3,12 +3,18 @@ import Router from 'vue-router'
 
 
 const Home = () => import('@/components/homepages/Home')
+const Jobs = () => import('@/components/homepages/Jobboard')
 const ClientDashboard = () => import('@/components/client/ClientDashboard')
 const DeveloperDashboard = () => import('@/components/developer/DeveloperDashboard')
 const TrackerBoard = () => import('@/components/client/trackerboard/trackerboard')
 const MyProjects = () => import('@/components/client/MyProjects')
 const Bids = () => import('@/components/client/Bids')
 const CreateProject = () => import('@/components/client/CreateProject')
+const Contract = () => import('@/components/client/Contract')
+const DeveloperProjects = () => import('@/components/developer/Developerprojects')
+const DevContract = () => import('@/components/developer/DevContract')
+const Draw = () => import('@/components/Draw/Draw')
+const Video = () => import('@/components/shared/Videocall')
 Vue.use(Router);
 
 let router = new Router({
@@ -19,6 +25,11 @@ let router = new Router({
             path: '/',
             name: 'home',
             component: Home
+        },
+        {
+            path: '/Jobs',
+            name: 'Jobs',
+            component: Jobs
         },
         {
             path: '/Dashboard',
@@ -41,6 +52,11 @@ let router = new Router({
             component: MyProjects
         },
         {
+            path: '/DeveloperProjects',
+            name: 'DeveloperProjects',
+            component: DeveloperProjects
+        },
+        {
             path: '/Bids',
             name: 'Bids',
             component: Bids
@@ -50,8 +66,35 @@ let router = new Router({
             name: 'Create',
             component: CreateProject
         },
+        {
+            path: '/Contract',
+            name: 'Contract',
+            component: Contract
+        },
+        {
+            path: '/DevContract',
+            name: 'DevContract',
+            component: DevContract
+        },
+        {
+            path: '/Draw',
+            name: 'Draw',
+            component: Draw
+        },
+        {
+            path: '/Video',
+            name: 'Video',
+            component: Video
+        },
 
     ],
+    scrollBehavior( ) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({x: 0, y: 0})
+            }, 1)
+        })
+    }
 
 
 })
