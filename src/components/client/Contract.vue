@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="min-height: 100vh;background-color: #F4F7FC">
+  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
 
 
     <ClientSider/>
@@ -15,8 +15,8 @@
           <a-row>
             <a-col span="12">
               <a-breadcrumb>
-                <a-breadcrumb-item><a href="/Dashboard">Home</a></a-breadcrumb-item>
-                <a-breadcrumb-item><a href="/Myprojects">My Projects</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('Dashboard')" >Home</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('Myprojects')" >My Projects</a></a-breadcrumb-item>
                 <a-breadcrumb-item><a >Contract stage</a></a-breadcrumb-item>
 
               </a-breadcrumb>

@@ -4,6 +4,7 @@
     backgroundColor:'#ffffff',borderBottom: '1px solid #e8e8e8',}">
         <div class="logo">
             <router-link to="/">
+
                 <img src="@/assets/logobg.svg" style="width: 100%;margin-left: 1.5rem">
 
             </router-link>

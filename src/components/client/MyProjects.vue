@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="min-height: 100vh;background-color: #F4F7FC">
+  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
 
 
     <ClientSider/>
@@ -16,8 +16,8 @@
             <a-row>
               <a-col span="12">
                 <a-breadcrumb>
-                  <a-breadcrumb-item><a href="/Dashboard">Home</a></a-breadcrumb-item>
-                  <a-breadcrumb-item><a href="/Myprojects">My projects</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('Dashboard')" >Home</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('Myprojects')" >My projects</a></a-breadcrumb-item>
 
                 </a-breadcrumb>
                 <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
@@ -54,7 +54,7 @@
                 <a-card  style="width: 60%">
                   <span slot="title" style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</span>
 
-                  <p>due time: 12/8/2020</p>
+                  <p>Project description</p>
 
                   <div slot="actions" >
                     <a-row style="padding: 1%">
@@ -78,14 +78,14 @@
                 <a-card  style="width: 60%">
                   <span slot="title" style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</span>
 
-                  <p>due time: 12/8/2020</p>
+                  <p>Project description</p>
 
                   <div slot="actions">
                     <a-row style="padding: 1%">
 
                       <a-col span="4">
                         <a-button type="primary" @click="$router.push('Contract')">
-                          View project
+                          Start negotiations
                         </a-button>
                         <a-col span="20">
 
@@ -100,13 +100,13 @@
                 <a-card  style="width: 60%">
                   <span slot="title" style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</span>
 
-                  <p>due time: 12/8/2020</p>
+                  <p>Project description</p>
 
                   <div slot="actions">
                     <a-row style="padding: 1%">
                       <a-col span="4" >
                         <a-button type="primary" @click="$router.push('Bids')">
-                          View project
+                          View bids
                         </a-button>
 
                       </a-col>

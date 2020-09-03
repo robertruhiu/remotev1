@@ -10,7 +10,7 @@
     "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
-    "ant-design-vue": "^1.5.3",
+    "ant-design-vue": "^1.6.5",
     "axios": "^0.18.0",
     "connect-history-api-fallback": "^1.6.0",
     "core-js": "^3.6.5",

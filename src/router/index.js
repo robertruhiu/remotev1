@@ -6,10 +6,13 @@ const Home = () => import('@/components/homepages/Home')
 const Jobs = () => import('@/components/homepages/Jobboard')
 const ClientDashboard = () => import('@/components/client/ClientDashboard')
 const DeveloperDashboard = () => import('@/components/developer/DeveloperDashboard')
-const TrackerBoard = () => import('@/components/client/trackerboard/trackerboard')
+const DeveloperEscrow = () => import('@/components/developer/EscrowDev')
+const TrackerBoard = () => import('@/components/shared/trackerboard/trackerboard')
+const Bugs = () => import('@/components/shared/Bugs')
 const MyProjects = () => import('@/components/client/MyProjects')
 const Bids = () => import('@/components/client/Bids')
 const CreateProject = () => import('@/components/client/CreateProject')
+const Escrow = () => import('@/components/client/Escrow')
 const Contract = () => import('@/components/client/Contract')
 const DeveloperProjects = () => import('@/components/developer/Developerprojects')
 const DevContract = () => import('@/components/developer/DevContract')
@@ -36,6 +39,7 @@ let router = new Router({
             name: 'Dashboard',
             component: ClientDashboard
         },
+
         {
             path: '/Developer',
             name: 'Developer',
@@ -57,6 +61,11 @@ let router = new Router({
             component: DeveloperProjects
         },
         {
+            path: '/DeveloperEscrow',
+            name: 'DeveloperEscrow',
+            component: DeveloperEscrow
+        },
+        {
             path: '/Bids',
             name: 'Bids',
             component: Bids
@@ -72,6 +81,11 @@ let router = new Router({
             component: Contract
         },
         {
+            path: '/Escrow',
+            name: 'Escrow',
+            component: Escrow
+        },
+        {
             path: '/DevContract',
             name: 'DevContract',
             component: DevContract
@@ -85,6 +99,11 @@ let router = new Router({
             path: '/Video',
             name: 'Video',
             component: Video
+        },
+        {
+            path: '/Bugs',
+            name: 'Bugs',
+            component: Bugs
         },
 
     ],

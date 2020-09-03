@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="min-height: 100vh;background-color: #F4F7FC">
+  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
 
 
     <ClientSider/>
@@ -15,8 +15,8 @@
           <a-row>
             <a-col span="12">
               <a-breadcrumb>
-                <a-breadcrumb-item><a href="/Dashboard">Home</a></a-breadcrumb-item>
-                <a-breadcrumb-item><a href="/Create">Create projects</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('Dashboard')">Home</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('Create')" >Create projects</a></a-breadcrumb-item>
 
               </a-breadcrumb>
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
@@ -86,7 +86,7 @@
                             <img src="@/assets/images/feature.svg" style="width: 10%"/>
                             <p style="font-family: sofia_problack">Breakdown your project</p>
                             <p>Express project features with a user story on interaction.You can have multiple Features just
-                              add and submit to continue adding more</p>
+                              add and submit to continue adding more.These will serve as your milestones</p>
                           </div>
                           <a-row gutter="16">
 

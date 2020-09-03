@@ -68,6 +68,7 @@
 
             <a-col span="6">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
+                <router-link to="/DeveloperEscrow">
                 <div>
                   <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">Manage Escrow </p>
                   <div >
@@ -86,6 +87,7 @@
 
 
                 </div>
+                </router-link>
               </a-card>
 
 
@@ -117,10 +119,11 @@
             </a-col>
             <a-col span="6">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;%;">
+                <router-link to="/Bugs">
                 <div>
-                  <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">Conflict Resolution </p>
+                  <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">Bugs & issues </p>
                   <div >
-                    <img src="@/assets/images/deal.svg" style="width: 30%"/>
+                    <img src="@/assets/images/alert.svg" style="width: 30%"/>
 
                   </div>
 
@@ -135,6 +138,7 @@
 
 
                 </div>
+                </router-link>
 
 
               </a-card>

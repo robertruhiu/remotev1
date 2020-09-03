@@ -17,11 +17,11 @@
         <a-icon type="appstore" />
         <span>Manage my Projects</span>
       </a-menu-item>
-      <a-menu-item key="2">
+      <a-menu-item key="2" @click="$router.push('Create')">
         <a-icon type="plus" />
         <span>Create a Project</span>
       </a-menu-item>
-      <a-menu-item key="3">
+      <a-menu-item key="3" @click="$router.push('Escrow')">
         <a-icon type="bank" />
         <span>Escrow Management</span>
       </a-menu-item>
@@ -29,9 +29,9 @@
         <a-icon type="calendar" />
         <span>My Meetings</span>
       </a-menu-item>
-      <a-menu-item key="5">
-        <a-icon type="flag" />
-        <span>Conflict resolution</span>
+      <a-menu-item key="5" @click="$router.push('Bugs')">
+        <a-icon type="exclamation" />
+        <span>Bugs & issues</span>
       </a-menu-item>
       <a-menu-item key="6">
         <a-icon type="message" />
