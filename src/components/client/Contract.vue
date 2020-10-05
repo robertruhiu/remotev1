@@ -47,7 +47,6 @@
                   <a-timeline-item>Time allocation of features</a-timeline-item>
                   <a-timeline-item>Budget and Escrow disbursment</a-timeline-item>
                   <a-timeline-item>Technologies to be used</a-timeline-item>
-                  <a-timeline-item>Conflict resolution</a-timeline-item>
                   <a-timeline-item>Codeln Role</a-timeline-item>
 
                 </a-timeline>
@@ -56,24 +55,31 @@
                   <a-row>
                     <a-col span="12">
                       <a-card  style="width: 90%">
-                        <span slot="title" style="font-family: sofia_prosemibold;color: black">Contract form</span>
+                        <span slot="title" style="font-family: sofia_prosemibold;color: black">Contract form
+                        <a-icon style="float: right" type="form" />
+                        </span>
 
-                        <p>Click on the icon shown when meeting starts to open the contract form this will have a guided steps
+
+                        <p>Click on the icon shown above when meeting starts to open the contract form this will have a guided steps
                           to enable a succesful filling on the elements stated above</p>
 
 
                       </a-card>
                     </a-col>
-                    <a-col span="12">
-                      <a-card  style="width: 90%">
-                        <span slot="title" style=";font-family: sofia_prosemibold;color: black">Sketch pad</span>
-                        <p>Enables both parties to sketch thus bringing out more understanding of features.We highly recommend using this during the feature discussion</p>
+<!--                    <a-col span="12">-->
+<!--                      <a-card  style="width: 90%">-->
+<!--                        <span slot="title" style=";font-family: sofia_prosemibold;color: black">Sketch pad-->
+<!--                          <a-icon style="float: right" type="sketch" />-->
+<!--                        </span>-->
+
+<!--                        <p>Enables both parties to sketch thus bringing out more understanding of features.We highly recommend using this during the feature discussion-->
+<!--                        look for the icon above</p>-->
 
 
 
 
-                      </a-card>
-                    </a-col>
+<!--                      </a-card>-->
+<!--                    </a-col>-->
                   </a-row>
 
 
@@ -91,23 +97,13 @@
     }"
               >
                 <span slot="description"> Contract Meeting  </span>
-                <a-button type="primary">
+                <a-button type="primary" @click="$router.push('Meeting')">
                   Create meeting
                 </a-button>
               </a-empty>
             </a-col>
           </a-row>
         </div>
-
-
-
-
-
-
-
-
-
-
 
 
       </a-layout-content>

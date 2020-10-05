@@ -267,7 +267,7 @@ const Projects = [
       },]
     },
       {
-        name: "Admin dashboard",
+        name: "admin dashboard",
         id: 2,
         'deadline': '2021-08-11',
         'assignedto': 'dennis',

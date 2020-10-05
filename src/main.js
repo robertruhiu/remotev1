@@ -89,6 +89,9 @@ Vue.use(FormModel)
 Vue.use(Statistic)
 Vue.use(Space)
 Vue.use(Comment)
+
+
+
 Vue.config.productionTip = false
 
 sync(store, router);

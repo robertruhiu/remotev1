@@ -644,7 +644,7 @@ export default {
       assignedto: 'lucy',
       list1: [
         {name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-        {name: "Admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
+        {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
         {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
 
       ],

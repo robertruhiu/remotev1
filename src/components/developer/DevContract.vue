@@ -47,7 +47,6 @@
                   <a-timeline-item>Time allocation of features</a-timeline-item>
                   <a-timeline-item>Budget and Escrow disbursment</a-timeline-item>
                   <a-timeline-item>Technologies to be used</a-timeline-item>
-                  <a-timeline-item>Conflict resolution</a-timeline-item>
                   <a-timeline-item>Codeln Role</a-timeline-item>
 
                 </a-timeline>

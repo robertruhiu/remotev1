@@ -268,7 +268,7 @@ const Projects = [
       'note': 'go to the login page and login using this details'
     },
       {
-        name: "Admin dashboard",
+        name: "admin dashboard",
         id: 2,
         'deadline': '2021-08-11',
         'assignedto': 'dennis',
@@ -301,7 +301,7 @@ const Projects = [
       'note': 'go to the login page and login using this details'
     },
       {
-        name: "Admin dashboard",
+        name: "admin dashboard",
         id: 2,
         'deadline': '2021-08-11',
         'assignedto': 'dennis',

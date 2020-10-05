@@ -21,10 +21,10 @@
             </a-breadcrumb>
             <p style="font-size: 1.7rem;font-family: sofia_prosemibold;color: black;margin-bottom: 0">
               Cyrus web application</p>
-            <span style="margin-bottom: 0">You can switch between milestone overview kanban to milestone task view kanban
+            <span style="margin-bottom: 0">You can switch between milestone overview kanban to in depth view kanban
                   <a-button-group style="margin-left: 1%">
                     <a-button type="primary" @click="viewMode(1)"> <a-icon type="appstore"/>Milestone view </a-button>
-                    <a-button type="primary" @click="viewMode(2)"> Task view<a-icon type="profile"/> </a-button>
+                    <a-button type="primary" @click="viewMode(2)"> In depth view<a-icon type="profile"/> </a-button>
                   </a-button-group>
                 </span>
 
@@ -63,7 +63,7 @@
                           <span slot="title">
                                 {{ element.title }}
                               </span>
-                          <a slot="extra" @click="openFeature(element)">view feature</a>
+                          <a slot="extra" @click="openFeature(element)">view milestone</a>
                           <template>
                             <p>{{element.userstories[0]}}</p>
 
@@ -104,7 +104,7 @@
                           <span slot="title">
                                 {{ element.title }}
                               </span>
-                          <a slot="extra" @click="openFeature(element)">view </a>
+                          <a slot="extra" @click="openFeature(element)">view milestone </a>
                           <template>
                             <p>{{element.userstories[0]}}</p>
 
@@ -145,7 +145,7 @@
                           <span slot="title">
                                 {{ element.title }}
                               </span>
-                          <a slot="extra" @click="openFeature(element)">view feature</a>
+                          <a slot="extra" @click="openFeature(element)">view milestone</a>
                           <template>
                             <p>{{element.userstories[0]}}</p>
 
@@ -185,7 +185,7 @@
                           <span slot="title">
                                 {{ element.title }}
                               </span>
-                          <a slot="extra" @click="openFeature(element)">view feature</a>
+                          <a slot="extra" @click="openFeature(element)">view milestone</a>
                           <template>
                             <p>{{element.userstories[0]}}</p>
 
@@ -534,7 +534,7 @@ const listData = [
       'vlesss'
     ],
     todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "Admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
+      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
       ],
     inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
       {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
@@ -554,7 +554,7 @@ const listData = [
       'vlesss'
     ],
     todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "Admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
+      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
       {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'}],
     inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
       {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
@@ -575,7 +575,7 @@ const listData = [
       'vlesss'
     ],
     todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "Admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
+      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
       {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'}],
     inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
       {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
@@ -594,7 +594,7 @@ const listData = [
       'vlesss'
     ],
     todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "Admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
+      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
       {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'}],
     inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
       {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
@@ -613,7 +613,7 @@ const listData = [
       'vlesss'
     ],
     todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "Admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
+      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
       {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'}],
     inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
       {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],

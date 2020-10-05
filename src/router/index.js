@@ -16,8 +16,8 @@ const Escrow = () => import('@/components/client/Escrow')
 const Contract = () => import('@/components/client/Contract')
 const DeveloperProjects = () => import('@/components/developer/Developerprojects')
 const DevContract = () => import('@/components/developer/DevContract')
-const Draw = () => import('@/components/Draw/Draw')
 const Video = () => import('@/components/shared/Videocall')
+const Meeting = () => import('@/components/shared/meeting/meeting')
 Vue.use(Router);
 
 let router = new Router({
@@ -91,11 +91,6 @@ let router = new Router({
             component: DevContract
         },
         {
-            path: '/Draw',
-            name: 'Draw',
-            component: Draw
-        },
-        {
             path: '/Video',
             name: 'Video',
             component: Video
@@ -104,6 +99,11 @@ let router = new Router({
             path: '/Bugs',
             name: 'Bugs',
             component: Bugs
+        },
+        {
+            path: '/Meeting',
+            name: 'Meeting',
+            component: Meeting
         },
 
     ],
