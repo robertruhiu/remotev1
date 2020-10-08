@@ -90,9 +90,7 @@
                         <a-card style="width: 100%;margin-bottom: 1rem" v-for="task in project.pending"
                                 v-bind:key="task">
                           <p slot="title">{{ task.name }}</p>
-                          <a-button type="primary" slot="extra">
-                            Approve
-                          </a-button>
+
                           <div
                               style="background-color: white;border: 1px solid #e8e8e8;padding: 2%;margin-bottom: 1rem">
                             <p style="font-family: sofia_probold">Developer note for testing</p>
@@ -100,12 +98,7 @@
                           </div>
 
 
-                          <a-space>
-                            <span style="font-family: sofia_prolight">Raise an issue(this can be a comment/complaint or a bug found)</span>
 
-                            <a-button type="danger" size="small" icon="bug" @click="$router.push('Bugs')">New issue</a-button>
-
-                          </a-space>
                           <div>
                             <p style="font-family: sofia_proregular"><a-icon type="bug" theme="twoTone" two-tone-color="#eb2f96" /> 3 issues open </p>
                             <a-button type="primary" size="small" @click="$router.push('Bugs')">View issues</a-button>

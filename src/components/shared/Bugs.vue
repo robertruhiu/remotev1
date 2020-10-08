@@ -38,7 +38,7 @@
             <a-col span="16">
               <div style="padding: 3%;">
 
-              <a-collapse expandIconPosition="right" v-for="project in Projects" v-bind:key="project"
+              <a-collapse expandIconPosition="right" v-for="project in Projectslists" v-bind:key="project"
                           style="border-radius: 0;background-color: white">
                 <a-collapse-panel style="margin-bottom: 1rem;border-radius: 0;background-color: white">
                   <div slot="header">
@@ -48,15 +48,7 @@
                       </a-col>
 
                     </a-row>
-                    <a-row style="font-family: sofia_prolight">
-                      <p style="font-family: sofia_proregular">Issues overview</p>
-                      <a-tag color="#2db7f5">
-                        4 open issues
-                      </a-tag>
 
-
-
-                    </a-row>
 
                   </div>
                   <p style="font-family: sofia_probold;font-size: 1rem">Project features</p>
@@ -78,6 +70,7 @@
 
 
                         </a-space>
+                        <a-button  style="float: right" type="danger" @click="newIssue(feature)" size="small"><a-icon type="plus" />new issue</a-button>
 
 
                       </div>
@@ -101,8 +94,8 @@
                             <a-tag color="#0366d6" v-if="issue.abitrator">
                               abitration
                             </a-tag>
-                            <span><a-icon type="message" theme="twoTone" two-tone-color="#2db7f5"/> 3</span>
-                            <a-button size="small" @click="openIssue(project,feature,issue)">view issue</a-button>
+                            <span><a-icon type="message" theme="twoTone" two-tone-color="#2db7f5"/> {{issue.comments.length}}</span>
+                            <a-button size="small" @click="openIssue(issue)">view issue</a-button>
 
                           </a-space>
                         </a-card>
@@ -125,6 +118,8 @@
             <a-col span="8" v-if="issueopen">
               <div  style="padding: 2%">
                 <a-card style="width: 100%">
+                  <a-icon type="close" style="float: right" @click="Close"/>
+
                   <p>{{currentissue.title}}</p>
 
                   <div
@@ -134,18 +129,25 @@
 
                   </div>
                   <a-space>
+                    <a-button type="primary" v-if="currentissue.status" @click="CloseOpen">Re open issue</a-button>
 
-                    <a-button type="primary">Mark as done</a-button>
-                    <a-upload>
-                      <a-button> <a-icon type="usergroup-add" /> Request abitration </a-button>
-                    </a-upload>
+                    <a-button type="primary" v-else @click="CloseOpen">Mark as done</a-button>
+
+
+
+
+                    <div v-if="!currentissue.status">
+                      <a-button v-if="!currentissue.abitrator" @click="Abitration"> <a-icon type="usergroup-add" /> Request abitration </a-button>
+                      <a-button v-if="currentissue.abitrator" @click="Abitration"> <a-icon type="usergroup-add" /> Close abitration </a-button>
+                    </div>
+
 
                   </a-space>
                   <div>
                     <a-list
-                        v-if="comments.length"
-                        :data-source="comments"
-                        :header="`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`"
+                        v-if="currentissue.comments.length"
+                        :data-source="currentissue.comments"
+                        :header="`${currentissue.comments.length} ${currentissue.comments.length > 1 ? 'replies' : 'reply'}`"
                         item-layout="horizontal"
                     >
                       <a-list-item slot="renderItem" slot-scope="item">
@@ -157,7 +159,7 @@
                         />
                       </a-list-item>
                     </a-list>
-                    <a-comment>
+                    <a-comment v-if="!currentissue.status">
 
                       <div slot="content">
                         <a-form-item>
@@ -184,6 +186,67 @@
 
 
             </a-col>
+            <a-col span="8" v-else-if="newissue">
+              <div  style="padding: 2%">
+                <a-card style="width: 100%">
+
+
+                  <a-form layout="vertical">
+
+                    <a-form-item
+                        label="Title"
+
+                    >
+                      <a-input v-model="issuetitle"/>
+                    </a-form-item>
+                    <a-form-item
+                        label="Describe the issue"
+
+                    >
+                      <a-textarea
+                          v-model="issuedescription"
+                          :auto-size="{ minRows: 3, maxRows: 5 }"
+                      />
+                    </a-form-item>
+                    <p>Which of the below does the issue fall under?</p>
+                    <a-radio-group  button-style="solid" style="margin-bottom: 1rem" default-value="bug" v-model="issuetag">
+                      <a-radio-button value="bug">
+                        bug
+                      </a-radio-button>
+                      <a-radio-button value="question">
+                        question
+                      </a-radio-button>
+                      <a-radio-button value="incomplete">
+                        incomplete
+                      </a-radio-button>
+
+                    </a-radio-group>
+                    <a-form-item>
+                      <a-space>
+                      <a-button type="primary" @click="SubmitIssue">
+                        Submit
+                      </a-button>
+                      <a-button  @click="Close">
+                        Cancel
+                      </a-button>
+                      </a-space>
+                    </a-form-item>
+                  </a-form>
+
+
+
+                </a-card>
+
+
+              </div>
+
+
+
+
+
+
+            </a-col>
+
             <a-col span="4" v-else>
               <div style="padding: 2%">
                 <p>Overview</p>
@@ -228,6 +291,14 @@
           </a-row>
 
         </div>
+
+
+
+
+
+
+
+
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -236,118 +307,145 @@
 <script>
 import ClientSider from '@/components/client/layout/ClientSider'
 import moment from 'moment';
-const Projects = [
+// import Project from '@/services/Projects'
+// import Issues from '@/services/Issues'
+const Projectlist = [
   {
-    title: `Lishe app`,
-
-
-    features: [{
-      name: "Login pages",
-      id: 1,
-      'deadline': '2021-08-11',
-      'assignedto': 'dennis',
-      issues: [{
-        title: `Login feature`,
-        description: 'tried logging in ',
-        comments: [],
-        tag: 'question',
-        status: 'solved',
-        assigned_to: '',
-        abitrator: false
-
-      }, {
-        title: `404 error`,
-        description: 'when i load page on phone i get a 404 ',
-        comments: [],
-        tag: 'bug',
-        status: 'solved',
-        assigned_to: '',
-        abitrator: false
-
-      },]
-    },
-      {
-        name: "admin dashboard",
-        id: 2,
-        'deadline': '2021-08-11',
-        'assignedto': 'dennis',
-        issues: [{
-          title: `The website is squeezed on my laptop`,
-          description: 'When i open the site there seems to be weird look',
-          comments: [],
-          tag: 'bug',
-          status: 'solved',
-          assigned_to: '',
-          abitrator: false
-
-        },]
-      },
-      {
-        name: "Test no issue",
-        id: 2,
-        'deadline': '2021-08-11',
-        'assignedto': 'dennis',
-        issues: []
-      },
-    ],
-
-
+    id:1,
+    title: `Lishe apll`,
 
   },
   {
+    id:2,
     title: `React am`,
-    features: [
-      {
-        name: "Database structure",
-        id: 4,
-        'deadline': '2021-08-11',
-        'assignedto': 'robert',
-        issues: [{
-          title: `The website is squeezed on my laptop`,
-          description: 'When i open the site there seems to be weird look',
-          comments: [],
-          tag: 'incomplete',
-          status: 'solved',
-          assigned_to: '',
-          abitrator: true
-
-        },]
-      },
-      {
-        name: "UI/UX",
-        id: 5,
-        'deadline': '2021-08-11',
-        'assignedto': 'robert',
-        issues: [{
-          title: `Login feature`,
-          description: 'tried logging in ',
-          comments: [],
-          tag: 'question',
-          status: 'solved',
-          assigned_to: '',
-          abitrator: false
-
-        },]
-      }
-    ],
-
-
 
   },
 
 
 ]
+const Feautures = [
+  {
+
+    id: 1,
+    project_id: 1,
+    name: "Login pages",
+    deadline: '2021-08-11',
+    assignedto: 'dennis',
+  }, {
+
+    name: "admin dashboard",
+    project_id: 1,
+    id: 2,
+    'deadline': '2021-08-11',
+    'assignedto': 'dennis',
+  }, {
+
+    name: "Test no issue",
+    project_id: 1,
+    id: 3,
+    'deadline': '2021-08-11',
+    'assignedto': 'dennis',
+  }, {
+
+    name: "Database structure",
+    project_id: 2,
+    id: 4,
+    'deadline': '2021-08-11',
+    'assignedto': 'robert',
+  }, {
+
+    name: "UI/UX",
+    project_id: 2,
+    id: 5,
+    'deadline': '2021-08-11',
+    'assignedto': 'robert',
+  }
+
+
+
+
+
+
+
+]
+const Issueslist = [
+  {
+
+    feature_id: 1,
+    title: `The website is squeezed on my laptop`,
+    description: 'When i open the site there seems to be weird look',
+    comments: [],
+    tag: 'bug',
+    status: false,
+    assigned_to: '',
+    abitrator: true,
+  },{
+
+    feature_id: 2,
+    title: `Login feature`,
+    description: 'tried logging in ',
+    comments: [],
+    tag: 'question',
+    status: false,
+    assigned_to: '',
+    abitrator: false
+  },
+  {
+
+    feature_id: 1,
+    title: `404 error`,
+    description: 'when i load page on phone i get a 404 ',
+    comments: [],
+    tag: 'bug',
+    status: false,
+    assigned_to: '',
+    abitrator: false
+  },
+  {
+
+    feature_id: 4,
+    title: `404 error`,
+    description: 'when i load page on phone i get a 404 ',
+    comments: [],
+    tag: 'bug',
+    status: true,
+    assigned_to: '',
+    abitrator: false
+  },
+  {
+
+    feature_id: 5,
+    title: `404 error`,
+    description: 'when i load page on phone i get a 404 ',
+    comments: [],
+    tag: 'bug',
+    status: true,
+    assigned_to: '',
+    abitrator: false
+  }
+]
+
+
 export default {
   name: "Bugs",
   data() {
     return {
-      Projects,
+
+      Projectlist,
+      Feautures,
+      Issueslist,
       issueopen: false,
       currentissue: {},
       comments: [],
       submitting: false,
       value: '',
       moment,
+      currentfeature:{},
+      newissue:false,
+      issuetitle:'',
+      issuetag:'',
+      issuedescription:''
+
 
 
     };
@@ -360,7 +458,7 @@ export default {
   computed: {
     Bugcount() {
       let bugs = 0
-      this.Projects.forEach(function (project) {
+      this.Projectslists.forEach(function (project) {
         project.features.forEach(function (feature){
           feature.issues.forEach(function (issue){
             if(issue.tag === 'bug'){
@@ -377,7 +475,7 @@ export default {
     },
     Abitrationcount() {
       let abitration = 0
-      this.Projects.forEach(function (project) {
+      this.Projectslists.forEach(function (project) {
         project.features.forEach(function (feature){
           feature.issues.forEach(function (issue){
             if(issue.abitrator){
@@ -394,7 +492,7 @@ export default {
     },
     Incompletecount() {
       let incomplete = 0
-      this.Projects.forEach(function (project) {
+      this.Projectslists.forEach(function (project) {
         project.features.forEach(function (feature){
           feature.issues.forEach(function (issue){
             if(issue.tag==='incomplete'){
@@ -408,58 +506,98 @@ export default {
 
 
 
+    },
+    Projectslists(){
+      let projects =[]
+
+      this.Projectlist.forEach(project=>{
+        let projectobj ={'id':'','title':'','features':[]}
+
+        let featurelist =[]
+        this.Feautures.forEach(feature=>{
+          let featureobj = {'id':'','project_id':'','name':'','deadline':'','assignedto':'','issues':[]}
+          if(feature.project_id === project.id){
+            let featureissues=[]
+
+            this.Issueslist.forEach(issue =>{
+
+              if(issue.feature_id === feature.id){
+                featureissues.push(issue)
+
+
+
+              }
+            })
+            featureobj.id = feature.id
+            featureobj.project_id = feature.project_id
+            featureobj.deadline = feature.deadline
+            featureobj.assignedto = feature.assigned_to
+            featureobj.name = feature.name
+            featureobj.issues = featureissues
+            featurelist.push(featureobj)
+
+          }
+
+        })
+        projectobj.id =project.id
+        projectobj.title = project.title
+        projectobj.features = featurelist
+        projects.push(projectobj)
+      })
+      return projects
+
     }
 
+
+
   },
-  mounted() {
-
-    this.Projects.forEach(function (project) {
-      project.features.forEach(function (feature){
-        feature.issues.forEach(function (issue){
-          if(issue.tag === 'bug'){
-
-            project.bugs +=1
-          }
-          else if(issue.abitrator){
-            project.abitration +=1
-          }
-          else if(issue.tag==='incomplete'){
-            project.incomplete+=1
-          }
-        })
-      })
-
-    });
+  async mounted() {
 
 
 
-
+    // this.projectlist = (await Project.fetchallprojects()).data
+    // this.featurelist = (await Project.fetchallfeatures()).data
+    // this.issuelist = (await Issues.fetchallissues()).data
 
 
 
   },
   methods: {
-    openIssue(project, feature,issue) {
-      let currentissuepick ={}
-      this.Projects.forEach(function (project1) {
-        if (project1 === project) {
-          project1.features.forEach(function (feature1) {
-            if(feature1 === feature){
-              feature1.issues.forEach(function (issue1){
-                if(issue1 === issue){
-                  currentissuepick = issue1
-                }
+    openIssue(issue) {
 
-              })
-            }
-          })
-
-        }
-
-      })
-      this.currentissue = currentissuepick
+      this.currentissue = issue
       this.issueopen = true
 
+
+    },
+    newIssue(feature){
+      this.currentfeature = feature
+      this.newissue = true
+    },
+    SubmitIssue(){
+      let issueobj ={
+        feature_id: this.currentfeature.id,
+        title: this.issuetitle,
+        description: this.issuedescription,
+        comments: [],
+        tag: this.issuetag,
+        status: 'solved',
+        assigned_to: '',
+        abitrator: false,}
+      this.currentfeature.issues.push(issueobj)
+      this.newissue = false
+
+    },
+    Close(){
+      this.issueopen = false
+      this.newissue = false
+
+    },
+    CloseOpen(){
+      this.currentissue.status = this.currentissue.status !== true;
+    },
+    Abitration(){
+      this.currentissue.abitrator = this.currentissue.abitrator !== true;
 
     },
     handleSubmit() {
@@ -471,13 +609,13 @@ export default {
 
       setTimeout(() => {
         this.submitting = false;
-        this.comments = [
+        this.currentissue.comments = [
           {
             author: 'Han Solo',
             content: this.value,
             datetime: moment().fromNow(),
           },
-          ...this.comments,
+          ...this.currentissue.comments,
         ];
         this.value = '';
       }, 1000);

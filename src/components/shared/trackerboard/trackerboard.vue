@@ -299,17 +299,10 @@
                               >
                                 <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
                                         class="shadowsmall">
-                            <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: {{
-                                element.deadline
-                              }}</span>
+
 
                                   <p style="font-family: sofia_prolight">{{ element.name }} </p>
-                                  <span style="font-family: sofia_prolight">Assigned to:
-                                        <a-tag color="blue">
-                                         {{ element.assignedto }}
-                                        </a-tag>
 
-                                      </span>
 
                                 </a-card>
 
@@ -334,17 +327,10 @@
                               >
                                 <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
                                         class="shadowsmall">
-                            <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: {{
-                                element.deadline
-                              }}</span>
+
 
                                   <p style="font-family: sofia_prolight">{{ element.name }} </p>
-                                  <span style="font-family: sofia_prolight">Assigned to:
-                                        <a-tag color="blue">
-                                         {{ element.assignedto }}
-                                        </a-tag>
 
-                                      </span>
 
                                 </a-card>
 
@@ -370,17 +356,10 @@
                               >
                                 <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
                                         class="shadowsmall">
-                            <span slot="title" style="font-family: sofia_proextralight;font-size: 9px;">Due: {{
-                                element.deadline
-                              }}</span>
+
 
                                   <p style="font-family: sofia_prolight">{{ element.name }} </p>
-                                  <span style="font-family: sofia_prolight">Assigned to:
-                                        <a-tag color="blue">
-                                         {{ element.assignedto }}
-                                        </a-tag>
 
-                                      </span>
 
                                 </a-card>
 
@@ -542,7 +521,7 @@ const listData = [
     actions: [
 
       {type: 'profile', text: '6 tasks'},
-      {type: 'message', text: '2 messages'},
+      {type: 'flag', text: '0 issues'},
     ],
   },
   {
@@ -562,7 +541,7 @@ const listData = [
     actions: [
 
       {type: 'profile', text: '6 tasks'},
-      {type: 'message', text: '2 messages'},
+      {type: 'flag', text: '0 issues'},
     ],
   },
 
@@ -583,7 +562,7 @@ const listData = [
     actions: [
 
       {type: 'profile', text: '6 tasks'},
-      {type: 'message', text: '2 messages'},
+      {type: 'flag', text: '0 issues'},
     ],
   },
   {
@@ -602,7 +581,7 @@ const listData = [
     actions: [
 
       {type: 'profile', text: '6 tasks'},
-      {type: 'message', text: '2 messages'},
+      {type: 'flag', text: '0 issues'},
     ],
   },
   {
@@ -621,7 +600,7 @@ const listData = [
     actions: [
 
       {type: 'profile', text: '6 tasks'},
-      {type: 'message', text: '2 messages'},
+      {type: 'flag', text: '0 issues'},
     ],
   }
 

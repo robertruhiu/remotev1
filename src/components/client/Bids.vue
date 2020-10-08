@@ -1,5 +1,5 @@
 <template>
-  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
+  <a-layout style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
 
 
     <ClientSider/>
@@ -16,7 +16,7 @@
             <a-row>
               <a-col span="12">
                 <a-breadcrumb>
-                  <a-breadcrumb-item><a @click="$router.push('Dashboard')" >Home</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('Dashboard')">Home</a></a-breadcrumb-item>
                   <a-breadcrumb-item><a @click="$router.push('Myprojects')">My projects</a></a-breadcrumb-item>
                   <a-breadcrumb-item><a>Cyrus web application</a></a-breadcrumb-item>
 
@@ -47,7 +47,7 @@
                   <a-tab-pane key="1" tab="All bids">
                     <div style=";height: 40rem;padding: 3% ">
 
-                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="listData">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Bids">
 
                         <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
 
@@ -85,7 +85,7 @@
                   <a-tab-pane key="2" tab="Shortlisted" force-render>
                     <div style="height: 40rem;padding: 3% ">
 
-                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Shortlisted">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Shortlist">
 
                         <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
 
@@ -136,7 +136,7 @@
                         <a-descriptions title="Developer bid">
 
                           <a-descriptions-item label="Name">
-                            Dennis Ruhiu {{bid.title}}
+                            Dennis Ruhiu {{ bid.title }}
                           </a-descriptions-item>
                           <a-descriptions-item label="email">
                             test@codeln.com
@@ -182,11 +182,11 @@
                           <p>
                             <a-tag v-for="tag in bid.tools" color="blue"
                                    :key="tag">
-                              {{tag}}
+                              {{ tag }}
                             </a-tag>
                           </p>
-                          <p>Project budget : {{bid.budget}}</p>
-                          <p>Time to finish project : {{bid.time}}</p>
+                          <p>Project budget : {{ bid.budget }}</p>
+                          <p>Time to finish project : {{ bid.time }}</p>
 
                         </a-tab-pane>
                         <a-tab-pane key="2" tab="Project potfolio" force-render>
@@ -197,10 +197,11 @@
                         </a-tab-pane>
                       </a-tabs>
                       <div>
-                        <a-button type="primary" v-if="bid.shortlisted" style="margin-right: 1%">
+                        <a-button type="primary" v-if="bid.shortlisted" @click="acceptbid" style="margin-right: 1%">
                           Accept bid
                         </a-button>
-                        <a-button type="primary" v-if="bid.shortlisted === false" @click="shortlist" style="margin-right: 1%">
+                        <a-button type="primary" v-if="bid.shortlisted === false" @click="shortlist"
+                                  style="margin-right: 1%">
                           Shortlist
                         </a-button>
                         <a-button type="danger" v-if="bid.shortlisted" @click="removebid">
@@ -229,7 +230,7 @@
 
 <script>
 const listData = [];
-const Shortlisted =[];
+const Shortlisted = [];
 for (let i = 0; i < 2; i++) {
   listData.push({
 
@@ -239,9 +240,8 @@ for (let i = 0; i < 2; i++) {
         'Ant Design, a design language for background applications, is refined by Ant UED Team.',
     time: '2 months',
     budget: '$4000',
-    tools:['react','django'],
-    shortlisted:false
-
+    tools: ['react', 'django'],
+    shortlisted: false
 
 
   });
@@ -255,13 +255,14 @@ for (let i = 0; i < 3; i++) {
         'Ant Design, a design language for background applications, is refined by Ant UED Team.',
     time: '2 months',
     budget: '$4000',
-    tools:['react','django'],
-    shortlisted:true
+    tools: ['react', 'django'],
+    shortlisted: true
 
 
   });
 }
 import ClientSider from "@/components/client/layout/ClientSider";
+import Bids from '@/services/Bids'
 
 export default {
   name: "Bids",
@@ -275,8 +276,8 @@ export default {
         },
         pageSize: 3,
       },
-      bid:{},
-
+      bid: {},
+      allbids:[]
 
 
     };
@@ -286,16 +287,43 @@ export default {
 
 
   },
-  mounted() {
+  async mounted() {
+    Bids.currentprojectbids()
+    .then(resp=>{
+      this.allbids = resp.data
+    })
+    this.allbids = this.listData.concat(this.Shortlisted)
+
+
     this.bid = this.listData[0]
 
 
+  },
+  computed:{
+    Shortlist(){
+      let bids =[]
+      this.allbids.forEach(bid=>{
+        if(bid.shortlisted){
+          bids.push(bid)
+        }
+      })
+      return bids
+    },
+    Bids(){
+      let bids =[]
+      this.allbids.forEach(bid=>{
+        if(bid.shortlisted === false){
+          bids.push(bid)
+        }
+      })
+      return bids
+    }
   },
   methods: {
     openbid(bid) {
       this.bid = bid
     },
-    shortlist(){
+    shortlist() {
       this.bid.shortlisted = true
 
 
@@ -304,17 +332,36 @@ export default {
       if (index > -1) {
         this.listData.splice(index, 1);
       }
-
+      // Bids.shortlistcandidate(pk,{'shortlisted':true})
+      // .then()
 
 
     },
-    removebid(){
+    removebid() {
       this.bid.shortlisted = false
       this.listData.push(this.bid)
       let index = this.Shortlisted.indexOf(this.bid)
       if (index > -1) {
         this.Shortlisted.splice(index, 1);
       }
+      // Bids.shortlistcandidate(pk,{'shortlisted':false})
+      //     .then()
+
+    },
+    acceptbid() {
+      this.$router.push({
+        name: 'Myprojects',
+
+      })
+
+      // Bids.acceptbid(pk,{'accepted':true})
+      //     .then(
+      //         this.$router.push({
+      //           name: 'Myprojects',
+      //
+      //         })
+      //
+      //     )
 
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
+  <a-layout style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
 
 
     <ClientSider/>
@@ -10,7 +10,7 @@
           :style="{  padding: '1% 2%', background: '#FAFBFF', minHeight: '280px', }"
 
       >
-        <a-card class="hellocard" >
+        <a-card class="hellocard">
 
           <a-row>
             <a-col span="12">
@@ -39,7 +39,7 @@
 
 
               <div style="padding: 3%">
-                <a-collapse expandIconPosition="right" v-for="project in Projects" v-bind:key="project"
+                <a-collapse expandIconPosition="right" v-for="project in AllProjects" v-bind:key="project"
                             style="border-radius: 0;background-color: white">
                   <a-collapse-panel style="margin-bottom: 1rem;border-radius: 0;background-color: white">
                     <div slot="header">
@@ -80,7 +80,7 @@
                       </a-row>
                     </div>
                     <a-tabs v-model="activeKey" @change="callback">
-                      <a-tab-pane key="1" >
+                      <a-tab-pane key="1">
                         <span slot="tab">
                           <a-icon type="download"/>
                           Pending approval
@@ -90,7 +90,7 @@
                         <a-card style="width: 100%;margin-bottom: 1rem" v-for="task in project.pending"
                                 v-bind:key="task">
                           <p slot="title">{{ task.name }}</p>
-                          <a-button type="primary" slot="extra">
+                          <a-button type="primary" slot="extra" @click="Approve(project,task)">
                             Approve
                           </a-button>
                           <div
@@ -98,18 +98,9 @@
                             <p style="font-family: sofia_probold">Developer note for testing</p>
                             <p style="font-family: sofia_proregular">{{ task.note }}</p>
                           </div>
-
-
-                          <a-space>
-                            <span style="font-family: sofia_prolight">Raise an issue(this can be a comment/complaint or a bug found)</span>
-
-                            <a-button type="danger" size="small" icon="bug" @click="$router.push('Bugs')">New issue</a-button>
-
-                          </a-space>
-                          <div>
-                            <p style="font-family: sofia_proregular"><a-icon type="bug" theme="twoTone" two-tone-color="#eb2f96" /> 3 issues open </p>
-                            <a-button type="primary" size="small" @click="$router.push('Bugs')">View issues</a-button>
-                          </div>
+                          <p>Amount to be disbursed:<a-tag color="#2db7f5">
+                            $ {{task.amount}}
+                          </a-tag></p>
 
 
                         </a-card>
@@ -127,7 +118,7 @@
 
                         </a-table>
                       </a-tab-pane>
-                      <a-tab-pane key="3" >
+                      <a-tab-pane key="3">
                         <span slot="tab">
                           <a-icon type="bank"/>
                           Disbursed
@@ -139,7 +130,7 @@
                           <span slot="status" slot-scope=" record">
                             <a-tag color="blue"> {{ record }}</a-tag>
                           </span>
-                          <span slot="paid_to" slot-scope=" record">
+                          <span slot="assignedto" slot-scope=" record">
                             <a-tag color="#108ee9">{{ record }}</a-tag>
                           </span>
 
@@ -154,6 +145,7 @@
                 </a-collapse>
               </div>
             </a-col>
+
             <a-col span="4">
               <p>Overview</p>
               <a-card>
@@ -195,6 +187,8 @@
 
             </a-col>
           </a-row>
+
+
         </div>
       </a-layout-content>
     </a-layout>
@@ -204,6 +198,7 @@
 <script>
 import ClientSider from '@/components/client/layout/ClientSider'
 import moment from 'moment';
+
 const milestonecolumns = [
 
   {
@@ -255,106 +250,99 @@ const disbursedcolumns = [
 
 ];
 
-const Projects = [
+const Projectlist = [
   {
+    id: 1,
     title: `Lishe app`,
-
-
-    pending: [{
-      name: "Login pages",
-      id: 1,
-      'deadline': '2021-08-11',
-      'assignedto': 'dennis',
-      'note': 'go to the login page and login using this details'
-    },
-      {
-        name: "admin dashboard",
-        id: 2,
-        'deadline': '2021-08-11',
-        'assignedto': 'dennis',
-        'note': 'go to the link admin and the ui and actions for the admin are there'
-      },
-    ],
-    milestones: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert',},
-      {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
-    disbursed: [{
-      name: "landing Page",
-      id: 6,
-      'deadline': '2021-08-11',
-      'paid_to': 'jessica',
-      'status': 'complete',
-      'amount': '$500'
-    }],
-    balance: 4000,
-    disbursed_amount: 500
+    balance: 0,
+    disbursed_amount: 0
 
   },
   {
+    id: 2,
     title: `React am`,
-
-
-    pending: [{
-      name: "Login pages",
-      id: 1,
-      'deadline': '2021-08-11',
-      'assignedto': 'dennis',
-      'note': 'go to the login page and login using this details'
-    },
-      {
-        name: "admin dashboard",
-        id: 2,
-        'deadline': '2021-08-11',
-        'assignedto': 'dennis',
-        'note': 'go to the link admin and the ui and actions for the admin are there'
-      },
-    ],
-    milestones: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
-      {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
-    disbursed: [{name: "landing Page", id: 6, 'deadline': '2021-08-11', 'paid_to': 'jessica', 'amount': '$500'}],
-    balance: 6000,
-    disbursed_amount: 2500
+    balance: 0,
+    disbursed_amount: 0
 
   },
+]
+const Featurelist = [
+
+  {
+    project_id: 1,
+    name: "Login pages",
+    id: 1,
+    'deadline': '2021-08-11',
+    'assignedto': 'dennis',
+    'amount': 200,
+    'note': 'go to the login page and login using this details',
+    'status': 'pending'
+  },
+  {
+    project_id: 1,
+    name: "admin dashboard",
+    id: 2,
+    'deadline': '2021-08-11',
+    'assignedto': 'dennis',
+    'amount': 600,
+    'note': 'go to the link admin and the ui and actions for the admin are there',
+    'status': 'active'
+  },
+
+
+  {
+    project_id: 1,
+    name: "Database structure",
+    id: 4,
+    'deadline': '2021-08-11',
+    'assignedto': 'robert',
+    'amount': 700,
+    'note': '',
+    'status': 'pending'
+  },
+  {
+    project_id: 2,
+    name: "UI/UX",
+    id: 5,
+    'deadline': '2021-08-11',
+    'assignedto': 'robert',
+    'amount': 500,
+    'note': '',
+    'status': 'disbursed'
+  },
+
+  {
+    project_id: 2,
+    name: "landing Page",
+    id: 6,
+    'deadline': '2021-08-11',
+    'assignedto': 'jessica',
+    'amount': 300,
+    'note': '',
+    'status': 'pending'
+  }
 
 
 ]
-const Issues = [
-  {
-    title: `Login feature`,
-    description:'tried logging in ',
-    comments:[],
-    tag:'question',
-    status:'solved',
-    assigned_to:'',
-    abitrator:false
-
-  },
-  {
-    title: `The website is squeezed on my laptop`,
-    description:'When i open the site there seems to be weird look',
-    comments:[],
-    tag:'bug',
-    status:'solved',
-    assigned_to:'',
-    abitrator:false
-
-  },
 
 
-]
+
 export default {
   name: "Escrow",
   data() {
     return {
-      Projects,
+
+      Projectlist,
+      Featurelist,
       milestonecolumns,
       disbursedcolumns,
       activeKey: '1',
-      Issues,
       submitting: false,
       value: '',
       moment,
-      client:'dennis'
+      client: 'dennis',
+      currentfeature:{},
+      currentproject:{}
 
 
     };
@@ -367,8 +355,8 @@ export default {
   computed: {
     Allbalance() {
       let balance = 0
-      Projects.forEach(function (project) {
-        balance = project.balance + balance
+      this.AllProjects.forEach(function (project) {
+        balance = Number(project.balance) + balance
       });
       return balance
 
@@ -376,8 +364,11 @@ export default {
     },
     Disbursed() {
       let balance = 0
-      Projects.forEach(function (project) {
-        balance = project.disbursed_amount + balance
+      this.AllProjects.forEach(function (project) {
+        project.disbursed.forEach(feature=>{
+          balance = Number(feature.amount) + balance
+        })
+
       });
       return balance
 
@@ -385,18 +376,74 @@ export default {
     },
     Pending() {
       let pending = 0
-      Projects.forEach(function (project) {
+      this.AllProjects.forEach(function (project) {
         pending = project.pending.length + pending
       });
       return pending
 
 
+    },
+    AllProjects() {
+      let projects = []
+
+
+      this.Projectlist.forEach(project => {
+        let projectobj = {
+          'title': '',
+          'pending': [],
+          'milestones': [],
+          'disbursed': [],
+          'balance': 4000,
+          'disbursed_amount': 0
+        }
+        let milestones = []
+        let pending = []
+        let disbursed = []
+        this.Featurelist.forEach(feature => {
+
+          if (feature.project_id === project.id) {
+            if (feature.status === 'pending') {
+              pending.push(feature)
+
+            } else if (feature.status === 'disbursed') {
+              projectobj.disbursed_amount += Number(feature.amount)
+
+
+              disbursed.push(feature)
+
+            } else {
+              milestones.push(feature)
+            }
+
+          }
+
+        })
+        projectobj.balance -= Number(projectobj.disbursed_amount)
+        projectobj.title = project.title
+        projectobj.pending = pending
+        projectobj.milestones = milestones
+        projectobj.disbursed = disbursed
+
+
+        projects.push(projectobj)
+      })
+      return projects
     }
 
   },
-  methods:{
+  methods: {
+    Approve(project,feature){
+      this.currentproject = project
+      this.currentfeature = feature
+      this.currentfeature.status = 'disbursed'
+      this.currentproject.disbursed.push(this.currentfeature)
+      let index = this.currentproject.pending.indexOf(this.currentfeature)
+      if (index > -1) {
+        this.currentproject.pending.splice(index, 1);
+      }
 
 
+    }
   },
 
 }

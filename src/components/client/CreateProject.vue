@@ -59,14 +59,24 @@
 
                           <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
                             <a-form-model-item label="Project title">
-                              <a-input v-model="projecttitle"/>
+                              <a-input v-model="project.title" @change="step1changetitle"/>
+                              <div v-for="error in step1errors" v-bind:key="error">
+                                <div v-if="error === 'title'" style="color: red">
+                                  required
+                                </div>
+                              </div>
                             </a-form-model-item>
                             <a-form-model-item label="Project description">
-                              <a-textarea v-model="projectdescription"
+                              <a-textarea v-model="project.description" @change="step1changedescription"
 
 
                                           :auto-size="{ minRows: 3, maxRows: 5 }"
                               />
+                              <div v-for="error in step1errors" v-bind:key="error">
+                                <div v-if="error === 'description'" style="color: red">
+                                  required
+                                </div>
+                              </div>
 
                             </a-form-model-item>
 
@@ -92,6 +102,12 @@
 
                             <a-col span="12">
                               <p style="font-family: sofia_problack">Feature list</p>
+
+                                <div v-if="featureserror" style="color: red">
+                                  required
+                                </div>
+
+
                               <div v-if="features.length===0">
                                 <p>Add feature<span style="float: right"><a-icon type="arrow-right"/></span></p>
                               </div>
@@ -115,9 +131,12 @@
                             <a-col span="12" class="addfeature">
                               <a-form :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
                                 <a-form-item label="Feature name">
-                                  <a-input v-model="featuretitle" placeholder="Registration"
+                                  <a-input v-model="featuretitle" placeholder="Registration" @change="featuretitlechange"
 
                                   />
+                                  <div v-if="featuretitleerror" style="color: red">
+                                    title required
+                                  </div>
                                 </a-form-item>
                                 <p style="font-family: sofia_proregular">Feature user stories
                                   <a-button @click="addstory" :size="small" style="margin-right: 1%">
@@ -180,6 +199,9 @@
 
                           <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
                             <a-form-model-item label="Project type(you can pick than one type)">
+                              <div v-if="notoolserror" style="color: red">
+                                required
+                              </div>
 
 
                               <a-select
@@ -266,6 +288,9 @@
                           <div style="text-align: center">
 
                             <p style="font-family: sofia_problack;font-size: 1rem">Team composition</p>
+                            <div v-if="compositionerror" style="color: red">
+                              please pick one that suites you
+                            </div>
 
                           </div>
 
@@ -311,30 +336,63 @@
                             <img src="@/assets/images/budget.svg" style="width: 10%"/>
                             <p style="font-family: sofia_problack"> Time and budget fot the project</p>
 
+
                           </div>
                           <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
                             <a-form-model-item label="Project budget">
                               <a-input-number style="width: 100%"
-                                              v-model="budget"
+                                              @change="Budgetchanges"
+                                              v-model="project.budget"
                                               :default-value="1000"
                                               :formatter="value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
                                               :parser="value => value.replace(/\$\s?|(,*)/g, '')"
 
                               />
+                              <div v-for="error in step4errors" v-bind:key="error">
+                                <div v-if="error === 'budget'">
+                                  <div style="color: red">required</div>
+                                </div>
+                              </div>
 
                             </a-form-model-item>
                             <a-form-model-item v-if="teamcompostion==='both'" label="Designer budget(how much of the budget above should be for the designer)">
                               <a-input-number style="width: 100%"
-                                              v-model="designbudget"
+                                              v-model="project.designbudget"
                                               :default-value="500"
+                                              @change="Designbudgetchanges"
                                               :formatter="value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
                                               :parser="value => value.replace(/\$\s?|(,*)/g, '')"
 
                               />
+                              <div v-for="error in step4errors" v-bind:key="error">
+                                <div v-if="error === 'designbudget'">
+                                  <div style="color: red">required</div>
+                                </div>
+                              </div>
 
                             </a-form-model-item>
                             <a-form-model-item label="Project timeline(weeks,months,days)">
-                              <a-input v-model="time"/>
+                              <a-input type="number" v-model="project.time" @change="Timechanges">
+
+                                <a-select slot="addonAfter"  style="width: 80px" default-value="weeks" v-model="project.datetype">
+                                  <a-select-option value="days">
+                                    days
+                                  </a-select-option>
+                                  <a-select-option value="weeks">
+                                    weeks
+                                  </a-select-option>
+                                  <a-select-option value="months">
+                                    months
+                                  </a-select-option>
+
+                                </a-select>
+                              </a-input>
+                              <div v-for="error in step4errors" v-bind:key="error">
+                                <div v-if="error === 'time'">
+                                  <div style="color: red">required</div>
+                                </div>
+                              </div>
+
                             </a-form-model-item>
 
 
@@ -381,6 +439,7 @@
 
                       </a-row>
                     </div>
+                    
                     <div style="text-align: center">
                       <div class="steps-action" style="margin: 2% auto">
                         <a-button v-if="current < steps.length - 1" type="primary" @click="next">
@@ -471,6 +530,19 @@ export default {
       ],
       labelCol: {span: 24},
       wrapperCol: {span: 24},
+      project:{
+        'title':'h',
+        'description':'i',
+        'features':'',
+        'tools':'',
+        'custom_tools':'',
+        'team':'',
+        'budget':0,
+        'time':0,
+        'datetype':'weeks',
+        'designbudget':'',
+        'stage':''
+      },
       projecttitle: '',
       projectdescription: '',
       stories: [],
@@ -495,7 +567,13 @@ export default {
       currency: "USD",
       teamcompostion:'',
       one:false,
-      both:false
+      both:false,
+      step1errors:[],
+      featureserror:false,
+      compositionerror:false,
+      notoolserror:false,
+      featuretitleerror:false,
+      step4errors:[]
 
 
     };
@@ -505,32 +583,40 @@ export default {
 
 
   },
+  async mounted(){
+
+  },
   computed:{
     deposit(){
       return 0.4*this.budget
-    }
+    },
   },
   methods: {
-    next() {
-      this.current++;
-    },
-    prev() {
-      this.current--;
-    },
+
     addstory() {
       this.stories.push({
         story: '',
 
       })
+
     },
     deleteStory(counter) {
       this.stories.splice(counter, 1);
     },
     addFeature() {
 
-      this.features.push({'title': this.featuretitle, 'storylist': this.stories})
-      this.featuretitle = ''
-      this.stories = []
+      if(this.featuretitle === ''){
+        this.featuretitleerror = true
+      }
+
+      if(this.featuretitleerror === false){
+        this.features.push({'title': this.featuretitle, 'storylist': this.stories})
+        this.featuretitle = ''
+        this.stories = []
+        this.featureserror = false
+      }
+
+
 
     },
     editfeature(feature) {
@@ -542,10 +628,16 @@ export default {
 
     },
     editfeaturesubmit() {
-      this.features[this.featureindex] = {'title': this.featuretitle, 'storylist': this.stories}
-      this.featureedit = false
-      this.featuretitle = ''
-      this.stories = []
+      if(this.featuretitle === ''){
+        this.featuretitleerror = true
+      }
+      if(this.featuretitleerror === false){
+        this.features[this.featureindex] = {'title': this.featuretitle, 'storylist': this.stories}
+        this.featureedit = false
+        this.featuretitle = ''
+        this.stories = []
+      }
+
 
     },
     handleChange(tag, checked) {
@@ -555,6 +647,7 @@ export default {
           : selectedTags.filter(t => t !== tag);
 
       this.selectedTags = nextSelectedTags;
+      this.notoolserror = false
     },
     handleClose(removedTag) {
       const tags = this.tags.filter(tag => tag !== removedTag);
@@ -585,6 +678,7 @@ export default {
         inputVisible: false,
         inputValue: '',
       });
+      this.notoolserror = false
     },
     selectprojectype(value) {
       this.projectype = value
@@ -622,11 +716,193 @@ export default {
         this.both = true
         this.teamcompostion = 'both'
       }
+      if(this.teamcompostion !== ''){
+        this.compositionerror = false
+      }
 
     },
     Done(){
       this.$router.push('Myprojects')
-    }
+    },
+    step1changetitle(){
+      if(this.step1errors.includes('title')){
+        if(this.project.title !== ''){
+          let index = this.step1errors.indexOf('title')
+          if (index > -1) {
+            this.step1errors.splice(index, 1);
+          }
+        }
+      }else {
+        if(this.project.title === ''){
+          this.step1errors.push('title')
+        }
+
+      }
+    },
+    step1changedescription(){
+      if(this.step1errors.includes('description')){
+        if(this.project.description !== ''){
+          let index = this.step1errors.indexOf('description')
+          if (index > -1) {
+            this.step1errors.splice(index, 1);
+          }
+        }
+      }else {
+        if(this.project.description === ''){
+          this.step1errors.push('description')
+        }
+
+      }
+    },
+    featuretitlechange(){
+      if(this.featuretitle !== ''){
+        this.featuretitleerror = false
+
+      }
+
+    },
+    Timechanges(){
+
+      if(this.step4errors.includes('time')){
+        if(this.project.time !== '' || this.project.time != null){
+          let index = this.step4errors.indexOf('time')
+          if (index > -1) {
+            this.step4errors.splice(index, 1);
+          }
+        }
+      }else {
+        if(this.project.time === '' || this.project.time === null){
+          this.step4errors.push('time')
+        }
+
+      }
+
+
+
+
+    },
+    Budgetchanges(){
+
+      if(this.step4errors.includes('budget')){
+        if(this.project.budget !== '' || this.project.budget != null){
+          let index = this.step4errors.indexOf('budget')
+          if (index > -1) {
+            this.step4errors.splice(index, 1);
+          }
+        }
+      }else {
+        if(this.project.budget === '' || this.project.budget === null){
+          this.step4errors.push('budget')
+        }
+
+      }
+
+
+
+
+    },
+    Designbudgetchanges(){
+
+      if(this.step4errors.includes('designbudget')){
+        if(this.project.designbudget !== '' || this.project.designbudget != null){
+          let index = this.step4errors.indexOf('designbudget')
+          if (index > -1) {
+            this.step4errors.splice(index, 1);
+          }
+        }
+      }else {
+        if(this.project.designbudget === '' || this.project.designbudget === null){
+          this.step4errors.push('designbudget')
+        }
+
+      }
+
+
+
+
+    },
+    next() {
+      if (this.current === 0) {
+        this.step1errors = []
+        if (this.project.title  === '') {
+          this.step1errors.push('title')
+
+        }
+        if (this.project.description === '') {
+          this.step1errors.push('description')
+
+        }
+
+
+        if (this.step1errors.length === 0) {
+          this.current++;
+
+
+        }
+
+
+      }else if (this.current === 1) {
+
+        if (this.features.length === 0) {
+          this.featureserror = true
+        }
+        if (this.featureserror === false) {
+
+          this.project.features = this.features
+          this.current++;
+        }
+      }
+      else if (this.current === 2) {
+
+        if (this.tags.length ===0 && this.selectedTags.length===0) {
+          this.notoolserror = true
+        }
+        else{
+          if(this.tags.length>0){
+            this.project.custom_tools = this.tags
+          }
+          if(this.selectedTags.length>0){
+            this.project.tools = this.selectedTags
+          }
+          this.current++;
+
+        }
+      }
+      else if (this.current === 3) {
+
+        if (this.teamcompostion === '') {
+          this.compositionerror = true
+        }
+        if (this.compositionerror === false) {
+          this.project.team = this.teamcompostion
+          this.current++;
+        }
+      }
+      else if (this.current === 4) {
+
+
+        if (Number(this.project.time) === 0) {
+          this.step4errors.push('time')
+        }
+        if (Number(this.project.budget) === 0) {
+          this.step4errors.push('budget')
+        }
+        if(this.teamcompostion === 'both'){
+          if (Number(this.project.designbudget) === 0) {
+            this.step4errors.push('designbudget')
+          }
+        }
+        if (this.step4errors.length === 0) {
+          this.project.stage = 'escrow1'
+
+          this.current++;
+        }
+      }
+
+    },
+    prev() {
+      this.current--;
+    },
 
   }
 

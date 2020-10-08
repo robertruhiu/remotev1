@@ -18,6 +18,13 @@ const DeveloperProjects = () => import('@/components/developer/Developerprojects
 const DevContract = () => import('@/components/developer/DevContract')
 const Video = () => import('@/components/shared/Videocall')
 const Meeting = () => import('@/components/shared/meeting/meeting')
+
+// admin view imports
+const Admindashboard = () => import('@/components/admin/adminDashboard')
+// const AdminEscrow = () => import('@/components/admin/escrow')
+// const AdminIssues = () => import('@/components/admin/issues')
+// const AdminProjects = () => import('@/components/admin/projects')
+// const AdminTracker = () => import('@/components/admin/trackboard')
 Vue.use(Router);
 
 let router = new Router({
@@ -105,6 +112,33 @@ let router = new Router({
             name: 'Meeting',
             component: Meeting
         },
+        // admin routes
+        {
+            path: '/Admindashboard',
+            name: 'Admindashboard',
+            component: Admindashboard
+        },
+        // {
+        //     path: '/AdminEscrow',
+        //     name: 'AdminEscrow',
+        //     component: AdminEscrow
+        // },
+        // {
+        //     path: '/AdminIssues',
+        //     name: 'AdminIssues',
+        //     component: AdminIssues
+        // },
+        // {
+        //     path: '/AdminProjects',
+        //     name: 'AdminProjects',
+        //     component: AdminProjects
+        // },
+        // {
+        //     path: '/AdminTracker',
+        //     name: 'AdminTracker',
+        //     component: AdminTracker
+        // },
+
 
     ],
     scrollBehavior( ) {

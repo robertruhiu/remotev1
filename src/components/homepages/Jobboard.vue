@@ -13,7 +13,7 @@
 
                 <div style=" ">
 
-                  <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="listData">
+                  <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Projects">
 
                     <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
                       <template  slot="actions">
@@ -108,7 +108,7 @@
 
           </div>
         </div>
-
+<!--        place bid modal -->
         <a-modal
             title="Apply for project"
             v-model="visible"
@@ -117,14 +117,15 @@
         >
           <template slot="footer">
 
-            <a-button key="submit" type="primary">
+            <a-button key="submit" type="primary" @click="SubmitApplication">
               Submit
             </a-button>
           </template>
           <div>
 
+
             <p>Project Proposal(why i should get project)1200 character limit</p>
-            <a-textarea v-model="proposal" maxlength="1200"
+            <a-textarea v-model="proposal" maxlength="1200" @change="Proposalchanges"
 
 
                         :auto-size="{ minRows: 5 }"
@@ -156,18 +157,31 @@
               New Tag
             </a-tag>
             <p>Time i will take(weeks,months,days)</p>
-            <a-input v-model="time"/>
+
+            <div style="margin-bottom: 16px">
+              <a-input type="number" v-model="time" @change="Timechanges">
+
+                <a-select slot="addonAfter"  style="width: 80px" v-model="datetype">
+                  <a-select-option value="days">
+                    days
+                  </a-select-option>
+                  <a-select-option value="weeks">
+                    weeks
+                  </a-select-option>
+                  <a-select-option value="months">
+                    months
+                  </a-select-option>
+
+                </a-select>
+              </a-input>
+            </div>
             <p>Budget
               <span v-if="bidflag" style="color: red">(bids are capped you can only go 10% lower than quoted by client )</span >
               <span v-else>(bids are capped you can only go 10% lower than quoted by client )</span>
             </p>
-            <a-input-number style="width: 100%"
-                            @change="budgetflag"
-                            :default-value=project.budget
-                            :formatter="value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                            :parser="value => value.replace(/\$\s?|(,*)/g, '')"
+            <a-input type="number"  @change="budgetflag" v-model="budget" />
 
-            />
+
 
 
 
@@ -187,11 +201,12 @@
 <script>
 import Pageheader from '@/components/homepages/layout/Header.vue'
 import Footer from '@/components/homepages/layout/Footer'
-
+import Projects from '@/services/Projects'
+import Bids from '@/services/Bids'
 const listData = [];
 for (let i = 0; i < 15; i++) {
   listData.push({
-
+    id:i,
     title: `Cyprus online ${i}`,
     description:
         'Ant Design, a design language for background applications, is refined by Ant UED Team.',
@@ -208,6 +223,19 @@ for (let i = 0; i < 15; i++) {
     tools:['react','django']
   });
 }
+class BidProjects {
+  constructor(id, title,description, features, budget, time, tools) {
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.features = features;
+    this.budget = budget;
+    this.time = time;
+    this.tools = tools;
+
+
+  }
+}
 export default {
   name: "Jobboard",
   data() {
@@ -222,13 +250,16 @@ export default {
       visible:false,
 
       project:{},
-      budget:'',
+      budget:0,
       time:'',
       proposal:'',
       tags: [],
       inputVisible: false,
       inputValue: '',
-      bidflag:false
+      bidflag:false,
+      bidstageprojects:[],
+      datetype:'days',
+      applicationerrors:[]
 
     }
   },
@@ -238,10 +269,42 @@ export default {
 
   },
 
-  mounted() {
+  async mounted() {
     this.project = this.listData[0]
 
+
+
+    this.bidstageprojects = (await Projects.bidstageprojects()).data
+
   },
+  computed: {
+    Projects() {
+      let projects=[]
+      //replace this.listdata to this.bidstageprojects
+      this.listData.forEach(project=>{
+        let id = project.id
+        let title = project.title
+        let description = project.description
+        let features = project.features
+        let budget = project.budget
+        let time = project.time
+        let tools = project.tools
+
+
+        let oneproject = new BidProjects(id, title,description, features, budget, time, tools)
+
+
+        projects.push(oneproject)
+
+      })
+
+
+      return projects
+
+    },
+
+  },
+
 
   methods:{
     viewproject(item){
@@ -261,16 +324,16 @@ export default {
     Apply(){
       this.visible = true
     },
-    budgetflag(value){
+    budgetflag(){
+
+
       let bidbase = this.project.budget
       let lowest = (90/100)*bidbase
-      if(value < lowest){
-        this.bidflag=true
+      this.bidflag = this.budget < lowest;
 
 
-      }else {
-        this.bidflag=false
-      }
+
+
 
 
 
@@ -303,7 +366,95 @@ export default {
         inputVisible: false,
         inputValue: '',
       });
+      if(this.applicationerrors.includes('tags')){
+        if(this.tags.length>0){
+          let index = this.applicationerrors.indexOf('tags')
+          if (index > -1) {
+            this.applicationerrors.splice(index, 1);
+          }
+        }
+      }else {
+        if(this.tags === []){
+          this.applicationerrors.push('tags')
+        }
+
+      }
+
     },
+    SubmitApplication(){
+      let bid ={'proposal':this.proposal,'tools':this.tags,'time':this.time,'datetype':this.datetype,'budget':this.budget}
+
+      if(this.proposal === '' || this.proposal === null){
+        this.applicationerrors.push('proposal')
+
+      }
+      if(this.tags.length===0){
+        this.applicationerrors.push('tags')
+
+
+      }
+      if(this.time === '' || this.time === null){
+        this.applicationerrors.push('time')
+
+
+      }
+      if(this.budget === 0){
+        this.bidflag=true
+
+
+      }
+
+
+      if(this.applicationerrors.length===0 && this.bidflag === false){
+        Bids.submitapplication(bid).then()
+        this.visible = true
+      }
+
+
+
+
+
+    },
+    Proposalchanges(){
+      if(this.applicationerrors.includes('proposal')){
+        if(this.proposal !== '' || this.proposal != null){
+          let index = this.applicationerrors.indexOf('proposal')
+          if (index > -1) {
+            this.applicationerrors.splice(index, 1);
+          }
+        }
+      }else {
+        if(this.proposal === '' || this.proposal === null){
+          this.applicationerrors.push('proposal')
+        }
+
+      }
+
+
+
+
+
+    },
+    Timechanges(){
+
+      if(this.applicationerrors.includes('time')){
+        if(this.time !== '' || this.time != null){
+          let index = this.applicationerrors.indexOf('time')
+          if (index > -1) {
+            this.applicationerrors.splice(index, 1);
+          }
+        }
+      }else {
+        if(this.time === '' || this.time === null){
+          this.applicationerrors.push('time')
+        }
+
+      }
+
+
+
+
+    }
 
   }
 }
