@@ -425,7 +425,7 @@ export default {
       connections: 0,
       meeting_id: '',
       meeting_data: [],
-      current: 5,
+      current: 0,
       steps: [
         {
           title: 'Project details ',

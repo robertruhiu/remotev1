@@ -9,10 +9,14 @@ export default new Vuex.Store({
     strict: true,
 
     state: {
+        feature_id:null
 
 
     },
     mutations: {
+        setFeature(state, feature_id) {
+            state.feature_id = feature_id
+        },
 
 
 
@@ -20,6 +24,9 @@ export default new Vuex.Store({
 
     },
     actions: {
+        setFeature({commit}, feature_id) {
+            commit('setFeature', feature_id)
+        },
 
 
     },

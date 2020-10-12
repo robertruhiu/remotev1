@@ -51,13 +51,7 @@
 
                         <a-card class="milestonecard">
 
-                          <template v-for="{ type, text } in element.actions" slot="actions">
-                      <span :key="type">
-                        <a-icon :type="type" style="margin-right: 8px"/>
-                        {{ text }}
-                      </span>
 
-                          </template>
 
 
                           <span slot="title">
@@ -92,13 +86,7 @@
                       <div v-if="element.stage === 'inprogress'">
                         <a-card class="milestonecard">
 
-                          <template v-for="{ type, text } in element.actions" slot="actions">
-                      <span :key="type">
-                        <a-icon :type="type" style="margin-right: 8px"/>
-                        {{ text }}
-                      </span>
 
-                          </template>
 
 
                           <span slot="title">
@@ -133,13 +121,7 @@
                       <div v-if="element.stage === 'quality'">
                         <a-card class="milestonecard">
 
-                          <template v-for="{ type, text } in element.actions" slot="actions">
-                      <span :key="type">
-                        <a-icon :type="type" style="margin-right: 8px"/>
-                        {{ text }}
-                      </span>
 
-                          </template>
 
 
                           <span slot="title">
@@ -173,13 +155,7 @@
                       <div v-if="element.stage === 'done'">
                         <a-card class="milestonecard">
 
-                          <template v-for="{ type, text } in element.actions" slot="actions">
-                      <span :key="type">
-                        <a-icon :type="type" style="margin-right: 8px"/>
-                        {{ text }}
-                      </span>
 
-                          </template>
 
 
                           <span slot="title">
@@ -205,12 +181,12 @@
             <a-row style="color: black" v-if="viewmode === 'feature'">
               <a-col span="6">
                 <div class="casecard">
-                  <a-tabs default-active-key="1" @change="trackmode">
-                    <a-tab-pane key="1" tab="Milestones">
+
                       <div style="border-bottom: 1px solid #e8e8e8;">
+                        <h3 style="font-family: sofia_problack;">Milestones</h3>
 
 
-                        <p style="font-family: sofia_probold">These are the core milestones of what you want the
+                        <p style="font-family: sofia_probold" >These are the core milestones of what you want the
                           application to
                           do.Each has its own User stories and tasks that have to be
                           achieved to accomplish it</p>
@@ -224,13 +200,7 @@
 
                             <a-card>
 
-                              <template v-for="{ type, text } in item.actions" slot="actions">
-                      <span :key="type">
-                        <a-icon :type="type" style="margin-right: 8px"/>
-                        {{ text }}
-                      </span>
 
-                              </template>
 
 
                               <span slot="title">
@@ -252,20 +222,7 @@
                       </div>
 
 
-                    </a-tab-pane>
-                    <a-tab-pane key="2" tab="Issues/bugs" force-render>
 
-                      <a-result status="500" sub-title="Found a bug or issue">
-                        <template #extra>
-                          <a-textarea placeholder="Bug or issue" :rows="4" style="margin-bottom: 1rem"/>
-                          <a-button type="primary">
-                            Submit bug
-                          </a-button>
-                        </template>
-                      </a-result>
-                    </a-tab-pane>
-
-                  </a-tabs>
 
 
                 </div>
@@ -273,7 +230,7 @@
 
               </a-col>
               <a-col span="18">
-                <div v-if="taskmode">
+                <div>
                   <div v-if="currentfeature">
                     <div style="padding: 0 1%">
                       <div class="casecard">
@@ -282,207 +239,27 @@
                         </p>
                       </div>
                     </div>
+                    <div class="tasktabs">
+                      <a-tabs default-active-key="1" @change="callback" >
+                        <a-tab-pane key="1" tab="Tasks">
+                          <Tasks/>
+                        </a-tab-pane>
+                        <a-tab-pane key="2" tab="issues" force-render>
+                          issues
+                        </a-tab-pane>
 
-
-                    <a-row>
-                      <a-col span="8" style="padding: 1%">
-                        <div style="background-color:#F7F7F7;height: 40rem;padding: 3% ">
-                          <p style="font-family: sofia_prosemibold">To do</p>
-                          <div style="height:37rem;overflow: auto;">
-                            <draggable class="list-group" style="height: 36rem" :list="currentfeature.todo_task"
-                                       group="tasks"
-                                       @change="log">
-                              <div
-                                  class="list-group-item"
-                                  v-for="(element) in currentfeature.todo_task"
-                                  :key="element.name"
-                              >
-                                <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
-                                        class="shadowsmall">
-
-
-                                  <p style="font-family: sofia_prolight">{{ element.name }} </p>
-
-
-                                </a-card>
-
-
-                              </div>
-                            </draggable>
-                          </div>
-
-                        </div>
-                      </a-col>
-                      <a-col span="8" style="padding: 1%">
-                        <div style="background-color:#F7F7F7;height: 40rem;padding: 3% ">
-                          <p style="font-family: sofia_prosemibold">In progress</p>
-                          <div style="height:37rem;overflow: auto;">
-                            <draggable class="list-group" style="height: 36rem" :list="currentfeature.inprogress"
-                                       group="tasks"
-                                       @change="log">
-                              <div
-                                  class="list-group-item"
-                                  v-for="(element) in currentfeature.inprogress"
-                                  :key="element.name"
-                              >
-                                <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
-                                        class="shadowsmall">
-
-
-                                  <p style="font-family: sofia_prolight">{{ element.name }} </p>
-
-
-                                </a-card>
-
-
-                              </div>
-                            </draggable>
-                          </div>
-
-                        </div>
-                      </a-col>
-                      <a-col span="8" style="padding: 1%">
-                        <div style="background-color:#F7F7F7;height: 40rem;padding: 3% ">
-                          <p style="font-family: sofia_prosemibold">Done</p>
-                          <div style="height:37rem;overflow: auto;">
-
-                            <draggable class="list-group" style="height: 36rem" :list="currentfeature.done"
-                                       group="tasks"
-                                       @change="log">
-                              <div
-                                  class="list-group-item"
-                                  v-for="(element) in currentfeature.done"
-                                  :key="element.name"
-                              >
-                                <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
-                                        class="shadowsmall">
-
-
-                                  <p style="font-family: sofia_prolight">{{ element.name }} </p>
-
-
-                                </a-card>
-
-
-                              </div>
-                            </draggable>
-                          </div>
-                        </div>
-                      </a-col>
-
-                    </a-row>
-
-                  </div>
-
-                </div>
-
-                <div v-if="issuemode">
-                  <div style="padding: 0 1%">
-                    <div class="casecard">
-                      <p style="font-family: sofia_proregular">
-                        <strong>Issues/Bugs: </strong>Monitor and report issues you noted on the demos
-                      </p>
+                      </a-tabs>
                     </div>
+
+
+
+
+
                   </div>
 
-
-                  <a-row>
-                    <a-col span="8" style="padding: 1%">
-                      <div style="background-color:#F7F7F7;height: 40rem;padding: 3% ">
-                        <p style="font-family: sofia_prosemibold">Bug list</p>
-                        <div style="height:37rem;overflow: auto;">
-                          <draggable class="list-group" style="height: 36rem" :list="list1" group="tasks"
-                                     @change="log">
-                            <div
-                                class="list-group-item"
-                                v-for="(element) in list1"
-                                :key="element.name"
-                            >
-                              <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem" class="shadowsmall">
-
-
-                                <p style="font-family: sofia_prolight">{{ element.name }} </p>
-                                <span style="font-family: sofia_prolight">Assigned to:
-                                        <a-tag color="blue">
-                                         {{ element.assignedto }}
-                                        </a-tag>
-
-                                      </span>
-
-                              </a-card>
-
-
-                            </div>
-                          </draggable>
-                        </div>
-
-                      </div>
-                    </a-col>
-                    <a-col span="8" style="padding: 1%">
-                      <div style="background-color:#F7F7F7;height: 40rem;padding: 3% ">
-                        <p style="font-family: sofia_prosemibold">Fixing</p>
-                        <div style="height:37rem;overflow: auto;">
-                          <draggable class="list-group" style="height: 36rem" :list="list2" group="tasks"
-                                     @change="log">
-                            <div
-                                class="list-group-item"
-                                v-for="(element) in list2"
-                                :key="element.name"
-                            >
-                              <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem" class="shadowsmall">
-
-
-                                <p style="font-family: sofia_prolight">{{ element.name }} </p>
-                                <span style="font-family: sofia_prolight">Assigned to:
-                                        <a-tag color="blue">
-                                         {{ element.assignedto }}
-                                        </a-tag>
-
-                                      </span>
-
-                              </a-card>
-
-
-                            </div>
-                          </draggable>
-                        </div>
-
-                      </div>
-                    </a-col>
-                    <a-col span="8" style="padding: 1%">
-                      <div style="background-color:#F7F7F7;height: 40rem;padding: 3% ">
-                        <p style="font-family: sofia_prosemibold">Done</p>
-                        <div style="height:37rem;overflow: auto;">
-
-                          <draggable class="list-group" style="height: 36rem" :list="list3" group="tasks"
-                                     @change="log">
-                            <div
-                                class="list-group-item"
-                                v-for="(element) in list3"
-                                :key="element.name"
-                            >
-                              <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem" class="shadowsmall">
-
-
-                                <p style="font-family: sofia_prolight">{{ element.name }} </p>
-                                <span style="font-family: sofia_prolight">Assigned to:
-                                        <a-tag color="blue">
-                                         {{ element.assignedto }}
-                                        </a-tag>
-
-                                      </span>
-
-                              </a-card>
-
-
-                            </div>
-                          </draggable>
-                        </div>
-                      </div>
-                    </a-col>
-
-                  </a-row>
                 </div>
+
+
 
               </a-col>
 
@@ -499,12 +276,14 @@
 <script>
 
 import moment from "moment";
-import draggable from 'vuedraggable'
+
 import SmallSider from "@/components/client/layout/SmallSider";
+import Tasks from "@/components/shared/trackerboard/tasks"
 
 
 const listData = [
   {
+    id:1,
     title: `I am backlog task `,
     stage:'backlog',
 
@@ -524,28 +303,10 @@ const listData = [
       {type: 'flag', text: '0 issues'},
     ],
   },
-  {
-    title: `I am backlog task 2 `,
-    stage:'backlog',
 
-    userstories: [
-      'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
-      'vlesss'
-    ],
-    todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'}],
-    inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
-      {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
-    done: [{name: "landing Page", id: 6, 'deadline': '2021-08-11', 'assignedto': 'jessica'}],
-    actions: [
-
-      {type: 'profile', text: '6 tasks'},
-      {type: 'flag', text: '0 issues'},
-    ],
-  },
 
   {
+    id:2,
     title: `I am a task in progress  `,
     stage:'inprogress',
 
@@ -566,6 +327,7 @@ const listData = [
     ],
   },
   {
+    id:3,
     title: `I am  task in quality check `,
     stage:'quality',
     userstories: [
@@ -585,6 +347,7 @@ const listData = [
     ],
   },
   {
+    id:4,
     title: `I am done task `,
     stage:'done',
     userstories: [
@@ -619,8 +382,7 @@ export default {
         pageSize: 4,
       },
 
-      taskmode: true,
-      issuemode: false,
+
       currentfeature: {},
       viewmode: 'milestone'
 
@@ -628,12 +390,13 @@ export default {
     };
   },
   components: {
-    draggable, SmallSider
+     SmallSider,Tasks
 
 
   },
   mounted() {
     this.currentfeature = this.listData[0]
+    this.$store.dispatch('setFeature', this.currentfeature.id)
 
   },
   computed: {
@@ -662,17 +425,7 @@ export default {
     log: function(evt) {
       window.console.log(evt);
     },
-    trackmode(id) {
-      if (id === '1') {
-        this.taskmode = true
-        this.issuemode = false
-      } else if (id === '2') {
-        this.taskmode = false
-        this.issuemode = true
 
-      }
-
-    },
     viewMode(id) {
       if (id === 1) {
         this.viewmode = 'milestone'
@@ -683,6 +436,7 @@ export default {
     },
     openFeature(feature) {
       this.currentfeature = feature
+      this.$store.dispatch('setFeature', this.currentfeature.id)
       this.viewmode = 'feature'
 
     }
@@ -721,6 +475,13 @@ export default {
   background: white;
   border-radius: 0;
   padding: 2%;
+
+}
+.tasktabs {
+
+
+
+  padding: 1%;
 
 }
 .milestonecard{
