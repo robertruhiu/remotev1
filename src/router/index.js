@@ -26,7 +26,7 @@ const DevContract = () => import('@/components/developer/DevContract')
 
 const Meeting = () => import('@/components/shared/meeting/meeting')
 const Login = () => import('@/components/homepages/auth/login')
-
+const ManageDevs = () => import('@/components/admin/ManageDevs')
 Vue.use(Router);
 
 let router = new Router({
@@ -151,6 +151,13 @@ let router = new Router({
             name: 'AdminCreateEditProject',
             component: AdminCreateEditProject
         },
+
+        {
+            path: '/ManageDevs',
+            name: 'ManageDevs',
+            component: ManageDevs
+        },
+
 
 
     ],
