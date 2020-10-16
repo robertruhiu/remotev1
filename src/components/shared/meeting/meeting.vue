@@ -14,11 +14,11 @@
 
           <div class="mainpresentation" style="height:100vh">
 
-<!--            <vue-jitsi-meet-->
-<!--                ref="jitsiRef"-->
-<!--                domain="meet.jit.si"-->
-<!--                :options="jitsiOptions"-->
-<!--            ></vue-jitsi-meet>-->
+            <vue-jitsi-meet
+                ref="jitsiRef"
+                domain="meet.jit.si"
+                :options="jitsiOptions"
+            ></vue-jitsi-meet>
 
 
           </div>
@@ -358,7 +358,7 @@
 </template>
 
 <script>
-// import {JitsiMeet} from '@mycure/vue-jitsi-meet';
+import {JitsiMeet} from '@mycure/vue-jitsi-meet';
 import SmallSider from "@/components/shared/layout/MeetingSider";
 
 
@@ -407,7 +407,7 @@ class Project {
 export default {
   name: "meeting",
   components: {
-    // VueJitsiMeet: JitsiMeet,
+    VueJitsiMeet: JitsiMeet,
     SmallSider, VueSimplemde, markdown
   },
   data() {
@@ -415,7 +415,7 @@ export default {
 
       bottom: 60,
       sketch: false,
-      contract: false,
+      contract: true,
       newMessage: null,
       messages: [],
       typing: false,

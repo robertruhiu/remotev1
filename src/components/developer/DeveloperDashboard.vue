@@ -119,7 +119,7 @@
             </a-col>
             <a-col span="6">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;%;">
-                <router-link to="/Bugs">
+                <router-link to="/DevBugs">
                 <div>
                   <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">Bugs & issues </p>
                   <div >

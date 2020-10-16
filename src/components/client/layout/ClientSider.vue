@@ -40,7 +40,7 @@
           <a-icon type="calendar" />
           <span>My Meetings</span>
         </a-menu-item>
-        <a-menu-item key="5" @click="$router.push('Bugs')">
+        <a-menu-item key="5" @click="$router.push('ClientBugs')">
           <a-icon type="exclamation" />
           <span>Bugs & issues</span>
         </a-menu-item>

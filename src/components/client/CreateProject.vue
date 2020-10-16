@@ -439,7 +439,7 @@
 
                       </a-row>
                     </div>
-                    
+
                     <div style="text-align: center">
                       <div class="steps-action" style="margin: 2% auto">
                         <a-button v-if="current < steps.length - 1" type="primary" @click="next">

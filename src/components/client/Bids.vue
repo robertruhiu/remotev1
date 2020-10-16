@@ -373,7 +373,7 @@ export default {
 
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
 
-  background: white;
+  background: #F1F3F9;
   border-radius: 0;
   margin-bottom: 1rem;
 

@@ -4,7 +4,7 @@
 
   <a-row>
     <a-col span="8" style="padding: 1%">
-      <div style="background-color:#F7F7F7;height: 40rem;padding: 3% ">
+      <div class="taskcolumns">
         <p>
           <span style="font-family: sofia_prosemibold">To do</span>
           <a-button style="float: right" type="primary" icon="plus" size="small" @click="add">new task</a-button>
@@ -43,7 +43,7 @@
       </div>
     </a-col>
     <a-col span="8" style="padding: 1%">
-      <div style="background-color:#F7F7F7;height: 40rem;padding: 3% ">
+      <div class="taskcolumns">
         <p style="font-family: sofia_prosemibold">In progress</p>
         <div style="height:37rem;overflow: auto;">
           <draggable class="list-group" style="height: 36rem" :list="inprogress"
@@ -78,7 +78,7 @@
       </div>
     </a-col>
     <a-col span="8" style="padding: 1%">
-      <div style="background-color:#F7F7F7;height: 40rem;padding: 3% ">
+      <div class="taskcolumns">
         <p style="font-family: sofia_prosemibold">Done</p>
         <div style="height:37rem;overflow: auto;">
 
@@ -114,10 +114,39 @@
     </a-col>
 
   </a-row>
-  <a-modal v-model="visible" :title="currenttask.name" on-ok="handleOk">
+  <a-modal v-model="visible"  on-ok="handleOk">
     <template slot="footer">
 
-      <a-button key="submit" type="primary" :loading="loading" @click="submitTaskEdit">
+      <a-button key="submit" type="primary" :disabled="task_description_validate" :loading="loading" @click="submitTaskEdit">
+        Submit
+      </a-button>
+    </template>
+    <a-form layout="vertical">
+
+
+
+      <a-form-item
+          label="Describe the task"
+
+      >
+        <a-textarea
+            v-model="task_description"
+            :auto-size="{ minRows: 3, maxRows: 5 }"
+        />
+        <p v-if="task_description_validate" style="color: red">
+          please write something
+        </p>
+      </a-form-item>
+
+
+
+    </a-form>
+
+  </a-modal>
+  <a-modal v-model="newtask"  on-ok="handleOk">
+    <template slot="footer">
+
+      <a-button key="submit" type="primary" :disabled="task_description_validate" :loading="loading" @click="submitNewTask">
         Submit
       </a-button>
     </template>
@@ -129,9 +158,12 @@
 
       >
         <a-textarea
-            v-model="currenttask.name"
+            v-model="task_description"
             :auto-size="{ minRows: 3, maxRows: 5 }"
         />
+        <p v-if="task_description_validate" style="color: red">
+          please write something
+        </p>
       </a-form-item>
 
 
@@ -139,6 +171,8 @@
     </a-form>
 
   </a-modal>
+
+
 
 </div>
 </template>
@@ -150,7 +184,7 @@
 import draggable from "vuedraggable";
 // import Project from '@/services/Projects'
 const taskslist = [
-  {name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:1,'stage':'todo'},
+  {name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:1,'stage':'done'},
   {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:1,'stage':'done'},
   {name: "mlima pages", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:2,'stage':'todo'},
   {name: "admin dashboard", id: 4, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:2,'stage':'inprogress'},
@@ -172,7 +206,10 @@ name: "tasks",
       donelist:[],
       currenttask:{},
       visible:false,
-      loading:false
+      loading:false,
+      newtask:false,
+      task_description:'',
+      task_description_validate:false
 
 
 
@@ -206,6 +243,8 @@ name: "tasks",
 
       }
     })
+    this.$store.dispatch('setFeaturestatus', false)
+
 
 
 
@@ -217,31 +256,63 @@ name: "tasks",
   },
   watch:{
     FeatureId:function (){
+      this.$store.dispatch('setFeaturestatus', false)
       this.taskmanager()
+
 
     },
     todolist:function (){
+      this.$store.dispatch('setFeaturestatus', false)
       this.todolist.forEach(task=>{
         task.stage = 'todo'
 
       })
+      let self = this
+      self.Checkcomplete()
+
+
     },
     inprogress:function (){
+      this.$store.dispatch('setFeaturestatus', false)
       this.inprogress.forEach(task=>{
         task.stage = 'inprogress'
       })
+      let self = this
+      self.Checkcomplete()
+
+
     },
     donelist:function (){
+      this.$store.dispatch('setFeaturestatus', false)
       this.donelist.forEach(task=>{
         task.stage = 'done'
       })
+      let self = this
+      self.Checkcomplete()
+
+
+
+    },
+    task_description:function (){
+      if(this.task_description!==''){
+        this.task_description_validate = false
+      }else {
+        this.task_description_validate = true
+      }
+    },
+    currenttask:function (){
+      if(this.currenttask.name===''){
+        this.task_description_validate = true
+      }else {
+        this.task_description_validate = false
+      }
     }
 
 
   },
   methods:{
     log: function(evt) {
-      console.log(evt)
+
 
 
 
@@ -249,18 +320,26 @@ name: "tasks",
 
         if(this.todolist.includes(evt.removed.element)){
           console.log('am in todo now')
+
+
         }else if (this.inprogress.includes(evt.removed.element)){
           console.log('am in inprogress now')
 
+
+
         }else if (this.donelist.includes(evt.removed.element)){
           console.log('am in done now')
+          let self = this
+          self.Checkcomplete()
+
+
 
         }
       }
 
     },
     add: function() {
-      this.todolist.push({ name: "Juan" });
+      this.newtask = true;
     },
     removetask:function (element){
       if(element.stage === 'todo'){
@@ -289,12 +368,34 @@ name: "tasks",
     edittask(element){
       this.visible = true
       this.currenttask = element
+      this.task_description = this.currenttask.name
     },
     submitTaskEdit(){
-      this.loading = true;
-      this.loading = false
-      this.visible = false
+      if(this.currenttask.name){
+        this.currenttask.name =this.task_description
+        this.loading = true;
+        this.loading = false
+        this.visible = false
+        this.task_description =''
+        this.task_description_validate = false
+      }else {
+        this.task_description_validate = true
+      }
+
       // Project.featuretaskpatch(task.id).then()
+
+    },
+    submitNewTask(){
+      if(this.task_description !==''){
+        this.todolist.push({ name: this.task_description });
+        // Project.featuretaskpatch(task.id).then()
+        this.task_description=''
+        this.newtask = false;
+
+      }else {
+        this.task_description_validate = true
+      }
+
 
     },
 
@@ -318,6 +419,19 @@ name: "tasks",
 
         }
       })
+      let self = this
+      self.Checkcomplete()
+
+
+    },
+    Checkcomplete(){
+      if(this.donelist.length>0){
+        if(this.todolist.length === 0 && this.inprogress.length === 0){
+          this.$store.dispatch('setFeaturestatus', true)
+        }else {
+          this.$store.dispatch('setFeaturestatus', false)
+        }
+      }
     }
   }
 }
@@ -352,5 +466,9 @@ name: "tasks",
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #91d5ff;
+}
+.taskcolumns{
+  background-color: #F1F3F9;
+  height: 40rem;padding: 3%
 }
 </style>

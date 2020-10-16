@@ -26,7 +26,7 @@
         <a-icon type="appstore" />
         <span>Manage Projects</span>
       </a-menu-item>
-      <a-menu-item key="2" @click="$router.push('Create')">
+      <a-menu-item key="2" @click="newproject">
         <a-icon type="plus" />
         <span>Create a Project</span>
       </a-menu-item>
@@ -77,6 +77,20 @@ name: "Adminsider",
   components: {
     hideAt,
   },
+  methods:{
+    onCollapse(collapsed, type) {
+      return type;
+    },
+    onBreakpoint(broken) {
+      return broken;
+    },
+    newproject(){
+      this.$store.dispatch('setProject', null)
+      this.$router.push({
+        name: 'AdminCreateEditProject'
+      })
+    }
+  }
 }
 </script>
 

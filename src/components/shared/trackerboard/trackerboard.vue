@@ -39,8 +39,9 @@
 
             <a-row v-if="viewmode === 'milestone'">
               <a-col span="6" style="padding: 1%">
-                <div style="background-color:#F7F7F7;height: 45rem;padding: 3% ">
-                  <p style="font-family: sofia_prosemibold">Backlog</p>
+                <div class="taskcolumns">
+                  <p class="rowtitle">Backlog</p>
+                  <a-progress :percent="100" strokeColor="#64C8FB" :showInfo="false"/>
                   <div style="height:42rem;overflow: auto;">
                     <div
                         class="list-group-item"
@@ -54,7 +55,7 @@
 
 
 
-                          <span slot="title">
+                          <span slot="title" class="featuretitle">
                                 {{ element.title }}
                               </span>
                           <a slot="extra" @click="openFeature(element)">view milestone</a>
@@ -75,8 +76,12 @@
                 </div>
               </a-col>
               <a-col span="6" style="padding: 1%">
-                <div style="background-color:#F7F7F7;height: 45rem;padding: 3% ">
-                  <p style="font-family: sofia_prosemibold">In progress</p>
+                <div class="taskcolumns">
+                  <p class="rowtitle">In progress</p>
+
+                    <a-progress :percent="100" strokeColor="#31A6EA" :showInfo="false"/>
+
+
                   <div style="height:42rem;overflow: auto;">
                     <div
                         class="list-group-item"
@@ -89,7 +94,7 @@
 
 
 
-                          <span slot="title">
+                          <span slot="title" class="featuretitle">
                                 {{ element.title }}
                               </span>
                           <a slot="extra" @click="openFeature(element)">view milestone </a>
@@ -109,8 +114,9 @@
                 </div>
               </a-col>
               <a-col span="6" style="padding: 1%">
-                <div style="background-color:#F7F7F7;height: 45rem;padding: 3% ">
-                  <p style="font-family: sofia_prosemibold">Quality check</p>
+                <div class="taskcolumns" >
+                  <p class="rowtitle">Quality check</p>
+                  <a-progress :percent="100" strokeColor="#0682D1" :showInfo="false"/>
                   <div style="height:42rem;overflow: auto;">
 
                     <div
@@ -124,12 +130,15 @@
 
 
 
-                          <span slot="title">
+                          <span slot="title" class="featuretitle">
                                 {{ element.title }}
                               </span>
                           <a slot="extra" @click="openFeature(element)">view milestone</a>
                           <template>
-                            <p>{{element.userstories[0]}}</p>
+                            <div style=" border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
+                              <p>Note to test feature</p>
+                              <p>{{element.developer_note}}</p>
+                            </div>
 
                           </template>
 
@@ -143,8 +152,9 @@
                 </div>
               </a-col>
               <a-col span="6" style="padding: 1%">
-                <div style="background-color:#F7F7F7;height: 45rem;padding: 3% ">
-                  <p style="font-family: sofia_prosemibold">Done</p>
+                <div class="taskcolumns">
+                  <p class="rowtitle">Done</p>
+                  <a-progress :percent="100" strokeColor="#056BB4" :showInfo="false"/>
                   <div style="height:42rem;overflow: auto;">
 
                     <div
@@ -158,7 +168,7 @@
 
 
 
-                          <span slot="title">
+                          <span slot="title" class="featuretitle">
                                 {{ element.title }}
                               </span>
                           <a slot="extra" @click="openFeature(element)">view milestone</a>
@@ -166,6 +176,10 @@
                             <p>{{element.userstories[0]}}</p>
 
                           </template>
+                          <a-tag color="#2db7f5" v-if="element.escrow">
+                            disbursed
+                          </a-tag>
+
 
                         </a-card>
                       </div>
@@ -203,7 +217,7 @@
 
 
 
-                              <span slot="title">
+                              <span slot="title" class="featuretitle">
                                 {{ item.title }}
                               </span>
                               <a slot="extra" @click="openFeature(item)">view tasks</a>
@@ -237,15 +251,50 @@
                         <p style="font-family: sofia_proregular">
                           <strong>Milestone:</strong> {{ currentfeature.title }}
                         </p>
+                        <div >
+                          <a-steps style="width: 80%" :current="FeatureStep">
+
+                            <a-step title="In progress" />
+                            <a-step title="Tasks done"  />
+                            <a-step title="Quality check"  />
+                            <a-step title="Done"  />
+                            <a-step title="Escrow paid"  />
+                          </a-steps>
+                        </div>
+
+                        <div>
+
+                        </div>
+
+
+                        <div v-if="FeatureStep=== 2">
+                          <p>Client is using your developer note to test feature completion.</p>
+                          <div style="margin-top: 16px; border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
+                            <p>Developer Note</p>
+                            <p>{{currentfeature.developer_note}}</p>
+                          </div>
+
+                          <a-button @click="developernotemodal" size="small" type="primary">edit note</a-button>
+
+                        </div>
+                        <div v-if="FeatureStep === 1">
+                          <p >Well done :Tasks complete for this feature
+                          </p>
+                          <a-button type="primary" icon="check" @click="developernotemodal" >mark as complete</a-button>
+
+
+                        </div>
                       </div>
                     </div>
                     <div class="tasktabs">
+
+
                       <a-tabs default-active-key="1" @change="callback" >
                         <a-tab-pane key="1" tab="Tasks">
                           <Tasks/>
                         </a-tab-pane>
-                        <a-tab-pane key="2" tab="issues" force-render>
-                          issues
+                        <a-tab-pane key="2" tab="Feature issues" force-render>
+                          <Issues/>
                         </a-tab-pane>
 
                       </a-tabs>
@@ -267,6 +316,35 @@
             </a-row>
 
           </div>
+          <a-modal v-model="visible"  on-ok="handleOk">
+            <template slot="footer">
+
+              <a-button key="submit" type="primary" :disabled="note_validate"  @click="submitDeveloperNote">
+                Submit
+              </a-button>
+            </template>
+            <a-form layout="vertical">
+
+
+
+              <a-form-item
+                  label="Give directions of how client is to test said feature you marked as complete "
+
+              >
+                <a-textarea
+                    v-model="developer_note"
+                    :auto-size="{ minRows: 4, maxRows: 5 }"
+                />
+                <p v-if="note_validate" style="color: red">
+                  please write something
+                </p>
+              </a-form-item>
+
+
+
+            </a-form>
+
+          </a-modal>
         </div>
       </a-layout-content>
     </a-layout>
@@ -279,29 +357,23 @@ import moment from "moment";
 
 import SmallSider from "@/components/client/layout/SmallSider";
 import Tasks from "@/components/shared/trackerboard/tasks"
+import Issues from "@/components/shared/trackerboard/issues"
 
 
 const listData = [
   {
     id:1,
     title: `I am backlog task `,
-    stage:'backlog',
+    stage:'quality',
 
     userstories: [
       'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
       'vlesss'
     ],
-    todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      ],
-    inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
-      {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
-    done: [{name: "landing Page", id: 6, 'deadline': '2021-08-11', 'assignedto': 'jessica'}],
-    actions: [
+    developer_note:'go to top',
+    escrow:false
 
-      {type: 'profile', text: '6 tasks'},
-      {type: 'flag', text: '0 issues'},
-    ],
+
   },
 
 
@@ -314,17 +386,9 @@ const listData = [
       'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
       'vlesss'
     ],
-    todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'}],
-    inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
-      {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
-    done: [{name: "landing Page", id: 6, 'deadline': '2021-08-11', 'assignedto': 'jessica'}],
-    actions: [
+    developer_note:'',
+    escrow:false
 
-      {type: 'profile', text: '6 tasks'},
-      {type: 'flag', text: '0 issues'},
-    ],
   },
   {
     id:3,
@@ -334,17 +398,9 @@ const listData = [
       'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
       'vlesss'
     ],
-    todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'}],
-    inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
-      {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
-    done: [{name: "landing Page", id: 6, 'deadline': '2021-08-11', 'assignedto': 'jessica'}],
-    actions: [
+    developer_note:'to test this feature use this',
+    escrow:false
 
-      {type: 'profile', text: '6 tasks'},
-      {type: 'flag', text: '0 issues'},
-    ],
   },
   {
     id:4,
@@ -354,17 +410,8 @@ const listData = [
       'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
       'vlesss'
     ],
-    todo_task: [{name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis'},
-      {name: "Profile", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis'}],
-    inprogress: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
-      {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
-    done: [{name: "landing Page", id: 6, 'deadline': '2021-08-11', 'assignedto': 'jessica'}],
-    actions: [
-
-      {type: 'profile', text: '6 tasks'},
-      {type: 'flag', text: '0 issues'},
-    ],
+    developer_note:'',
+    escrow:true
   }
 
 ]
@@ -383,14 +430,18 @@ export default {
       },
 
 
+
       currentfeature: {},
-      viewmode: 'milestone'
+      viewmode: 'milestone',
+      visible:false,
+      developer_note:'',
+      note_validate:false
 
 
     };
   },
   components: {
-     SmallSider,Tasks
+     SmallSider,Tasks,Issues
 
 
   },
@@ -400,6 +451,22 @@ export default {
 
   },
   computed: {
+    FeatureStep(){
+      let current =0
+      if(this.currentfeature.stage === 'quality'){
+        current = 2
+      }else if(this.currentfeature.stage === 'done') {
+        current = 3
+      }
+      else if(this.$store.state.feature_complete ) {
+        current = 1
+      }
+      else {
+        current = 0
+      }
+
+      return current
+    },
     Greeting() {
       moment
       let today = new Date()
@@ -421,6 +488,18 @@ export default {
 
 
   },
+  watch:{
+
+    developer_note:function (){
+      if(this.developer_note!==''){
+        this.note_validate = false
+      }else {
+        this.note_validate = true
+      }
+    }
+
+
+  },
   methods: {
     log: function(evt) {
       window.console.log(evt);
@@ -438,7 +517,24 @@ export default {
       this.currentfeature = feature
       this.$store.dispatch('setFeature', this.currentfeature.id)
       this.viewmode = 'feature'
+      this.FeatureStep()
 
+    },
+    developernotemodal(){
+      this.visible = true
+      this.developer_note = this.currentfeature.developer_note
+    },
+    submitDeveloperNote(){
+      if(this.developer_note !==''){
+        this.currentfeature.developer_note = this.developer_note
+        this.currentfeature.stage ='quality'
+        this.visible = false;
+        this.note_validate = false
+        this.developer_note =''
+
+      }else {
+        this.note_validate = true
+      }
     }
   }
 }
@@ -449,7 +545,7 @@ export default {
 
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
 
-  background: white;
+  background: #F1F3F9;
   border-radius: 0;
   margin-bottom: 1rem;
 
@@ -486,6 +582,7 @@ export default {
 }
 .milestonecard{
   margin-bottom: 1rem;
+  border-radius: 3%;
 }
 
 .shadowsmall {
@@ -524,5 +621,16 @@ export default {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #91d5ff;
+}
+.taskcolumns{
+  background-color: #F1F3F9;
+  height: 45rem;padding: 3%
+}
+.rowtitle{
+  color: #1990FF;
+  font-family: sofia_probold
+}
+.featuretitle{
+  font-family: sofia_probold
 }
 </style>
