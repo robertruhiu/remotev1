@@ -2,40 +2,71 @@
   <a-layout :style="{background:'#fff'}">
     <pageheader></pageheader>
 
-    <a-layout-content :style="{  marginTop: '6rem' }">
+    <a-layout-content :style="{  marginTop: '6rem',minHeight:'100vh' }">
 
       <div style="">
 
+
         <div style="">
-          <div style="padding: 2% 5%">
+          <div style="padding: 2% 5%" v-if="bidstageprojects.length>0">
             <a-row style="color: black">
-              <a-col span="12" class="">
+              <a-col :xs="{span: 18, offset: 0 }" :sm="{span: 12, offset: 6 }" :md="{span: 12, offset: 6 }"
+                     :lg="{span: 12, offset: 6 }" :xl="{span: 12, offset: 6 }">
 
                 <div style=" ">
 
                   <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Projects">
 
-                    <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                      <template  slot="actions">
-                              <span >
-                                <a-icon type="calendar" style="margin-right: 8px" />
-                                {{ item.time }}
+                    <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall" style="background-color: #F1F3F9">
+
+                      <template slot="actions">
+                              <span>
+                                <a-icon type="calendar" style="margin-right: 8px"/>
+                                {{ item.time }} days
                               </span>
-                        <span >
-                                <a-icon type="banks" style="margin-right: 8px" />
+                        <span>
+                                <a-icon type="banks" style="margin-right: 8px"/>
                                 {{ item.budget }}$ budget
                               </span>
-                        <span >
-                                <a-button type="primary" @click="viewproject(item)" >View Project</a-button>
+                        <span>
+                                <a-icon type="banks" style="margin-right: 8px"/>
+                          <a-tag v-for="tag in item.tools" color="blue"
+                                 :key="tag">
+                            {{ tag }}
+                          </a-tag>
+
                               </span>
+                        <span v-if="$store.state.user_object">
+                          <span v-if="item.bid">
+                            <a-tag color="green"><a-icon type="file-done"/>
+                              bid placed
+                            </a-tag>
+                          </span>
+                          <span v-else>
+                                  <a-button type="primary" size="small"
+                                            v-if="$store.state.user_object.user_type==='developer'"
+                                            @click="Apply(item)">
+                              Apply
+                            </a-button>
+
+                                </span>
+
+                        </span>
+                        <span v-else>
+                          <a-button @click="$router.push('/Login')">
+                              login to apply
+                            </a-button>
+                        </span>
+
+
                       </template>
+                      <p style="font-family: sofia_probold"> {{ item.title }}</p>
+                      <a-collapse v-model="activeKey">
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
 
-
-                      <a-list-item-meta :description="item.description">
-                        <a slot="title" :href="item.href">{{ item.title }}</a>
-
-
-                      </a-list-item-meta>
 
                     </a-list-item>
                   </a-list>
@@ -45,70 +76,17 @@
 
 
               </a-col>
-              <a-col span="12">
-                <div style="padding: 0 1%">
-                  <div class="casecard">
 
-
-                    <div id="main content" style="padding: 1%">
-                      <div v-if="project">
-
-                        <div>
-                            <span><p><strong>Project title:</strong>{{ project.title }}</p>
-                              <a-button type="primary"  style="float: right" @click="Apply(project)">
-                              Apply
-                            </a-button>
-
-                            </span>
-
-
-                        </div>
-
-
-                        <p>Description</p>
-                        <p>
-                          {{project.description}}
-
-                        </p>
-                        <div>
-                          <p style="font-family: sofia_probold">Features</p>
-                          <div v-for="feature in project.features" v-bind:key="feature">
-
-                            <p style="">{{feature.title}}</p>
-                            <div v-for="story in feature.storylist" v-bind:key="story">
-                              <li>{{story}}</li>
-                            </div>
-                          </div>
-                        </div>
-                        <p style="font-family: sofia_probold">Tools than can be used to impliment</p>
-                        <p>
-                          <a-tag v-for="tag in project.tools" color="blue"
-                                 :key="tag">
-                            {{tag}}
-                          </a-tag>
-
-                        </p>
-                        <p style="font-family: sofia_probold">Time to finish project : {{ project.time }}</p>
-                        <p style="font-family: sofia_probold">Budget : {{ project.budget }}$</p>
-                      </div>
-
-
-
-                    </div>
-
-
-                  </div>
-                </div>
-
-
-              </a-col>
 
 
             </a-row>
 
           </div>
+          <a-result status="404" title="" sub-title="Sorry, no new jobs available at the moment." v-else>
+
+          </a-result>
         </div>
-<!--        place bid modal -->
+        <!--        place bid modal -->
         <a-modal
             title="Apply for project"
             v-model="visible"
@@ -116,73 +94,65 @@
 
         >
           <template slot="footer">
+            <a-spin v-if="loading"/>
 
-            <a-button key="submit" type="primary" @click="SubmitApplication">
+            <a-button v-else key="submit" type="primary" @click="SubmitApplication">
               Submit
             </a-button>
           </template>
           <div>
+            <div style="margin-bottom: 1rem">
+              <p>Project Proposal(why i should get project)1200 character limit</p>
+              <a-textarea v-model="proposal" maxlength="1200" @change="Proposalchanges"
 
 
-            <p>Project Proposal(why i should get project)1200 character limit</p>
-            <a-textarea v-model="proposal" maxlength="1200" @change="Proposalchanges"
+                          :auto-size="{ minRows: 5 }"
+              />
 
-
-                        :auto-size="{ minRows: 5 }"
-            />
-            <p>Tools i will use</p>
-            <template v-for="(tag, index) in tags">
-              <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
-                <a-tag :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
-                  {{ `${tag.slice(0, 20)}...` }}
-                </a-tag>
-              </a-tooltip>
-              <a-tag v-else :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
-                {{ tag }}
-              </a-tag>
-            </template>
-            <a-input
-                v-if="inputVisible"
-                ref="input"
-                type="text"
-                size="small"
-                :style="{ width: '78px' }"
-                :value="inputValue"
-                @change="handleInputChange"
-                @blur="handleInputConfirm"
-                @keyup.enter="handleInputConfirm"
-            />
-            <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
-              <a-icon type="plus"/>
-              New Tag
-            </a-tag>
-            <p>Time i will take(weeks,months,days)</p>
-
-            <div style="margin-bottom: 16px">
-              <a-input type="number" v-model="time" @change="Timechanges">
-
-                <a-select slot="addonAfter"  style="width: 80px" v-model="datetype">
-                  <a-select-option value="days">
-                    days
-                  </a-select-option>
-                  <a-select-option value="weeks">
-                    weeks
-                  </a-select-option>
-                  <a-select-option value="months">
-                    months
-                  </a-select-option>
-
-                </a-select>
-              </a-input>
             </div>
-            <p>Budget
-              <span v-if="bidflag" style="color: red">(bids are capped you can only go 10% lower than quoted by client )</span >
-              <span v-else>(bids are capped you can only go 10% lower than quoted by client )</span>
+
+
+            <div style="margin-bottom: 1rem">
+              <p>Tools i will use </p>
+              <template v-for="(tag, index) in tags">
+                <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
+                  <a-tag :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
+                    {{ `${tag.slice(0, 20)}...` }}
+                  </a-tag>
+                </a-tooltip>
+                <a-tag v-else :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
+                  {{ tag }}
+                </a-tag>
+              </template>
+              <a-input
+                  v-if="inputVisible"
+                  ref="input"
+                  type="text"
+                  size="small"
+                  :style="{ width: '78px' }"
+                  :value="inputValue"
+                  @change="handleInputChange"
+                  @blur="handleInputConfirm"
+                  @keyup.enter="handleInputConfirm"
+              />
+              <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
+                <a-icon type="plus"/>
+                New Tag
+              </a-tag>
+            </div>
+
+            <p>Time i will take in days({{ project.time }} days)</p>
+
+            <div style="margin-bottom: 1rem">
+              <a-input type="Number" @change="Timechanges" v-model="time" :min="0" addon-after="days"/>
+
+            </div>
+            <p>Budget:${{project.budget}}
+              <span v-if="bidflag"
+                    style="color: red">(bids are capped you can only go 10% lower than quoted by client )</span>
+              <span v-else>(you can only go 10% lower than quoted by client  )</span>
             </p>
-            <a-input type="number"  @change="budgetflag" v-model="budget" />
-
-
-
+            <a-input type="number" @change="budgetflag" v-model="budget"/>
 
 
           </div>
@@ -201,97 +171,86 @@
 <script>
 import Pageheader from '@/components/homepages/layout/Header.vue'
 import Footer from '@/components/homepages/layout/Footer'
-import Projects from '@/services/Projects'
-import Bids from '@/services/Bids'
-const listData = [];
-for (let i = 0; i < 15; i++) {
-  listData.push({
-    id:i,
-    title: `Cyprus online ${i}`,
-    description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+import Project from "@/services/Projects";
+import markdown from 'vue-markdown'
 
-    features:[{'title': 'Registration', 'storylist':[
-        'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
-        'vlesss'
-      ] },{'title': 'Applicant tracking', 'storylist':[
-        'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
-        'vlesss'
-      ] }],
-    budget:2000,
-    time:'2 months',
-    tools:['react','django']
-  });
-}
 class BidProjects {
-  constructor(id, title,description, features, budget, time, tools) {
+  constructor(id, title, description, budget, time, tools, bid) {
     this.id = id;
     this.title = title;
     this.description = description;
-    this.features = features;
     this.budget = budget;
     this.time = time;
     this.tools = tools;
+    this.bid = bid
 
 
   }
 }
+
 export default {
   name: "Jobboard",
   data() {
     return {
-      listData,
+
       pagination: {
         onChange: page => {
           console.log(page);
         },
         pageSize: 4,
       },
-      visible:false,
+      visible: false,
 
-      project:{},
-      budget:0,
-      time:'',
-      proposal:'',
+      project: {},
+      budget: 0,
+      time: 0,
+      proposal: '',
       tags: [],
       inputVisible: false,
       inputValue: '',
-      bidflag:false,
-      bidstageprojects:[],
-      datetype:'days',
-      applicationerrors:[]
+      bidflag: false,
+      bidstageprojects: [],
+      datetype: 'days',
+      applicationerrors: [],
+      loading: false,
+      bids: []
 
     }
   },
   components: {
-    Pageheader, Footer,
+    Pageheader, Footer, markdown
 
 
   },
 
   async mounted() {
-    this.project = this.listData[0]
 
+    this.FetchProjects()
 
-
-    this.bidstageprojects = (await Projects.bidstageprojects()).data
 
   },
   computed: {
     Projects() {
-      let projects=[]
+      let projects = []
       //replace this.listdata to this.bidstageprojects
-      this.listData.forEach(project=>{
+      this.bidstageprojects.forEach(project => {
+        let bid = false
+        this.bids.forEach(bidplaced => {
+          if (project.id === bidplaced.project.id) {
+            bid = true
+          }
+        })
+        let timestring = project.timeline.split(" ")
+
         let id = project.id
         let title = project.title
         let description = project.description
-        let features = project.features
         let budget = project.budget
-        let time = project.time
-        let tools = project.tools
+        let time = Number(timestring[0])
+        let tools = project.tools.split(',')
 
 
-        let oneproject = new BidProjects(id, title,description, features, budget, time, tools)
+        let oneproject = new BidProjects(id, title, description, budget, time, tools, bid)
 
 
         projects.push(oneproject)
@@ -306,35 +265,64 @@ export default {
   },
 
 
-  methods:{
-    viewproject(item){
-      if(item !== this.project){
-        this.budget=''
-        this.time=''
-        this.proposal=''
-        this.tags= []
-        this.project=item
+  methods: {
+
+    FetchProjects() {
+      this.bidstageprojects = []
+      Project.bidstageprojects()
+          .then(resp => {
+
+            resp.data.forEach(project => {
+              if (project.verified && project.stage !== 'developement') {
+                this.bidstageprojects.push(project)
+              }
+            })
+            if (this.$store.state.user && this.$store.state.user_object.user_type === 'developer') {
+              this.DeveloperBids()
+
+            }
+
+
+          })
+
+
+    },
+    DeveloperBids() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.fetchadeveloperbids(this.$store.state.user.pk, auth).then(
+          resp => {
+            this.bids = resp.data
+
+
+
+          }
+      )
+
+    },
+
+
+    Apply(item) {
+
+      if (item !== this.project) {
+        this.budget = ''
+        this.time = ''
+        this.proposal = ''
+        this.tags = []
+        this.project = item
 
 
       }
-
-
-
-    },
-    Apply(){
       this.visible = true
     },
-    budgetflag(){
+    budgetflag() {
 
 
       let bidbase = this.project.budget
-      let lowest = (90/100)*bidbase
+      let lowest = (90 / 100) * bidbase
       this.bidflag = this.budget < lowest;
-
-
-
-
-
 
 
     },
@@ -366,92 +354,105 @@ export default {
         inputVisible: false,
         inputValue: '',
       });
-      if(this.applicationerrors.includes('tags')){
-        if(this.tags.length>0){
+      if (this.applicationerrors.includes('tags')) {
+        if (this.tags.length > 0) {
           let index = this.applicationerrors.indexOf('tags')
           if (index > -1) {
             this.applicationerrors.splice(index, 1);
           }
         }
-      }else {
-        if(this.tags === []){
+      } else {
+        if (this.tags === []) {
           this.applicationerrors.push('tags')
         }
 
       }
 
     },
-    SubmitApplication(){
-      let bid ={'proposal':this.proposal,'tools':this.tags,'time':this.time,'datetype':this.datetype,'budget':this.budget}
+    SubmitApplication() {
+      let bid = {
+        proposal: this.proposal,
+        tools: this.tags.join(),
+        timeline: this.time * 86400,
+        budget: this.budget,
+        project: this.project.id,
+        developer: this.$store.state.user.pk
+      }
 
-      if(this.proposal === '' || this.proposal === null){
+      if (this.proposal === '' || this.proposal === null) {
         this.applicationerrors.push('proposal')
 
       }
-      if(this.tags.length===0){
+      if (this.tags.length === 0) {
         this.applicationerrors.push('tags')
 
 
       }
-      if(this.time === '' || this.time === null){
+      if (this.time === '' || this.time === null) {
         this.applicationerrors.push('time')
 
 
       }
-      if(this.budget === 0){
-        this.bidflag=true
+      if (this.budget === 0) {
+        this.bidflag = true
 
+
+      }
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
 
 
-      if(this.applicationerrors.length===0 && this.bidflag === false){
-        Bids.submitapplication(bid).then()
-        this.visible = true
+      if (this.applicationerrors.length === 0 && this.bidflag === false) {
+        this.loading = true
+        Project.createbid(bid, auth)
+            .then((resp) => {
+                  this.FetchProjects()
+                  this.project.bid = true
+                  this.loading = false
+                  this.visible = false
+                  Project.newbidemail(resp.data.id, auth)
+
+                }
+            )
+
       }
-
-
-
 
 
     },
-    Proposalchanges(){
-      if(this.applicationerrors.includes('proposal')){
-        if(this.proposal !== '' || this.proposal != null){
+    Proposalchanges() {
+      if (this.applicationerrors.includes('proposal')) {
+        if (this.proposal !== '' || this.proposal != null) {
           let index = this.applicationerrors.indexOf('proposal')
           if (index > -1) {
             this.applicationerrors.splice(index, 1);
           }
         }
-      }else {
-        if(this.proposal === '' || this.proposal === null){
+      } else {
+        if (this.proposal === '' || this.proposal === null) {
           this.applicationerrors.push('proposal')
         }
 
       }
 
 
-
-
-
     },
-    Timechanges(){
+    Timechanges() {
 
-      if(this.applicationerrors.includes('time')){
-        if(this.time !== '' || this.time != null){
+      if (this.applicationerrors.includes('time')) {
+        if (this.time !== '' || this.time != null) {
           let index = this.applicationerrors.indexOf('time')
           if (index > -1) {
             this.applicationerrors.splice(index, 1);
           }
         }
-      }else {
-        if(this.time === '' || this.time === null){
+      } else {
+        if (this.time === '' || this.time === null) {
           this.applicationerrors.push('time')
         }
 
       }
-
-
 
 
     }
@@ -489,6 +490,7 @@ export default {
   border-radius: 0;
   padding: 2%;
   border: 1px solid #e8e8e8;
+  min-height: 40rem;
 
 }
 

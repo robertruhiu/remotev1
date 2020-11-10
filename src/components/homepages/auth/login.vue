@@ -8,9 +8,7 @@
         <a-row style="padding: 3%">
           <a-col :xs="{span: 18, offset: 0 }" :sm="{span: 12, offset: 6 }" :md="{span: 12, offset: 6 }"
                  :lg="{span: 12, offset: 8 }" :xl="{span: 12, offset: 9 }">
-            <a-card  title="Login" :style="{width:'21rem'}">
-
-
+            <a-card title="Login" :style="{width:'21rem'}">
 
 
               <a-form
@@ -37,9 +35,6 @@
                   </a-input>
 
 
-
-
-
                 </a-form-item>
                 <a-form-item>
 
@@ -59,7 +54,6 @@
                   </a-input>
 
 
-
                 </a-form-item>
                 <a-form-item v-if="loading === false">
 
@@ -68,12 +62,11 @@
                       class="login-form-forgot"
 
                   >
-                    <router-link to="/forgot">
+                    <router-link to="/Forgot">
                       Forgot password
                     </router-link>
 
                   </a>
-
 
 
                   <a-button @click="login"
@@ -86,7 +79,7 @@
 
 
                   Or
-                  <router-link to="/register">
+                  <router-link to="/Register">
                     register now!
                   </router-link>
                 </a-form-item>
@@ -118,9 +111,11 @@
 <script>
 import Pageheader from '@/components/homepages/layout/Header'
 import Footer from '@/components/homepages/layout/Footer'
+import AuthService from '@/services/AuthService'
+import User from '@/services/UsersService'
 
 export default {
-name: "login",
+  name: "login",
   components: {
 
     Pageheader,
@@ -144,7 +139,78 @@ name: "login",
   methods: {
     login() {
 
+      this.$validator.validateAll().then((values) => {
+        if (values) {
+          this.loading = true
+          AuthService.login({
+            email: this.email,
+            password: this.password
 
+          })
+              .then(resp => {
+                this.$store.dispatch('setToken', resp.data.token)
+                this.$store.dispatch('setUser', resp.data.user)
+                const auth = {
+                  headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+                }
+                User.currentuser(this.$store.state.user.pk, auth)
+                    .then(response => {
+
+                      this.$store.dispatch('setUser_object', response.data)
+
+
+                      if (response.data.stage === 'complete') {
+                        if (this.$store.state.user_object.user.is_staff) {
+                          this.$router.push({
+                            name: 'Admindashboard'
+                          })
+                        }
+                        else {
+                          if (this.$store.state.user_object.user_type === 'developer') {
+                            this.$router.push({
+                              name: 'Developer'
+                            })
+
+
+                          } else {
+                            this.$router.push({
+                              name: 'Dashboard'
+                            })
+
+
+                          }
+                        }
+
+                      } else {
+                        this.$router.push({
+                          name: 'Register'
+                        })
+
+                      }
+
+                    })
+                    .catch(error => {
+                      this.loading = false
+                      return error
+
+
+                    });
+
+
+              })
+              .catch(error => {
+                this.loading = false
+                this.error = 'login details incorrect'
+                return error
+
+              });
+
+
+        } else {
+          this.loading = false
+        }
+      })
     },
 
 

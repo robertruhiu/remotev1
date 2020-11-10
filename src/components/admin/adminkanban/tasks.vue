@@ -1,19 +1,72 @@
 <template>
   <div>
+    <div v-if="feature.stage === 'done'">
+      <a-row >
+
+        <a-col span="8" style="padding: 1%">
+          <div class="taskcolumns">
+            <p style="font-family: sofia_prosemibold">Done Tasks</p>
+            <div style="height:37rem;overflow: auto;">
+
+              <draggable class="list-group" style="height: 36rem" :list="donelist"
+                         group="tasks"
+              >
+                <div
+                    class="list-group-item"
+                    v-for="(element) in donelist"
+                    :key="element.name"
+                >
+                  <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
+                          class="shadowsmall">
+                <span slot="extra">
+                  <a-space>
+                    <a-icon type="check-circle" theme="twoTone"/>
 
 
-    <a-row>
+                  </a-space>
+
+                </span>
+
+
+                    <p style="font-family: sofia_prolight">{{ element.description }} </p>
+
+
+                  </a-card>
+
+
+                </div>
+              </draggable>
+            </div>
+          </div>
+        </a-col>
+        <a-result title="Great, we have done all the tasks for this feature!"
+                  sub-title="For feature improvement or bugs please create an issue on the Feature issues.This will enable you to have a conversation as the changes happen"
+        >
+          <template #icon>
+            <a-icon type="smile" theme="twoTone" />
+          </template>
+          <template #extra>
+
+          </template>
+        </a-result>
+
+      </a-row>
+    </div>
+
+
+    <a-row v-else>
       <a-col span="8" style="padding: 1%">
+
         <div class="taskcolumns">
           <p>
             <span style="font-family: sofia_prosemibold">To do</span>
-            <a-button style="float: right" type="primary" icon="plus" size="small" @click="add">new task</a-button>
+            <a-button style="float: right" v-if="developer" type="primary" icon="plus" size="small" @click="add">new task</a-button>
           </p>
 
           <div style="height:37rem;overflow: auto;">
             <draggable class="list-group" style="height: 36rem" :list="todolist"
                        group="tasks"
-                       @change="log">
+                       @change="log" v-if="developer">
               <div
                   class="list-group-item"
                   v-for="(element) in todolist"
@@ -21,16 +74,25 @@
               >
                 <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
                         class="shadowsmall">
-                <span slot="extra"  >
+                <span slot="extra">
                   <a-space>
                     <a-icon type="edit" @click="edittask(element)" theme="twoTone"/>
-                    <a-icon type="delete" @click="removetask(element)" theme="twoTone"  two-tone-color="#eb2f96"/>
+                    <a-popconfirm
+                        title="Are you sure delete this task?"
+                        ok-text="Yes"
+                        cancel-text="No"
+                        @confirm="removetask(element)"
+                        @cancel="cancel"
+                    >
+                      <a href="#"><a-icon type="delete"  theme="twoTone" two-tone-color="#eb2f96"/></a>
+                      </a-popconfirm>
+
                   </a-space>
 
                 </span>
 
 
-                  <p style="font-family: sofia_prolight">{{ element.name }} </p>
+                  <p style="font-family: sofia_prolight">{{ element.description }} </p>
 
 
                 </a-card>
@@ -38,6 +100,32 @@
 
               </div>
             </draggable>
+
+
+            <div v-else
+                 class="list-group-item"
+                 v-for="(element) in todolist"
+                 :key="element.name"
+            >
+              <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
+                      class="shadowsmall">
+                <span slot="extra">
+                  <a-space>
+
+
+                  </a-space>
+
+                </span>
+
+
+                <p style="font-family: sofia_prolight">{{ element.description }} </p>
+
+
+              </a-card>
+
+
+            </div>
+
           </div>
 
         </div>
@@ -48,7 +136,7 @@
           <div style="height:37rem;overflow: auto;">
             <draggable class="list-group" style="height: 36rem" :list="inprogress"
                        group="tasks"
-                       @change="log">
+                       @change="log" v-if="developer">
               <div
                   class="list-group-item"
                   v-for="(element) in inprogress"
@@ -56,16 +144,16 @@
               >
                 <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
                         class="shadowsmall">
-                <span slot="extra" >
+                <span slot="extra">
                   <a-space>
                     <a-icon type="edit" @click="edittask(element)" theme="twoTone"/>
-                    <a-icon type="delete" @click="removetask(element)" theme="twoTone"  two-tone-color="#eb2f96"/>
+                    <a-icon type="delete" @click="removetask(element)" theme="twoTone" two-tone-color="#eb2f96"/>
                   </a-space>
 
                 </span>
 
 
-                  <p style="font-family: sofia_prolight">{{ element.name }} </p>
+                  <p style="font-family: sofia_prolight">{{ element.description }} </p>
 
 
                 </a-card>
@@ -73,6 +161,30 @@
 
               </div>
             </draggable>
+
+            <div v-else
+                 class="list-group-item"
+                 v-for="(element) in inprogress"
+                 :key="element.name"
+            >
+              <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
+                      class="shadowsmall">
+                <span slot="extra">
+                  <a-space>
+
+                  </a-space>
+
+                </span>
+
+
+                <p style="font-family: sofia_prolight">{{ element.description }} </p>
+
+
+              </a-card>
+
+
+            </div >
+
           </div>
 
         </div>
@@ -84,7 +196,7 @@
 
             <draggable class="list-group" style="height: 36rem" :list="donelist"
                        group="tasks"
-                       @change="log">
+                       @change="log" v-if="developer">
               <div
                   class="list-group-item"
                   v-for="(element) in donelist"
@@ -92,16 +204,17 @@
               >
                 <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
                         class="shadowsmall">
-                <span slot="extra" >
+                <span slot="extra">
                   <a-space>
                     <a-icon type="edit" @click="edittask(element)" theme="twoTone"/>
-                    <a-icon type="delete" @click="removetask(element)" theme="twoTone"  two-tone-color="#eb2f96"/>
+                    <a-icon type="delete" @click="removetask(element)" theme="twoTone" two-tone-color="#eb2f96"/>
+                    <a-icon type="check-circle" theme="twoTone"/>
                   </a-space>
 
                 </span>
 
 
-                  <p style="font-family: sofia_prolight">{{ element.name }} </p>
+                  <p style="font-family: sofia_prolight">{{ element.description }} </p>
 
 
                 </a-card>
@@ -109,44 +222,40 @@
 
               </div>
             </draggable>
+
+            <div v-else
+                 class="list-group-item"
+                 v-for="(element) in donelist"
+                 :key="element.name"
+            >
+              <a-card hoverable size="small" style="width: 80%;margin-bottom: 1rem"
+                      class="shadowsmall">
+                <span slot="extra">
+                  <a-space>
+
+                    <a-icon type="check-circle" theme="twoTone"/>
+                  </a-space>
+
+                </span>
+
+
+                <p style="font-family: sofia_prolight">{{ element.description }} </p>
+
+
+              </a-card>
+
+
+            </div>
           </div>
         </div>
       </a-col>
 
     </a-row>
-    <a-modal v-model="visible"  on-ok="handleOk">
+    <a-modal v-model="visible" on-ok="handleOk">
       <template slot="footer">
 
-        <a-button key="submit" type="primary" :disabled="task_description_validate" :loading="loading" @click="submitTaskEdit">
-          Submit
-        </a-button>
-      </template>
-      <a-form layout="vertical">
-
-
-
-        <a-form-item
-            label="Describe the task"
-
-        >
-          <a-textarea
-              v-model="task_description"
-              :auto-size="{ minRows: 3, maxRows: 5 }"
-          />
-          <p v-if="task_description_validate" style="color: red">
-            please write something
-          </p>
-        </a-form-item>
-
-
-
-      </a-form>
-
-    </a-modal>
-    <a-modal v-model="newtask"  on-ok="handleOk">
-      <template slot="footer">
-
-        <a-button key="submit" type="primary" :disabled="task_description_validate" :loading="loading" @click="submitNewTask">
+        <a-button key="submit" type="primary" :disabled="task_description_validate" :loading="loading"
+                  @click="submitTaskEdit">
           Submit
         </a-button>
       </template>
@@ -167,11 +276,37 @@
         </a-form-item>
 
 
+      </a-form>
+
+    </a-modal>
+    <a-modal v-model="newtask" on-ok="handleOk">
+      <template slot="footer">
+
+        <a-button key="submit" type="primary" :disabled="task_description_validate" :loading="loading"
+                  @click="submitNewTask">
+          Submit
+        </a-button>
+      </template>
+      <a-form layout="vertical">
+
+
+        <a-form-item
+            label="Describe the task"
+
+        >
+          <a-textarea
+              v-model="task_description"
+              :auto-size="{ minRows: 3, maxRows: 5 }"
+          />
+          <p v-if="task_description_validate" style="color: red">
+            please write something
+          </p>
+        </a-form-item>
+
 
       </a-form>
 
     </a-modal>
-
 
 
   </div>
@@ -182,34 +317,24 @@
 
 
 import draggable from "vuedraggable";
-// import Project from '@/services/Projects'
-const taskslist = [
-  {name: "Login pages", id: 1, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:1,'stage':'done'},
-  {name: "admin dashboard", id: 2, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:1,'stage':'done'},
-  {name: "mlima pages", id: 3, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:2,'stage':'todo'},
-  {name: "admin dashboard", id: 4, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:2,'stage':'inprogress'},
-  {name: "Profile", id: 5, 'deadline': '2021-08-11', 'assignedto': 'dennis',feature_id:3,'stage':'todo'},
-  {name: "Database structure", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert',feature_id:3,'stage':'done'},
-  {name: "UI/UX", id: 6, 'deadline': '2021-08-11', 'assignedto': 'robert',feature_id:4,'stage':'inprogress'},
-  {name: "landing Page", id: 7, 'deadline': '2021-08-11', 'assignedto': 'jessica',feature_id:4,'stage':'todo'}
-
-
-]
+import Project from "@/services/Projects";
 export default {
   name: "tasks",
   data() {
     return {
-      taskslist,
-      feature_id:null,
-      todolist:[],
-      inprogress:[],
-      donelist:[],
-      currenttask:{},
-      visible:false,
-      loading:false,
-      newtask:false,
-      task_description:'',
-      task_description_validate:false
+      taskslist: [],
+      feature_id: null,
+      todolist: [],
+      inprogress: [],
+      donelist: [],
+      currenttask: {},
+      visible: false,
+      loading: false,
+      newtask: false,
+      task_description: '',
+      task_description_validate: false,
+      feature:null,
+      developer:false,
 
 
 
@@ -223,47 +348,38 @@ export default {
     draggable
 
 
-
   },
   async mounted() {
-    // Project.fetchfeaturetask(this.$store.state.feature_id)
-    //     .then(resp=>{
-    //       this.taskslist = resp.data
-    //     })
-    this.taskslist.forEach(task=>{
 
-      if(task.feature_id === this.$store.state.feature_id && task.stage === 'todo'){
-        this.todolist.push(task)
+    this.fetchtasks()
 
-      }else if(task.feature_id === this.$store.state.feature_id && task.stage === 'inprogress'){
-        this.inprogress.push(task)
-
-      }else if(task.feature_id === this.$store.state.feature_id && task.stage === 'done'){
-        this.donelist.push(task)
-
-      }
-    })
     this.$store.dispatch('setFeaturestatus', false)
-
+    if(this.$store.state.user_object.user_type === 'developer'){
+      this.developer = true
+    }
 
 
 
   },
   computed: {
-    FeatureId(){
+    FeatureId() {
       return this.$store.state.feature_id
     }
   },
-  watch:{
-    FeatureId:function (){
+  watch: {
+    FeatureId: function () {
       this.$store.dispatch('setFeaturestatus', false)
-      this.taskmanager()
+      this.donelist = []
+      this.inprogress = []
+      this.todolist = []
+      this.fetchtasks()
+
 
 
     },
-    todolist:function (){
+    todolist: function () {
       this.$store.dispatch('setFeaturestatus', false)
-      this.todolist.forEach(task=>{
+      this.todolist.forEach(task => {
         task.stage = 'todo'
 
       })
@@ -272,9 +388,9 @@ export default {
 
 
     },
-    inprogress:function (){
+    inprogress: function () {
       this.$store.dispatch('setFeaturestatus', false)
-      this.inprogress.forEach(task=>{
+      this.inprogress.forEach(task => {
         task.stage = 'inprogress'
       })
       let self = this
@@ -282,153 +398,208 @@ export default {
 
 
     },
-    donelist:function (){
+    donelist: function () {
       this.$store.dispatch('setFeaturestatus', false)
-      this.donelist.forEach(task=>{
+      this.donelist.forEach(task => {
         task.stage = 'done'
       })
       let self = this
       self.Checkcomplete()
 
 
-
     },
-    task_description:function (){
-      if(this.task_description!==''){
+    task_description: function () {
+      if (this.task_description !== '') {
         this.task_description_validate = false
-      }else {
+      } else {
         this.task_description_validate = true
       }
     },
-    currenttask:function (){
-      if(this.currenttask.name===''){
+    currenttask: function () {
+      if (this.currenttask.description === '') {
         this.task_description_validate = true
-      }else {
+      } else {
         this.task_description_validate = false
       }
     }
 
 
   },
-  methods:{
-    log: function(evt) {
+  methods: {
+    fetchtasks() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.fetchfeaturetask(this.$store.state.feature_id, auth)
+          .then(
+              resp => {
+                this.taskslist = resp.data
+                this.taskslist.forEach(task => {
+
+                  if (task.stage === 'todo') {
+                    this.todolist.push(task)
+
+                  } else if (task.stage === 'inprogress') {
+                    this.inprogress.push(task)
+
+                  } else if (task.stage === 'done') {
+                    this.donelist.push(task)
+
+                  }
+                })
+                let self = this
+                self.Checkcomplete()
+                this.getFeature()
+
+              }
+          )
+
+    },
+    getFeature(){
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.getfeature(this.$store.state.feature_id, auth)
+          .then(
+              resp=>{
+                this.feature = resp.data
+              }
+          )
+
+    },
+    log: function (evt) {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
 
 
+      if (evt.removed) {
+
+        if (this.todolist.includes(evt.removed.element)) {
+          console.log(evt.removed.element)
+          Project.featuretaskpatch(evt.removed.element.id, {stage: evt.removed.element.stage}, auth).then(
+          )
 
 
-      if(evt.removed){
-
-        if(this.todolist.includes(evt.removed.element)){
-          console.log('am in todo now')
-
-
-        }else if (this.inprogress.includes(evt.removed.element)){
-          console.log('am in inprogress now')
+        } else if (this.inprogress.includes(evt.removed.element)) {
+          Project.featuretaskpatch(evt.removed.element.id, {stage: evt.removed.element.stage}, auth).then(
+          )
 
 
-
-        }else if (this.donelist.includes(evt.removed.element)){
-          console.log('am in done now')
+        } else if (this.donelist.includes(evt.removed.element)) {
+          Project.featuretaskpatch(evt.removed.element.id, {stage: evt.removed.element.stage}, auth).then(
+          )
           let self = this
           self.Checkcomplete()
-
 
 
         }
       }
 
     },
-    add: function() {
+    add: function () {
       this.newtask = true;
     },
-    removetask:function (element){
-      if(element.stage === 'todo'){
+    removetask: function (element) {
+      if (element.stage === 'todo') {
 
-        this.removeElement(this.todolist,element)
+        this.removeElement(this.todolist, element)
 
-      }else if (element.stage === 'inprogress'){
+      } else if (element.stage === 'inprogress') {
         let self = this
-        self.removeElement(this.inprogress,element)
+        self.removeElement(this.inprogress, element)
 
-      }else if(element.stage === 'done'){
+      } else if (element.stage === 'done') {
         let self = this
-        self.removeElement(this.donelist,element)
+        self.removeElement(this.donelist, element)
 
       }
 
 
     },
-    removeElement(list,element){
+    removeElement(list, element) {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.deletetask(element.id, auth).then(
+      )
+
       const index = list.indexOf(element);
       if (index > -1) {
         list.splice(index, 1);
       }
 
+
     },
-    edittask(element){
+    edittask(element) {
       this.visible = true
       this.currenttask = element
-      this.task_description = this.currenttask.name
+      this.task_description = this.currenttask.description
     },
-    submitTaskEdit(){
-      if(this.currenttask.name){
-        this.currenttask.name =this.task_description
+    submitTaskEdit() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      if (this.currenttask.description) {
+        this.currenttask.description = this.task_description
         this.loading = true;
         this.loading = false
         this.visible = false
-        this.task_description =''
+        Project.featuretaskpatch(this.currenttask.id, {description: this.task_description}, auth).then(
+            ()=>{
+              this.$message.info('edits saved');
+            }
+        )
+        this.task_description = ''
         this.task_description_validate = false
-      }else {
-        this.task_description_validate = true
-      }
-
-      // Project.featuretaskpatch(task.id).then()
-
-    },
-    submitNewTask(){
-      if(this.task_description !==''){
-        this.todolist.push({ name: this.task_description });
-        // Project.featuretaskpatch(task.id).then()
-        this.task_description=''
-        this.newtask = false;
-
-      }else {
+      } else {
         this.task_description_validate = true
       }
 
 
     },
+    submitNewTask() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
 
-    taskmanager(){
-      this.donelist=[]
-      this.inprogress=[]
-      this.todolist=[]
-      this.taskslist.forEach(task=>{
-
-        if(task.feature_id === this.$store.state.feature_id && task.stage === 'todo'){
-          this.todolist.push(task)
-          // Project.featuretaskpatch(task.id).then()
-
-        }else if(task.feature_id === this.$store.state.feature_id && task.stage === 'inprogress'){
-          this.inprogress.push(task)
-          // Project.featuretaskpatch(task.id).then()
-
-        }else if(task.feature_id === this.$store.state.feature_id && task.stage === 'done'){
-          this.donelist.push(task)
-          // Project.featuretaskpatch(task.id).then()
-
+      }
+      if (this.task_description !== '') {
+        let task = {
+          'stage': 'todo',
+          'feature': this.$store.state.feature_id,
+          'description': this.task_description
         }
-      })
-      let self = this
-      self.Checkcomplete()
+
+        Project.newfeaturetask(task, auth).then(
+            (resp) => {
+              this.task_description = ''
+              this.newtask = false;
+              this.$message.info('task has been saved');
+              this.todolist.push(resp.data);
+
+            }
+        )
+
+
+      } else {
+        this.task_description_validate = true
+      }
 
 
     },
-    Checkcomplete(){
-      if(this.donelist.length>0){
-        if(this.todolist.length === 0 && this.inprogress.length === 0){
+
+
+
+    Checkcomplete() {
+      if (this.donelist.length > 0) {
+        if (this.todolist.length === 0 && this.inprogress.length === 0) {
           this.$store.dispatch('setFeaturestatus', true)
-        }else {
+        } else {
           this.$store.dispatch('setFeaturestatus', false)
         }
       }
@@ -467,8 +638,10 @@ export default {
 ::-webkit-scrollbar-thumb:hover {
   background: #91d5ff;
 }
-.taskcolumns{
+
+.taskcolumns {
   background-color: #F1F3F9;
-  height: 40rem;padding: 3%
+  height: 40rem;
+  padding: 3%
 }
 </style>

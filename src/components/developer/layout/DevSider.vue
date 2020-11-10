@@ -17,16 +17,16 @@
       </router-link>
     </hide-at>
     <a-menu  mode="inline" :default-selected-keys=key  style="font-family: sofia_proregular;background-color: #F4F7FC">
-      <a-menu-item key="9" @click="$router.push('Developer')">
+      <a-menu-item key="9" @click="$router.push('/Developer')">
         <a-icon type="dashboard" />
-        <span>Home</span>
+        <span>Dashboard</span>
       </a-menu-item>
-      <a-menu-item key="1" @click="$router.push('DeveloperProjects')">
+      <a-menu-item key="1" @click="$router.push('/DeveloperProjects')">
         <a-icon type="appstore" />
         <span>Manage my Projects</span>
       </a-menu-item>
 
-      <a-menu-item key="3" @click="$router.push('DeveloperEscrow')">
+      <a-menu-item key="3" @click="$router.push('/DeveloperEscrow')">
         <a-icon type="bank" />
         <span>Escrow Management</span>
       </a-menu-item>
@@ -34,7 +34,7 @@
         <a-icon type="calendar" />
         <span>My Meetings</span>
       </a-menu-item>
-      <a-menu-item key="5" @click="$router.push('DevBugs')">
+      <a-menu-item key="5" @click="$router.push('/DevBugs')">
         <a-icon type="exclamation" />
         <span>Bugs & issues</span>
       </a-menu-item>
@@ -46,7 +46,7 @@
         <a-icon type="solution" />
         <span>Edit Profile</span>
       </a-menu-item>
-      <a-menu-item key="8">
+      <a-menu-item key="8" @click="logout">
         <a-icon type="logout" />
         <span>logout</span>
       </a-menu-item>
@@ -94,6 +94,19 @@ export default {
     },
     onBreakpoint(broken) {
       return broken;
+    },
+    logout() {
+      this.$store.dispatch('setToken', null);
+      this.$store.dispatch('setUser', null)
+      this.$store.dispatch('setisLoggedIn', false)
+      this.$store.dispatch('setUser_object', null)
+      this.$store.dispatch('setProjectedit', null)
+
+
+
+      this.$router.push({
+        name: 'home'
+      })
     },
   }
 }

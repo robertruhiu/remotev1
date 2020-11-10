@@ -3,6 +3,11 @@ import App from './App.vue'
 import router from './router'
 import {sync} from 'vuex-router-sync'
 import store from '@/store/store'
+import VeeValidate from 'vee-validate';
+const config = {
+  fastExit: false
+}
+Vue.use(VeeValidate, config);
 
 import {
   Spin,
@@ -36,7 +41,7 @@ import {
   Timeline,
   Skeleton,
   Icon,
-  Row, Upload, Switch, Tooltip, Affix, notification, Collapse, Empty, message,Calendar,Breadcrumb,Descriptions,Result,FormModel,Statistic,Space,Comment
+  Row, Upload, Switch, Tooltip, Affix, notification, Collapse, Empty, message,Calendar,Breadcrumb,Descriptions,Result,FormModel,Statistic,Space,Comment,Popconfirm
 
 
 } from 'ant-design-vue';
@@ -80,7 +85,7 @@ Vue.use(Affix)
 Vue.use(notification)
 Vue.use(Collapse)
 Vue.use(Empty)
-Vue.use(message)
+
 Vue.use(Calendar)
 Vue.use(Breadcrumb)
 Vue.use(Descriptions)
@@ -89,7 +94,8 @@ Vue.use(FormModel)
 Vue.use(Statistic)
 Vue.use(Space)
 Vue.use(Comment)
-
+Vue.use(Popconfirm)
+Vue.prototype.$message = message;
 
 
 Vue.config.productionTip = false

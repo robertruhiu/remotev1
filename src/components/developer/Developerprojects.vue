@@ -16,8 +16,8 @@
             <a-row>
               <a-col span="12">
                 <a-breadcrumb>
-                  <a-breadcrumb-item><a @click="$router.push('Developer')" >Home</a></a-breadcrumb-item>
-                  <a-breadcrumb-item><a @click="$router.push('DeveloperProjects')" >My projects</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('/Developer')" >Home</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('/DeveloperProjects')" >My projects</a></a-breadcrumb-item>
 
                 </a-breadcrumb>
                 <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
@@ -43,46 +43,95 @@
           <div style="padding: 0 3%">
 
             <a-tabs default-active-key="1" @change="callback">
-              <a-tab-pane key="1" tab="In developement">
-                <a-card style="width: 60%">
-                  <span slot="title" style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</span>
+              <a-tab-pane key="1" tab="In developement" v-if="Inprogress.length>0">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" style="width: 60%">
 
-                  <p>due time: 12/8/2020</p>
+                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                    <a-card style="width: 100%">
+                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
 
-                  <div slot="actions">
-                    <a-button type="primary" @click="$router.push('ProjectBoard')">
-                      View project
-                    </a-button>
-                  </div>
-                </a-card>
+
+
+                      <div slot="actions">
+                        <a-row style="padding: 1%">
+                          <a-col span="4">
+                            <a-button type="primary" @click="$router.push({ name: 'ProjectBoard', params: { projectSlug: item.slug } })">
+                              View project
+                            </a-button>
+
+                          </a-col>
+
+
+                        </a-row>
+                      </div>
+                    </a-card>
+
+                  </a-list-item>
+                </a-list>
 
               </a-tab-pane>
-              <a-tab-pane key="2" tab="Contract discussions" force-render>
-                <a-card style="width: 60%">
-                  <span slot="title" style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">Cyrus web application</span>
+              <a-tab-pane key="2" tab="Contract discussions" force-render v-if="Incontract.length>0">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" style="width: 60%">
 
-                  <p>due time: 12/8/2020</p>
+                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                    <a-card style="width: 100%">
+                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
 
-                  <div slot="actions">
-                    <a-button type="primary" @click="$router.push('DevContract')">
-                      View project
-                    </a-button>
-                  </div>
-                </a-card>
+
+
+                      <div slot="actions">
+                        <a-row style="padding: 1%">
+                          <a-col span="4">
+                            <a-button type="primary" @click="$router.push({ name: 'DevContract', params: { projectSlug: item.slug } })" >
+                              Start negotiations
+                            </a-button>
+
+                          </a-col>
+                          <a-col span="20">
+
+
+                          </a-col>
+
+                        </a-row>
+                      </div>
+                    </a-card>
+
+                  </a-list-item>
+                </a-list>
               </a-tab-pane>
-              <a-tab-pane key="3" tab="Bids placed">
+              <a-tab-pane key="3" tab="Bids placed" v-if="bid">
                 <a-row>
                   <a-col span="12">
 
 
-                    <a-list item-layout="vertical" size="middle" :pagination="pagination" :data-source="listData">
+                    <a-list item-layout="vertical" size="middle" :pagination="pagination" :data-source="BidProjects">
 
-                      <a-list-item slot="renderItem" key="item.title" slot-scope="item">
+                      <a-list-item slot="renderItem" key="item.title" slot-scope="item" v-if="!item.accepted">
                         <a-card>
+
                           <span slot="title"
-                                style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">{{ item.title }}</span>
-                          <p>{{ item.proposal }}</p>
-                          {{item.tools}}
+                                style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">{{ item.project.title }}
+
+                            <a-tag color="#108ee9" v-if="item.shortlisted">    <a-icon type="filter" />    shortlisted      </a-tag>
+
+                          </span>
+                          <a-collapse v-model="activeKey" >
+                            <a-collapse-panel key="1" header="Project description.">
+                              <markdown>{{ item.project.description }}</markdown>
+                            </a-collapse-panel>
+                          </a-collapse>
+
+                          {{item.project.tools}}
 
 
                           <div slot="actions">
@@ -96,16 +145,17 @@
                       </a-list-item>
                     </a-list>
                   </a-col>
-                  <a-col span="12">
+                  <a-col span="12" v-if="bid">
                     <div style="padding: 0 1%">
                       <div class="casecard">
 
 
                         <div id="main content" style="padding: 1%">
-                          <div v-if="bid">
+                          <div >
 
                             <div>
-                            <span><p><strong>Project title:</strong>{{ bid.title }}</p>
+
+                            <span><p><strong>Project title:</strong>{{ bid.project.title }}</p>
 
 
                             </span>
@@ -146,25 +196,26 @@
                               <a-icon type="plus"/>
                               New Tag
                             </a-tag>
-                            <p>Time i will take(weeks,months,days)</p>
-                            <a-input v-model="bid.time"/>
+
+
+                            <p>Time i will take in days</p>
+                            <a-input type="Number"  v-model="bid.time" :min="0" addon-after="days"/>
+
                             <p>Budget
                               <span v-if="bidflag" style="color: red">(bids are capped you can only go 10% lower than quoted by client )</span>
                               <span v-else>(bids are capped you can only go 10% lower than quoted by client )</span>
                             </p>
-                            <a-input-number style="width: 100%"
-                                            @change="budgetflag"
-                                            :default-value=bid.budget
-                                            :formatter="value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                                            :parser="value => value.replace(/\$\s?|(,*)/g, '')"
+                            <a-input type="number" @change="budgetflag" v-model="bid.budget" addon-after="$"/>
 
-                            />
                             <div style="margin-top: 1rem">
-                              <a-space>
-                                <a-button key="submit" type="primary" @click="editbid(bid)">
+                              <span v-if="editload">
+                                <a-spin/>
+                              </span>
+                              <a-space v-else>
+                                <a-button key="submit" type="primary" @click="editbid()" v-if="!bid.shortlisted">
                                   Submit edit
                                 </a-button>
-                                <a-button type="danger" @click="withdrawbid(bid)">
+                                <a-button type="danger" @click="withdrawbid()">
                                   Withdraw bid
                                 </a-button>
                               </a-space>
@@ -201,25 +252,28 @@
 <script>
 import DevSider from '@/components/developer/layout/DevSider'
 import moment from 'moment';
+import Project from "@/services/Projects";
+import Projects from "@/services/Projects";
+import markdown from 'vue-markdown'
+class BidProjects {
+  constructor(id, proposal, budget, time, tools, project,shortlisted,accepted) {
+    this.id = id;
+    this.proposal = proposal;
+    this.budget = budget;
+    this.time = time;
+    this.tools = tools;
+    this.project = project;
+    this.shortlisted = shortlisted
+    this.accepted = accepted
 
-const listData = [];
-for (let i = 0; i < 15; i++) {
-  listData.push({
 
-    title: `Project ${i}`,
-    proposal:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    budget: 2000,
-    time: '2 months',
-    tools: ['react', 'django']
-  });
+  }
 }
 
 export default {
   name: "Developerprojects",
   data() {
     return {
-      listData,
       projects: [1],
       bid: {},
       tags: [],
@@ -231,17 +285,23 @@ export default {
         },
         pageSize: 3,
       },
-      bidflag: false
+      bidflag: false,
+      bids:[],
+      time:0,
+      editload:false,
+      myprojects: [],
+
     }
   },
   components: {
-    DevSider
+    DevSider,markdown
 
 
   },
   mounted() {
-    this.bid = this.listData[0]
-    this.tags = this.bid.tools
+
+    this.DeveloperBids()
+    this.FetchProject()
 
   },
   computed: {
@@ -263,34 +323,129 @@ export default {
       }
       return greeting
     },
+    Inprogress() {
+      let projects = []
+      this.myprojects.forEach(project => {
+        if (project.stage === 'developement') {
+          projects.push(project)
+        }
+      })
+      return projects
+    },
+    Incontract() {
+      let projects = []
+      this.myprojects.forEach(project => {
+        if (project.stage === 'contract') {
+          projects.push(project)
+        }
+      })
+      return projects
+    },
+    BidProjects() {
+      let bidlist = []
+
+      this.bids.forEach(bid => {
+        let timestring = bid.timeline.split(" ")
+        let id = bid.id
+        let project = bid.project
+        let proposal = bid.proposal
+        let budget = bid.budget
+        let time = Number(timestring[0])
+        let tools = bid.tools.split(',')
+        let shortlisted = bid.shortlisted
+        let accepted = bid.accepted
+
+
+        let onebid = new BidProjects(id, proposal, budget, time, tools, project,shortlisted,accepted)
+
+
+        bidlist.push(onebid)
+
+      })
+
+
+      return bidlist
+
+    },
 
 
   },
   methods: {
+    FetchProject(){
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Projects.developerprojects(this.$store.state.user.pk,auth)
+          .then(resp=>{
+            this.myprojects = resp.data
+          })
+
+    },
+    DeveloperBids() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.activedeveloperbids(this.$store.state.user.pk, auth).then(
+          resp => {
+            this.bids = resp.data
+            console.log(this.bids)
+            this.bid = this.BidProjects[0]
+            this.tags = this.bid.tools
+
+
+
+          }
+      )
+
+    },
     viewbid(item) {
       if (item !== this.bid) {
         this.bid = item
         this.tags = this.bid.tools
 
 
+
       }
 
 
     },
-    editbid(bid) {
+    editbid() {
+      this.editload = true
 
-      let index = this.listData.indexOf(bid)
-      this.bid.tools = this.tags
-      this.listData[index] = this.bid
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+
+      }
+
+
+      Project.updatebid(this.bid.id,{timeline:this.bid.time * 86400,tools:this.tags.join(),budget:this.bid.budget,proposal:this.bid.proposal} ,auth)
+          .then(()=>{
+            this.editload = false
+            this.DeveloperBids()
+
+          })
+
+
+
 
     },
-    withdrawbid(bid) {
-      let index = this.listData.indexOf(bid)
-      if (index > -1) {
-        this.listData.splice(index, 1);
+    withdrawbid() {
+      this.editload = true
+
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
       }
-      this.bid=this.listData[0]
-      this.tags = this.bid.tools
+
+      Project.updatebid(this.bid.id,{withdraw:true} ,auth)
+          .then(()=>{
+            this.editload = false
+            this.DeveloperBids()
+
+          })
 
 
 

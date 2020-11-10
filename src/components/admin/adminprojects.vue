@@ -16,8 +16,8 @@
             <a-row>
               <a-col span="12">
                 <a-breadcrumb>
-                  <a-breadcrumb-item><a @click="$router.push('Admindashboard')">Home</a></a-breadcrumb-item>
-                  <a-breadcrumb-item><a @click="$router.push('AdminProjects')">All projects</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('/Admindashboard')">Home</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('/AdminProjects')">All projects</a></a-breadcrumb-item>
 
                 </a-breadcrumb>
                 <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
@@ -39,6 +39,7 @@
         </div>
 
         <div style="min-height: 40vh ;position: relative">
+
           <div style="padding: 3%" v-if="myprojects.length=== 0">
 
             <a-empty
@@ -52,7 +53,7 @@
           </div>
           <div style="padding: 0 3%">
             <a-tabs default-active-key="1" @change="callback">
-              <a-tab-pane key="1" tab="In developement">
+              <a-tab-pane key="1" tab="In developement" v-if="Inprogress.length>0">
                 <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" style="width: 60%">
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
@@ -60,21 +61,21 @@
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
                       <a slot="extra" @click="editproject(item.id)">edit project</a>
 
-                      <p>{{item.description}}</p>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
 
                       <div slot="actions">
                         <a-row style="padding: 1%">
                           <a-col span="4">
-                            <a-button type="primary" @click="$router.push('AdminTracker')">
+                            <a-button type="primary" @click="$router.push({ name: 'AdminTracker', params: { projectSlug: item.slug } })">
                               View project
                             </a-button>
 
                           </a-col>
-                          <a-col span="20">
-                        <span style="float: right"><a-avatar
-                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>: {{item.developer}}</span>
 
-                          </a-col>
 
                         </a-row>
                       </div>
@@ -85,7 +86,7 @@
 
 
               </a-tab-pane>
-              <a-tab-pane key="2" tab="Contract discussions" force-render>
+              <a-tab-pane key="2" tab="Contract discussions" force-render v-if="Incontract.length>0">
                 <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" style="width: 60%">
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
@@ -93,19 +94,22 @@
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
                       <a slot="extra"  @click="editproject(item.id)">edit project</a>
 
-                      <p>{{item.description}}</p>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
 
                       <div slot="actions">
                         <a-row style="padding: 1%">
                           <a-col span="4">
-                            <a-button type="primary" @click="$router.push('Contract')">
-                              View negotiations
+                            <a-button type="primary" @click="$router.push({ name: 'Contract', params: { projectSlug: item.slug } })" >
+                              Start negotiations
                             </a-button>
 
                           </a-col>
                           <a-col span="20">
-                        <span style="float: right"><a-avatar
-                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>: {{item.developer}}</span>
+
 
                           </a-col>
 
@@ -117,7 +121,7 @@
                 </a-list>
 
               </a-tab-pane>
-              <a-tab-pane key="3" tab="Bids stage">
+              <a-tab-pane key="3" tab="Bids " v-if="Inbidding.length>0">
                 <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inbidding" style="width: 60%">
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
@@ -125,13 +129,94 @@
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
                       <a slot="extra"  @click="editproject(item.id)">edit project</a>
 
-                      <p>{{item.description}}</p>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
 
                       <div slot="actions">
                         <a-row style="padding: 1%">
                           <a-col span="4">
-                            <a-button type="primary" @click="$router.push('Bids')">
+                            <a-button type="primary" @click="$router.push({ name: 'AdminBids', params: { projectSlug: item.slug } })">
                               View bids
+                            </a-button>
+
+                          </a-col>
+                          <a-col span="4">
+                            <a-button type="danger" @click="removeverifyproject(item.id)">
+                              Unverify Project
+                            </a-button>
+
+
+                          </a-col>
+
+                        </a-row>
+                      </div>
+                    </a-card>
+
+                  </a-list-item>
+                </a-list>
+
+              </a-tab-pane>
+              <a-tab-pane key="4" tab="Awaiting verification " v-if="AwaitingVerification.length>0">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="AwaitingVerification" style="width: 60%">
+
+                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                    <a-card style="width: 100%">
+                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+
+
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
+
+                      <div slot="actions">
+
+                        <a-row style="padding: 1%">
+                          <a-col span="4">
+                            <a-button type="primary" @click="editproject(item.id)">
+                              Edit Project
+                            </a-button>
+
+                          </a-col>
+                          <a-col span="4">
+                            <a-button style="background-color: #52c41a;color: white" @click="verifyproject(item.id)">
+                              Verify Project
+                            </a-button>
+
+
+                          </a-col>
+
+                        </a-row>
+                      </div>
+                    </a-card>
+
+                  </a-list-item>
+                </a-list>
+
+              </a-tab-pane>
+              <a-tab-pane key="5" tab="In Creation stage " v-if="InCreation.length>0">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="InCreation" style="width: 60%">
+
+                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                    <a-card style="width: 100%">
+                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+
+
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
+
+                      <div slot="actions">
+                        <a-row style="padding: 1%">
+                          <a-col span="4">
+                            <a-button type="primary" @click="editproject(item.id)">
+                              Edit Project
                             </a-button>
 
                           </a-col>
@@ -162,6 +247,9 @@
 <script>
 import AdminSider from '@/components/admin/layout/Adminsider'
 import moment from 'moment';
+import Projects from '@/services/Projects'
+import Project from "@/services/Projects";
+import markdown from 'vue-markdown'
 export default {
 name: "adminprojects",
   data() {
@@ -178,61 +266,13 @@ name: "adminprojects",
     }
   },
   components: {
-    AdminSider
+    AdminSider,markdown
 
 
   },
   async mounted() {
-    // Projects.myprojects()
-    //     .then(resp=>{
-    //       this.myprojects = resp.data
-    //     })
-    this.myprojects =
-        [
-          {
-            id:1,
-            'title': 'project1',
-            'description': 'this is a project in developement',
-            'stage':'developement',
-            'developer':'dennis'
-          },
-          {
-            id:2,
-            'title': 'project2',
-            'description': 'hi hi there',
-            'stage':'contract',
-            'developer':'dennis'
-          },
-          {
-            id:3,
-            'title': 'project3',
-            'description': 'am in bidding stage',
-            'stage':'bid',
-            'developer':'dennis'
-          },
-          {
-            id:4,
-            'title': 'project4',
-            'description': 'am in bidding stage',
-            'stage':'bid',
-            'developer':'dennis'
-          },
-          {
-            id:5,
-            'title': 'project5',
-            'description': 'am in bidding stage',
-            'stage':'bid',
-            'developer':'dennis'
-          },
-          {
-            id:6,
-            'title': 'project6',
-            'description': 'am in bidding stage',
-            'stage':'bid',
-            'developer':'dennis'
-          }
+    this.FetchProject()
 
-        ]
 
   },
   computed: {
@@ -275,7 +315,25 @@ name: "adminprojects",
     Inbidding() {
       let projects = []
       this.myprojects.forEach(project => {
-        if (project.stage === 'bid') {
+        if (project.stage === 'bid'&& project.verified  ) {
+          projects.push(project)
+        }
+      })
+      return projects
+    },
+    InCreation() {
+      let projects = []
+      this.myprojects.forEach(project => {
+        if (project.stage === 'creation' || project.stage === 'escrow1') {
+          projects.push(project)
+        }
+      })
+      return projects
+    },
+    AwaitingVerification() {
+      let projects = []
+      this.myprojects.forEach(project => {
+        if (project.stage === 'bid' && project.verified === false) {
           projects.push(project)
         }
       })
@@ -285,12 +343,49 @@ name: "adminprojects",
 
   },
   methods:{
-    editproject(id){
+    FetchProject(){
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Projects.myprojects(this.$store.state.user.pk,auth)
+          .then(resp=>{
+            this.myprojects = resp.data
+          })
+
+    },
+    editproject(id) {
       this.$store.dispatch('setProject', id)
       this.$router.push({
         name: 'AdminCreateEditProject'
       })
+    },
+    verifyproject(id) {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
 
+      }
+      Project.updateproject(id, {verified:true}, auth)
+          .then(
+              ()=>{
+                this.$message.success('Project has been verified');
+                this.FetchProject()
+              }
+          )
+
+    },
+    removeverifyproject(id){
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.updateproject(id, {verified:false}, auth)
+          .then(
+              ()=>{
+                this.$message.info('Project verified status removed');
+                this.FetchProject()
+              }
+          )
 
     }
   }

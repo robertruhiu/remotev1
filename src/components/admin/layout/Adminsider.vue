@@ -18,11 +18,11 @@
       </router-link>
     </hide-at>
     <a-menu  mode="inline" :default-selected-keys=key  style="font-family: sofia_proregular;background-color: #F4F7FC">
-      <a-menu-item key="9" @click="$router.push('Admindashboard')">
+      <a-menu-item key="9" @click="$router.push('/Admindashboard')">
         <a-icon type="dashboard" />
         <span>Home</span>
       </a-menu-item>
-      <a-menu-item key="1" @click="$router.push('AdminProjects')">
+      <a-menu-item key="1" @click="$router.push('/AdminProjects')">
         <a-icon type="appstore" />
         <span>Manage Projects</span>
       </a-menu-item>
@@ -30,7 +30,7 @@
         <a-icon type="plus" />
         <span>Create a Project</span>
       </a-menu-item>
-      <a-menu-item key="3" @click="$router.push('AdminEscrow')">
+      <a-menu-item key="3" @click="$router.push('/AdminEscrow')">
         <a-icon type="bank" />
 
         <span>Escrow Management</span>
@@ -39,7 +39,7 @@
         <a-icon type="calendar" />
         <span>My Meetings</span>
       </a-menu-item>
-      <a-menu-item key="5" @click="$router.push('AdminIssues')">
+      <a-menu-item key="5" @click="$router.push('/AdminIssues')">
         <a-icon type="exclamation" />
         <span>Bugs & issues</span>
       </a-menu-item>
@@ -51,7 +51,7 @@
         <a-icon type="solution" />
         <span>Edit Profile</span>
       </a-menu-item>
-      <a-menu-item key="8">
+      <a-menu-item key="8" @click="logout">
         <a-icon type="logout" />
         <span>logout</span>
       </a-menu-item>
@@ -89,7 +89,20 @@ name: "Adminsider",
       this.$router.push({
         name: 'AdminCreateEditProject'
       })
-    }
+    },
+    logout() {
+      this.$store.dispatch('setToken', null);
+      this.$store.dispatch('setUser', null)
+      this.$store.dispatch('setisLoggedIn', false)
+      this.$store.dispatch('setUser_object', null)
+      this.$store.dispatch('setProjectedit', null)
+
+
+
+      this.$router.push({
+        name: 'home'
+      })
+    },
   }
 }
 </script>

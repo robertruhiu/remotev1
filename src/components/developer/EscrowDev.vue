@@ -15,8 +15,8 @@
           <a-row>
             <a-col span="12">
               <a-breadcrumb>
-                <a-breadcrumb-item><a @click="$router.push('Dashboard')">Home</a></a-breadcrumb-item>
-                <a-breadcrumb-item><a @click="$router.push('Escrow')">Escrow Management</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('/Developer')">Home</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('/DeveloperEscrow')">Escrow Management</a></a-breadcrumb-item>
 
               </a-breadcrumb>
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
@@ -39,7 +39,7 @@
 
 
               <div style="padding: 3%">
-                <a-collapse expandIconPosition="right" v-for="project in Projects" v-bind:key="project"
+                <a-collapse expandIconPosition="right" v-for="project in AllProjects" v-bind:key="project"
                             style="border-radius: 0;background-color: white">
                   <a-collapse-panel style="margin-bottom: 1rem;border-radius: 0;background-color: white">
                     <div slot="header">
@@ -82,7 +82,7 @@
                     <a-tabs v-model="activeKey" @change="callback">
                       <a-tab-pane key="1" >
                         <span slot="tab">
-                          <a-icon type="download"/>
+                          <a-icon type="hourglass" spin/>
                           Pending approval
                         </span>
 
@@ -94,15 +94,12 @@
                           <div
                               style="background-color: white;border: 1px solid #e8e8e8;padding: 2%;margin-bottom: 1rem">
                             <p style="font-family: sofia_probold">Developer note for testing</p>
-                            <p style="font-family: sofia_proregular">{{ task.note }}</p>
+                            <p style="font-family: sofia_proregular">{{ task.developer_note }}</p>
                           </div>
 
 
 
-                          <div>
-                            <p style="font-family: sofia_proregular"><a-icon type="bug" theme="twoTone" two-tone-color="#eb2f96" /> 3 issues open </p>
-                            <a-button type="primary" size="small" @click="$router.push('Bugs')">View issues</a-button>
-                          </div>
+
 
 
                         </a-card>
@@ -110,11 +107,17 @@
                       </a-tab-pane>
                       <a-tab-pane key="2" tab="All milestones" force-render>
                         <a-table :columns="milestonecolumns" :data-source="project.milestones">
+                          <span slot="stage" slot-scope=" record">
+                            <a-tag color="#108ee9">{{ record }}</a-tag>
+                          </span>
                           <span slot="deadline" slot-scope=" record">
                             <a-tag color="cyan">{{ record }}</a-tag>
                           </span>
                           <span slot="assignedto" slot-scope=" record">
                             <a-tag color="#108ee9">{{ record }}</a-tag>
+                          </span>
+                          <span slot="amount" slot-scope=" record">
+                            <a-tag color="blue"> {{ record }} $</a-tag>
                           </span>
 
 
@@ -130,7 +133,8 @@
                             <a-tag color="#2db7f5">{{ record }}</a-tag>
                           </span>
                           <span slot="status" slot-scope=" record">
-                            <a-tag color="blue"> {{ record }}</a-tag>
+                            <a-tag color="#2db7f5" v-if="record === true">disbursed</a-tag>
+                            <a-tag color="#2db7f5" v-else>pending</a-tag>
                           </span>
                           <span slot="paid_to" slot-scope=" record">
                             <a-tag color="#108ee9">{{ record }}</a-tag>
@@ -197,25 +201,27 @@
 <script>
 import DevSider from '@/components/developer/layout/DevSider'
 import moment from 'moment';
+import Project from "@/services/Projects";
 const milestonecolumns = [
 
   {
-    title: 'Name',
+    title: 'Feature name',
     dataIndex: 'name',
     key: 'name',
   },
   {
-    title: 'Deadline',
-    dataIndex: 'deadline',
-    key: 'deadline',
-    scopedSlots: {customRender: 'deadline'},
+    title: 'Stage',
+    dataIndex: 'stage',
+    key: 'stage',
+    scopedSlots: {customRender: 'stage'},
   },
   {
-    title: 'Assigned to',
-    dataIndex: 'assignedto',
-    key: 'assignedto',
-    scopedSlots: {customRender: 'assignedto'},
+    title: 'Amount',
+    dataIndex: 'amount',
+    key: 'amount',
+    scopedSlots: {customRender: 'amount'},
   },
+
 
 
 ];
@@ -228,8 +234,8 @@ const disbursedcolumns = [
   },
   {
     title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
+    dataIndex: 'escrow_disbursed',
+    key: 'escrow_disbursed',
     scopedSlots: {customRender: 'status'},
   },
   {
@@ -238,112 +244,21 @@ const disbursedcolumns = [
     key: 'amount',
     scopedSlots: {customRender: 'amount'},
   },
-  {
-    title: 'Paid to',
-    dataIndex: 'paid_to',
-    key: 'paid_to',
-    scopedSlots: {customRender: 'paid_to'},
-  },
 
 
 ];
 
-const Projects = [
-  {
-    title: `Lishe app`,
 
-
-    pending: [{
-      name: "Login pages",
-      id: 1,
-      'deadline': '2021-08-11',
-      'assignedto': 'dennis',
-      'note': 'go to the login page and login using this details'
-    },
-      {
-        name: "admin dashboard",
-        id: 2,
-        'deadline': '2021-08-11',
-        'assignedto': 'dennis',
-        'note': 'go to the link admin and the ui and actions for the admin are there'
-      },
-    ],
-    milestones: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert',},
-      {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
-    disbursed: [{
-      name: "landing Page",
-      id: 6,
-      'deadline': '2021-08-11',
-      'paid_to': 'jessica',
-      'status': 'complete',
-      'amount': '$500'
-    }],
-    balance: 4000,
-    disbursed_amount: 500
-
-  },
-  {
-    title: `React am`,
-
-
-    pending: [{
-      name: "Login pages",
-      id: 1,
-      'deadline': '2021-08-11',
-      'assignedto': 'dennis',
-      'note': 'go to the login page and login using this details'
-    },
-      {
-        name: "admin dashboard",
-        id: 2,
-        'deadline': '2021-08-11',
-        'assignedto': 'dennis',
-        'note': 'go to the link admin and the ui and actions for the admin are there'
-      },
-    ],
-    milestones: [{name: "Database structure", id: 4, 'deadline': '2021-08-11', 'assignedto': 'robert'},
-      {name: "UI/UX", id: 5, 'deadline': '2021-08-11', 'assignedto': 'robert'}],
-    disbursed: [{name: "landing Page", id: 6, 'deadline': '2021-08-11', 'paid_to': 'jessica', 'amount': '$500'}],
-    balance: 6000,
-    disbursed_amount: 2500
-
-  },
-
-
-]
-const Issues = [
-  {
-    title: `Login feature`,
-    description:'tried logging in ',
-    comments:[],
-    tag:'question',
-    status:'solved',
-    assigned_to:'',
-    abitrator:false
-
-  },
-  {
-    title: `The website is squeezed on my laptop`,
-    description:'When i open the site there seems to be weird look',
-    comments:[],
-    tag:'bug',
-    status:'solved',
-    assigned_to:'',
-    abitrator:false
-
-  },
-
-
-]
 export default {
   name: "Escrow",
   data() {
     return {
-      Projects,
+      Projectlist: [],
+      Featurelist: [],
       milestonecolumns,
       disbursedcolumns,
       activeKey: '1',
-      Issues,
+
       submitting: false,
       value: '',
       moment,
@@ -357,11 +272,14 @@ export default {
 
 
   },
+  mounted() {
+    this.fetchProjects()
+  },
   computed: {
     Allbalance() {
       let balance = 0
-      Projects.forEach(function (project) {
-        balance = project.balance + balance
+      this.AllProjects.forEach(function (project) {
+        balance = Number(project.balance) + balance
       });
       return balance
 
@@ -369,8 +287,11 @@ export default {
     },
     Disbursed() {
       let balance = 0
-      Projects.forEach(function (project) {
-        balance = project.disbursed_amount + balance
+      this.AllProjects.forEach(function (project) {
+        project.disbursed.forEach(feature => {
+          balance = Number(feature.amount) + balance
+        })
+
       });
       return balance
 
@@ -378,16 +299,96 @@ export default {
     },
     Pending() {
       let pending = 0
-      Projects.forEach(function (project) {
+      this.AllProjects.forEach(function (project) {
         pending = project.pending.length + pending
       });
       return pending
 
 
+    },
+    AllProjects() {
+      let projects = []
+
+
+      this.Projectlist.forEach(project => {
+        let projectobj = {
+          'title': '',
+          'pending': [],
+          'milestones': [],
+          'disbursed': [],
+          'balance': project.budget,
+          'disbursed_amount': 0
+        }
+        let milestones = []
+        let pending = []
+        let disbursed = []
+        this.Featurelist.forEach(feature => {
+
+          if (feature.project === project.id) {
+            if (feature.stage === 'quality') {
+              pending.push(feature)
+
+            } else if (feature.stage === 'done') {
+              projectobj.disbursed_amount += Number(feature.amount)
+
+
+              disbursed.push(feature)
+
+            } else {
+              milestones.push(feature)
+            }
+
+          }
+
+        })
+        projectobj.balance -= Number(projectobj.disbursed_amount)
+        projectobj.title = project.title
+        projectobj.pending = pending
+        projectobj.milestones = milestones
+        projectobj.disbursed = disbursed
+
+
+        projects.push(projectobj)
+      })
+      return projects
     }
 
   },
   methods:{
+    fetchProjects() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.developerprojects(this.$store.state.user.pk, auth)
+          .then(resp => {
+
+                this.Projectlist = resp.data
+                this.fetchFeatures()
+
+
+              }
+          )
+    },
+    fetchFeatures() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      this.Projectlist.forEach(project => {
+        Project.getfeatures(project.id, auth)
+            .then(resp => {
+              console.log(resp.data)
+              resp.data.forEach(feature=>{
+                this.Featurelist.push(feature)
+              })
+
+
+            })
+
+      })
+
+    },
 
 
   },

@@ -15,8 +15,8 @@
           <a-row>
             <a-col span="12">
               <a-breadcrumb>
-                <a-breadcrumb-item><a @click="$router.push('Dashboard')">Home</a></a-breadcrumb-item>
-                <a-breadcrumb-item><a @click="$router.push('Escrow')">Escrow Management</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('/Dashboard')">Home</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('/Escrow')">Escrow Management</a></a-breadcrumb-item>
 
               </a-breadcrumb>
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
@@ -33,6 +33,8 @@
 
 
         </a-card>
+
+
         <div style="min-height: 40vh ;position: relative">
           <a-row gutter="16">
             <a-col span="16">
@@ -82,7 +84,7 @@
                     <a-tabs v-model="activeKey" @change="callback">
                       <a-tab-pane key="1">
                         <span slot="tab">
-                          <a-icon type="download"/>
+                          <a-icon type="hourglass" spin/>
                           Pending approval
                         </span>
 
@@ -96,11 +98,13 @@
                           <div
                               style="background-color: white;border: 1px solid #e8e8e8;padding: 2%;margin-bottom: 1rem">
                             <p style="font-family: sofia_probold">Developer note for testing</p>
-                            <p style="font-family: sofia_proregular">{{ task.note }}</p>
+                            <p style="font-family: sofia_proregular">{{ task.developer_note }}</p>
                           </div>
-                          <p>Amount to be disbursed:<a-tag color="#2db7f5">
-                            $ {{task.amount}}
-                          </a-tag></p>
+                          <p>Amount to be disbursed:
+                            <a-tag color="#2db7f5">
+                              $ {{ task.amount }}
+                            </a-tag>
+                          </p>
 
 
                         </a-card>
@@ -108,11 +112,17 @@
                       </a-tab-pane>
                       <a-tab-pane key="2" tab="All milestones" force-render>
                         <a-table :columns="milestonecolumns" :data-source="project.milestones">
+                          <span slot="stage" slot-scope=" record">
+                            <a-tag color="#108ee9">{{ record }}</a-tag>
+                          </span>
                           <span slot="deadline" slot-scope=" record">
                             <a-tag color="cyan">{{ record }}</a-tag>
                           </span>
                           <span slot="assignedto" slot-scope=" record">
                             <a-tag color="#108ee9">{{ record }}</a-tag>
+                          </span>
+                          <span slot="amount" slot-scope=" record">
+                            <a-tag color="blue"> {{ record }} $</a-tag>
                           </span>
 
 
@@ -124,15 +134,14 @@
                           Disbursed
                         </span>
                         <a-table :columns="disbursedcolumns" :data-source="project.disbursed">
-                          <span slot="amount" slot-scope=" record">
-                            <a-tag color="#2db7f5">{{ record }}</a-tag>
-                          </span>
                           <span slot="status" slot-scope=" record">
-                            <a-tag color="blue"> {{ record }}</a-tag>
+                            <a-tag color="#2db7f5" v-if="record === true">disbursed</a-tag>
+                            <a-tag color="#2db7f5" v-else>pending</a-tag>
                           </span>
-                          <span slot="assignedto" slot-scope=" record">
-                            <a-tag color="#108ee9">{{ record }}</a-tag>
+                          <span slot="amount" slot-scope=" record">
+                            <a-tag color="blue"> {{ record }} $</a-tag>
                           </span>
+
 
 
                         </a-table>
@@ -198,25 +207,26 @@
 <script>
 import ClientSider from '@/components/client/layout/ClientSider'
 import moment from 'moment';
+import Project from "@/services/Projects";
 
 const milestonecolumns = [
 
   {
-    title: 'Name',
+    title: 'Feature name',
     dataIndex: 'name',
     key: 'name',
   },
   {
-    title: 'Deadline',
-    dataIndex: 'deadline',
-    key: 'deadline',
-    scopedSlots: {customRender: 'deadline'},
+    title: 'Stage',
+    dataIndex: 'stage',
+    key: 'stage',
+    scopedSlots: {customRender: 'stage'},
   },
   {
-    title: 'Assigned to',
-    dataIndex: 'assignedto',
-    key: 'assignedto',
-    scopedSlots: {customRender: 'assignedto'},
+    title: 'Amount',
+    dataIndex: 'amount',
+    key: 'amount',
+    scopedSlots: {customRender: 'amount'},
   },
 
 
@@ -224,14 +234,14 @@ const milestonecolumns = [
 const disbursedcolumns = [
 
   {
-    title: 'Name',
+    title: 'Feature name',
     dataIndex: 'name',
     key: 'name',
   },
   {
     title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
+    dataIndex: 'escrow_disbursed',
+    key: 'escrow_disbursed',
     scopedSlots: {customRender: 'status'},
   },
   {
@@ -240,91 +250,11 @@ const disbursedcolumns = [
     key: 'amount',
     scopedSlots: {customRender: 'amount'},
   },
-  {
-    title: 'Paid to',
-    dataIndex: 'paid_to',
-    key: 'paid_to',
-    scopedSlots: {customRender: 'paid_to'},
-  },
+
+
 
 
 ];
-
-const Projectlist = [
-  {
-    id: 1,
-    title: `Lishe app`,
-    balance: 0,
-    disbursed_amount: 0
-
-  },
-  {
-    id: 2,
-    title: `React am`,
-    balance: 0,
-    disbursed_amount: 0
-
-  },
-]
-const Featurelist = [
-
-  {
-    project_id: 1,
-    name: "Login pages",
-    id: 1,
-    'deadline': '2021-08-11',
-    'assignedto': 'dennis',
-    'amount': 200,
-    'note': 'go to the login page and login using this details',
-    'status': 'pending'
-  },
-  {
-    project_id: 1,
-    name: "admin dashboard",
-    id: 2,
-    'deadline': '2021-08-11',
-    'assignedto': 'dennis',
-    'amount': 600,
-    'note': 'go to the link admin and the ui and actions for the admin are there',
-    'status': 'active'
-  },
-
-
-  {
-    project_id: 1,
-    name: "Database structure",
-    id: 4,
-    'deadline': '2021-08-11',
-    'assignedto': 'robert',
-    'amount': 700,
-    'note': '',
-    'status': 'pending'
-  },
-  {
-    project_id: 2,
-    name: "UI/UX",
-    id: 5,
-    'deadline': '2021-08-11',
-    'assignedto': 'robert',
-    'amount': 500,
-    'note': '',
-    'status': 'disbursed'
-  },
-
-  {
-    project_id: 2,
-    name: "landing Page",
-    id: 6,
-    'deadline': '2021-08-11',
-    'assignedto': 'jessica',
-    'amount': 300,
-    'note': '',
-    'status': 'pending'
-  }
-
-
-]
-
 
 
 export default {
@@ -332,8 +262,8 @@ export default {
   data() {
     return {
 
-      Projectlist,
-      Featurelist,
+      Projectlist: [],
+      Featurelist: [],
       milestonecolumns,
       disbursedcolumns,
       activeKey: '1',
@@ -341,8 +271,8 @@ export default {
       value: '',
       moment,
       client: 'dennis',
-      currentfeature:{},
-      currentproject:{}
+      currentfeature: {},
+      currentproject: {}
 
 
     };
@@ -351,6 +281,9 @@ export default {
     ClientSider
 
 
+  },
+  mounted() {
+    this.fetchProjects()
   },
   computed: {
     Allbalance() {
@@ -365,7 +298,7 @@ export default {
     Disbursed() {
       let balance = 0
       this.AllProjects.forEach(function (project) {
-        project.disbursed.forEach(feature=>{
+        project.disbursed.forEach(feature => {
           balance = Number(feature.amount) + balance
         })
 
@@ -393,7 +326,7 @@ export default {
           'pending': [],
           'milestones': [],
           'disbursed': [],
-          'balance': 4000,
+          'balance': project.budget,
           'disbursed_amount': 0
         }
         let milestones = []
@@ -401,11 +334,11 @@ export default {
         let disbursed = []
         this.Featurelist.forEach(feature => {
 
-          if (feature.project_id === project.id) {
-            if (feature.status === 'pending') {
+          if (feature.project === project.id) {
+            if (feature.stage === 'quality') {
               pending.push(feature)
 
-            } else if (feature.status === 'disbursed') {
+            } else if (feature.stage === 'done') {
               projectobj.disbursed_amount += Number(feature.amount)
 
 
@@ -432,15 +365,55 @@ export default {
 
   },
   methods: {
-    Approve(project,feature){
+    fetchProjects() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.myprojects(this.$store.state.user.pk, auth)
+          .then(resp => {
+
+                this.Projectlist = resp.data
+                this.fetchFeatures()
+
+
+              }
+          )
+    },
+    fetchFeatures() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      this.Projectlist.forEach(project => {
+        Project.getfeatures(project.id, auth)
+            .then(resp => {
+              console.log(resp.data)
+              resp.data.forEach(feature=>{
+                this.Featurelist.push(feature)
+              })
+
+
+            })
+
+      })
+
+    },
+    Approve(project, feature) {
       this.currentproject = project
       this.currentfeature = feature
-      this.currentfeature.status = 'disbursed'
+      this.currentfeature.stage = 'done'
       this.currentproject.disbursed.push(this.currentfeature)
       let index = this.currentproject.pending.indexOf(this.currentfeature)
       if (index > -1) {
         this.currentproject.pending.splice(index, 1);
       }
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.updatefeature(feature.id,{stage:'done'}, auth)
+          .then()
 
 
     }

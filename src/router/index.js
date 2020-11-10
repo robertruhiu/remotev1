@@ -6,6 +6,7 @@ const Admindashboard = () => import('@/components/admin/adminDashboard')
 const AdminEscrow = () => import('@/components/admin/adminEscrow')
 const AdminIssues = () => import('@/components/admin/adminIssues')
 const AdminProjects = () => import('@/components/admin/adminprojects')
+const AdminBids = () => import('@/components/admin/AdminBids')
 const AdminTracker = () => import('@/components/admin/adminkanban/adminTrackboard')
 const AdminCreateEditProject =()=>import('@/components/admin/AdminCreateProject')
 const Home = () => import('@/components/homepages/Home')
@@ -23,9 +24,12 @@ const Escrow = () => import('@/components/client/Escrow')
 const Contract = () => import('@/components/client/Contract')
 const DeveloperProjects = () => import('@/components/developer/Developerprojects')
 const DevContract = () => import('@/components/developer/DevContract')
+const Teams = () => import('@/components/developer/Teams')
 
 const Meeting = () => import('@/components/shared/meeting/meeting')
 const Login = () => import('@/components/homepages/auth/login')
+const Register = () => import('@/components/homepages/auth/register')
+const Forgot = () => import('@/components/homepages/auth/forgot')
 const ManageDevs = () => import('@/components/admin/ManageDevs')
 Vue.use(Router);
 
@@ -44,10 +48,21 @@ let router = new Router({
             component: Login
         },
         {
+            path: '/Register',
+            name: 'Register',
+            component: Register
+        },
+        {
+            path: '/Forgot',
+            name: 'Forgot',
+            component: Forgot
+        },
+        {
             path: '/Jobs',
             name: 'Jobs',
             component: Jobs
         },
+
         {
             path: '/Dashboard',
             name: 'Dashboard',
@@ -60,7 +75,7 @@ let router = new Router({
             component: DeveloperDashboard
         },
         {
-            path: '/ProjectBoard',
+            path: '/ProjectBoard/:projectSlug',
             name: 'ProjectBoard',
             component: TrackerBoard
         },
@@ -80,7 +95,12 @@ let router = new Router({
             component: DeveloperEscrow
         },
         {
-            path: '/Bids',
+            path: '/Teams',
+            name: 'Teams',
+            component: Teams
+        },
+        {
+            path: '/Bids/:projectSlug',
             name: 'Bids',
             component: Bids
         },
@@ -90,7 +110,7 @@ let router = new Router({
             component: CreateProject
         },
         {
-            path: '/Contract',
+            path: '/Contract/:projectSlug',
             name: 'Contract',
             component: Contract
         },
@@ -100,7 +120,7 @@ let router = new Router({
             component: Escrow
         },
         {
-            path: '/DevContract',
+            path: '/DevContract/:projectSlug',
             name: 'DevContract',
             component: DevContract
         },
@@ -142,9 +162,14 @@ let router = new Router({
             component: AdminProjects
         },
         {
-            path: '/AdminTracker',
+            path: '/AdminTracker/:projectSlug',
             name: 'AdminTracker',
             component: AdminTracker
+        },
+        {
+            path: '/AdminBids/:projectSlug',
+            name: 'AdminBids',
+            component: AdminBids
         },
         {
             path: '/AdminCreateEditProject',

@@ -12,9 +12,15 @@
 
 
               <div class="headercontainer">
-                <p class="maintitle scale-in-centerheader">Access Top African Freelance Programmers</p>
-                <p class="text__paragraph-big scale-in-centersubheader">An innovative platform for managing your
-                  project, timelines and freelancer’s tasks</p>
+                <div class="yeah">
+                  <p class="maintitle scale-in-centerheader">Manage your Remote Developers Through  Milestone Driven KPIS</p>
+                  <p class="text__paragraph-big scale-in-centersubheader">
+                    Story driven milestones to enable tasks fulfilment
+
+                  </p>
+                </div>
+
+
 
                 <span class="scale-in-centersubheader">
                         <a href="https://forms.gle/wDEeGfD4mq7MF2yG8" target="_blank">
@@ -234,12 +240,7 @@
                     </div>
 
 
-                    <div class="calendar">
-                      <div
-                          :style="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '14px',backgroundColor: 'white',padding:'3%' }">
-                        <a-calendar :fullscreen="false"/>
-                      </div>
-                    </div>
+
 
                   </div>
                 </hide-at>
@@ -705,6 +706,17 @@ export default {
   width: 14rem;
 }
 
+.yeah{
+  max-width: 806px;
+  margin: auto;
+  text-align: center;
+  font-family: sofia_probold;
+  font-weight: 700;
+  font-size: 43px;
+  line-height: 1.36;
+  letter-spacing: -.03px;
+  color: #07092f;
+}
 
 .maintitle {
   font-family: sofia_probold;
@@ -1832,6 +1844,7 @@ export default {
     font-size: 1rem;
     text-align: center;
     color: #272848;
+
 
 
     letter-spacing: 0 !important;

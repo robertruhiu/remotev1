@@ -14,19 +14,20 @@
 
 
             <a-breadcrumb>
-              <a-breadcrumb-item><a @click="$router.push('Dashboard')" >Home</a></a-breadcrumb-item>
-              <a-breadcrumb-item><a @click="$router.push('Myprojects')" >My projects</a></a-breadcrumb-item>
-              <a-breadcrumb-item><a>Cyrus web application</a></a-breadcrumb-item>
+              <a-breadcrumb-item><a @click="$router.push('/Admindashboard')" >Home</a></a-breadcrumb-item>
+              <a-breadcrumb-item><a @click="$router.push('/AdminProjects')" >My projects</a></a-breadcrumb-item>
+              <a-breadcrumb-item><a>{{ project.title }}</a></a-breadcrumb-item>
 
             </a-breadcrumb>
             <p style="font-size: 1.7rem;font-family: sofia_prosemibold;color: black;margin-bottom: 0">
-              Cyrus web application</p>
+              {{ project.title }}</p>
             <span style="margin-bottom: 0">You can switch between milestone overview kanban to in depth view kanban
                   <a-button-group style="margin-left: 1%">
                     <a-button type="primary" @click="viewMode(1)"> <a-icon type="appstore"/>Milestone view </a-button>
                     <a-button type="primary" @click="viewMode(2)"> In depth view<a-icon type="profile"/> </a-button>
                   </a-button-group>
                 </span>
+
 
 
           </a-card>
@@ -45,7 +46,7 @@
                   <div style="height:42rem;overflow: auto;">
                     <div
                         class="list-group-item"
-                        v-for="(element) in listData"
+                        v-for="(element) in features"
                         :key="element.name"
                     >
                       <div v-if="element.stage === 'backlog'">
@@ -60,14 +61,17 @@
                               </span>
                           <a slot="extra" @click="openFeature(element)">view milestone</a>
                           <template>
-                            <p>{{element.userstories[0]}}</p>
+                            <p>User stories</p>
+                            <ul v-for="story in element.userstories" v-bind:key="story">
+                              <li>{{ story.user_story }}</li>
+                            </ul>
+
 
 
                           </template>
 
                         </a-card>
                       </div>
-
 
 
                     </div>
@@ -85,7 +89,7 @@
                   <div style="height:42rem;overflow: auto;">
                     <div
                         class="list-group-item"
-                        v-for="(element) in listData"
+                        v-for="(element) in features"
                         :key="element.name"
                     >
                       <div v-if="element.stage === 'inprogress'">
@@ -99,13 +103,15 @@
                               </span>
                           <a slot="extra" @click="openFeature(element)">view milestone </a>
                           <template>
-                            <p>{{element.userstories[0]}}</p>
+                            <p>User stories</p>
+                            <ul v-for="story in element.userstories" v-bind:key="story">
+                              <li>{{ story.user_story }}</li>
+                            </ul>
 
                           </template>
 
                         </a-card>
                       </div>
-
 
 
                     </div>
@@ -114,14 +120,14 @@
                 </div>
               </a-col>
               <a-col span="6" style="padding: 1%">
-                <div class="taskcolumns" >
+                <div class="taskcolumns">
                   <p class="rowtitle">Quality check</p>
                   <a-progress :percent="100" strokeColor="#0682D1" :showInfo="false"/>
                   <div style="height:42rem;overflow: auto;">
 
                     <div
                         class="list-group-item"
-                        v-for="(element) in listData"
+                        v-for="(element) in features"
                         :key="element.name"
                     >
                       <div v-if="element.stage === 'quality'">
@@ -135,16 +141,20 @@
                               </span>
                           <a slot="extra" @click="openFeature(element)">view milestone</a>
                           <template>
-                            <div style=" border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
-                              <p>Note to test feature</p>
-                              <p>{{element.developer_note}}</p>
+                            <div
+                                style=" border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
+                              <p>Note to test feature:</p>
+                              <p>{{ element.developer_note }}</p>
                             </div>
+                            <a-button @click="Done(element)" v-if="!developer" size="small"> <a-icon type="check-circle" theme="twoTone"/>Mark as done</a-button>
+                            <a-tag v-else color="#64C8FB">
+                              <a-icon type="hourglass" spin /> QA ongoing
+                            </a-tag>
 
                           </template>
 
                         </a-card>
                       </div>
-
 
 
                     </div>
@@ -159,7 +169,7 @@
 
                     <div
                         class="list-group-item"
-                        v-for="(element) in listData"
+                        v-for="(element) in features"
                         :key="element.name"
                     >
                       <div v-if="element.stage === 'done'">
@@ -172,18 +182,17 @@
                                 {{ element.title }}
                               </span>
                           <a slot="extra" @click="openFeature(element)">view milestone</a>
-                          <template>
-                            <p>{{element.userstories[0]}}</p>
 
-                          </template>
-                          <a-tag color="#2db7f5" v-if="element.escrow">
+                          <a-tag color="#87d068" v-if="element.escrow">
                             disbursed
+                          </a-tag>
+                          <a-tag v-else color="#64C8FB">
+                            <a-icon type="dollar" spin /> pending disbusrment
                           </a-tag>
 
 
                         </a-card>
                       </div>
-
 
 
                     </div>
@@ -200,7 +209,7 @@
                     <h3 style="font-family: sofia_problack;">Milestones</h3>
 
 
-                    <p style="font-family: sofia_probold" >These are the core milestones of what you want the
+                    <p style="font-family: sofia_probold">These are the core milestones of what you want the
                       application to
                       do.Each has its own User stories and tasks that have to be
                       achieved to accomplish it</p>
@@ -208,7 +217,7 @@
 
                   </div>
                   <div style="color:black;height: 65vh;overflow-y: scroll;">
-                    <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="listData">
+                    <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="features">
 
                       <a-list-item slot="renderItem" key="item.title" slot-scope="item">
 
@@ -223,7 +232,7 @@
                           <a slot="extra" @click="openFeature(item)">view tasks</a>
                           <template>
                             <ul v-for="story in item.userstories" v-bind:key="story">
-                              <li>{{ story }}</li>
+                              <li>{{ story.user_story }}</li>
                             </ul>
 
                           </template>
@@ -234,9 +243,6 @@
                       </a-list-item>
                     </a-list>
                   </div>
-
-
-
 
 
                 </div>
@@ -251,14 +257,14 @@
                         <p style="font-family: sofia_proregular">
                           <strong>Milestone:</strong> {{ currentfeature.title }}
                         </p>
-                        <div >
+                        <div>
                           <a-steps style="width: 80%" :current="FeatureStep">
 
-                            <a-step title="In progress" />
-                            <a-step title="Tasks done"  />
-                            <a-step title="Quality check"  />
-                            <a-step title="Done"  />
-                            <a-step title="Escrow paid"  />
+                            <a-step title="In progress"/>
+                            <a-step title="Tasks done"/>
+                            <a-step title="Quality check"/>
+                            <a-step title="Done"/>
+                            <a-step title="Escrow paid"/>
                           </a-steps>
                         </div>
 
@@ -269,18 +275,19 @@
 
                         <div v-if="FeatureStep=== 2">
                           <p>Client is using your developer note to test feature completion.</p>
-                          <div style="margin-top: 16px; border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
+                          <div
+                              style="margin-top: 16px; border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
                             <p>Developer Note</p>
-                            <p>{{currentfeature.developer_note}}</p>
+                            <p>{{ currentfeature.developer_note }}</p>
                           </div>
 
-                          <a-button @click="developernotemodal" size="small" type="primary">edit note</a-button>
+                          <a-button v-if="developer"  @click="developernotemodal" size="small" type="primary">edit note</a-button>
 
                         </div>
                         <div v-if="FeatureStep === 1">
-                          <p >Well done :Tasks complete for this feature
+                          <p>Well done :Tasks complete for this feature are complete
                           </p>
-                          <a-button type="primary" icon="check" @click="developernotemodal" >mark as complete</a-button>
+                          <a-button  v-if="developer" type="primary" icon="check" @click="developernotemodal">mark as complete</a-button>
 
 
                         </div>
@@ -289,8 +296,8 @@
                     <div class="tasktabs">
 
 
-                      <a-tabs default-active-key="1" @change="callback" >
-                        <a-tab-pane key="1" tab="Tasks">
+                      <a-tabs default-active-key="1" @change="callback">
+                        <a-tab-pane key="1" tab="Tasks" >
                           <Tasks/>
                         </a-tab-pane>
                         <a-tab-pane key="2" tab="Feature issues" force-render>
@@ -301,13 +308,9 @@
                     </div>
 
 
-
-
-
                   </div>
 
                 </div>
-
 
 
               </a-col>
@@ -316,15 +319,14 @@
             </a-row>
 
           </div>
-          <a-modal v-model="visible"  on-ok="handleOk">
+          <a-modal v-model="visible" on-ok="handleOk">
             <template slot="footer">
 
-              <a-button key="submit" type="primary" :disabled="note_validate"  @click="submitDeveloperNote">
+              <a-button key="submit" type="primary" :disabled="note_validate" @click="submitDeveloperNote">
                 Submit
               </a-button>
             </template>
             <a-form layout="vertical">
-
 
 
               <a-form-item
@@ -341,7 +343,6 @@
               </a-form-item>
 
 
-
             </a-form>
 
           </a-modal>
@@ -355,72 +356,28 @@
 import moment from "moment";
 
 import SmallSider from "@/components/admin/adminkanban/layout/kanbanside";
-import Tasks from "@/components/shared/trackerboard/tasks"
-import Issues from "@/components/shared/trackerboard/issues"
+import Tasks from "@/components/admin/adminkanban/tasks"
+import Issues from "@/components/admin/adminkanban/issues"
+import Project from "@/services/Projects";
+
+class Feature {
+  constructor(id, title, stage, userstories, developer_note, escrow) {
+    this.id = id;
+    this.title = title;
+    this.stage = stage;
+    this.userstories = userstories;
+    this.developer_note = developer_note;
+    this.escrow = escrow;
 
 
-const listData = [
-  {
-    id:1,
-    title: `I am backlog task `,
-    stage:'quality',
-
-    userstories: [
-      'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
-      'vlesss'
-    ],
-    developer_note:'go to top',
-    escrow:false
-
-
-  },
-
-
-  {
-    id:2,
-    title: `I am a task in progress  `,
-    stage:'inprogress',
-
-    userstories: [
-      'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
-      'vlesss'
-    ],
-    developer_note:'',
-    escrow:false
-
-  },
-  {
-    id:3,
-    title: `I am  task in quality check `,
-    stage:'quality',
-    userstories: [
-      'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
-      'vlesss'
-    ],
-    developer_note:'to test this feature use this',
-    escrow:false
-
-  },
-  {
-    id:4,
-    title: `I am done task `,
-    stage:'done',
-    userstories: [
-      'As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners',
-      'vlesss'
-    ],
-    developer_note:'',
-    escrow:true
   }
-
-]
-
+}
 export default {
 name: "adminTrackboard",
   data() {
     return {
 
-      listData,
+      Feature,
       pagination: {
         onChange: page => {
           console.log(page);
@@ -429,12 +386,14 @@ name: "adminTrackboard",
       },
 
 
-
       currentfeature: {},
       viewmode: 'milestone',
-      visible:false,
-      developer_note:'',
-      note_validate:false
+      visible: false,
+      developer_note: '',
+      note_validate: false,
+      project: {},
+      features: [],
+      developer:false
 
 
     };
@@ -445,22 +404,28 @@ name: "adminTrackboard",
 
   },
   mounted() {
-    this.currentfeature = this.listData[0]
+
     this.$store.dispatch('setFeature', this.currentfeature.id)
+    this.fetchProject()
+    if(this.$store.state.user_object.user_type === 'developer'){
+      this.developer = true
+    }
+
 
   },
   computed: {
-    FeatureStep(){
-      let current =0
-      if(this.currentfeature.stage === 'quality'){
+    FeatureStep() {
+      let current = 0
+      if (this.currentfeature.stage === 'quality') {
         current = 2
-      }else if(this.currentfeature.stage === 'done') {
+      } else if (this.currentfeature.escrow) {
+        current = 4
+      }
+      else if (this.currentfeature.stage === 'done') {
         current = 3
-      }
-      else if(this.$store.state.feature_complete ) {
+      }else if (this.$store.state.feature_complete) {
         current = 1
-      }
-      else {
+      } else {
         current = 0
       }
 
@@ -487,12 +452,12 @@ name: "adminTrackboard",
 
 
   },
-  watch:{
+  watch: {
 
-    developer_note:function (){
-      if(this.developer_note!==''){
+    developer_note: function () {
+      if (this.developer_note !== '') {
         this.note_validate = false
-      }else {
+      } else {
         this.note_validate = true
       }
     }
@@ -500,7 +465,57 @@ name: "adminTrackboard",
 
   },
   methods: {
-    log: function(evt) {
+    fetchProject() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.getprojectslug(this.$route.params.projectSlug, auth)
+          .then(resp => {
+                this.project = resp.data
+                this.fetchFeatures()
+
+              }
+          )
+    },
+    fetchFeatures() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.getfeatures(this.project.id, auth)
+          .then(resp => {
+            let features = resp.data
+            features.forEach(feature => {
+              this.fetchStories(feature)
+
+            })
+          })
+    },
+    fetchStories(feature) {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.getstories(feature.id, auth)
+          .then(
+              resp => {
+
+                let id = feature.id;
+                let title = feature.name;
+                let stage = feature.stage;
+                let userstories = resp.data;
+                let developer_note = feature.developer_note;
+                let escrow = feature.escrow_disbursed;
+
+                let onefeature = new Feature(id, title, stage, userstories, developer_note, escrow)
+                this.features.push(onefeature)
+
+
+              }
+          )
+    },
+    log: function (evt) {
       window.console.log(evt);
     },
 
@@ -519,21 +534,37 @@ name: "adminTrackboard",
       this.FeatureStep()
 
     },
-    developernotemodal(){
+    developernotemodal() {
       this.visible = true
       this.developer_note = this.currentfeature.developer_note
     },
-    submitDeveloperNote(){
-      if(this.developer_note !==''){
+    submitDeveloperNote() {
+      if (this.developer_note !== '') {
         this.currentfeature.developer_note = this.developer_note
-        this.currentfeature.stage ='quality'
+        this.currentfeature.stage = 'quality'
+        const auth = {
+          headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+        }
+        Project.updatefeature(this.currentfeature.id,{developer_note:this.developer_note,stage:'quality'}, auth)
+            .then()
         this.visible = false;
         this.note_validate = false
-        this.developer_note =''
+        this.developer_note = ''
 
-      }else {
+      } else {
         this.note_validate = true
       }
+    },
+    Done(feature){
+      this.currentfeature = feature
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      this.currentfeature.stage = 'done'
+      Project.updatefeature(this.currentfeature.id,{stage:'done'}, auth)
+          .then()
     }
   }
 }
@@ -572,16 +603,17 @@ name: "adminTrackboard",
   padding: 2%;
 
 }
-.tasktabs {
 
+.tasktabs {
 
 
   padding: 1%;
 
 }
-.milestonecard{
+
+.milestonecard {
   margin-bottom: 1rem;
-  border-radius: 3%;
+
 }
 
 .shadowsmall {
@@ -621,15 +653,19 @@ name: "adminTrackboard",
 ::-webkit-scrollbar-thumb:hover {
   background: #91d5ff;
 }
-.taskcolumns{
+
+.taskcolumns {
   background-color: #F1F3F9;
-  height: 45rem;padding: 3%
+  height: 45rem;
+  padding: 3%
 }
-.rowtitle{
+
+.rowtitle {
   color: #1990FF;
   font-family: sofia_probold
 }
-.featuretitle{
+
+.featuretitle {
   font-family: sofia_probold
 }
 </style>

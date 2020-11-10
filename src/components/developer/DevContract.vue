@@ -15,9 +15,10 @@
           <a-row>
             <a-col span="12">
               <a-breadcrumb>
-                <a-breadcrumb-item><a @click="$router.push('Developer')" >Home</a></a-breadcrumb-item>
-                <a-breadcrumb-item><a @click="$router.push('DeveloperProjects')" >My Projects</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('/Developer')" >Home</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('/DeveloperProjects')" >My Projects</a></a-breadcrumb-item>
                 <a-breadcrumb-item><a >Contract stage</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a >{{ $route.params.projectSlug }}</a></a-breadcrumb-item>
 
               </a-breadcrumb>
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
@@ -91,6 +92,9 @@
               >
                 <span slot="description"> Contract Meeting  </span>
                 <p>Awaiting meeting invitation</p>
+                <a-button type="primary" @click="$router.push('/Meeting')">
+                  Create meeting
+                </a-button>
               </a-empty>
             </a-col>
           </a-row>

@@ -19,19 +19,19 @@
         </router-link>
       </hide-at>
       <a-menu  mode="inline" :default-selected-keys=key  style="font-family: sofia_proregular;background-color: #F4F7FC">
-        <a-menu-item key="9" @click="$router.push('Dashboard')">
+        <a-menu-item key="9" @click="$router.push('/Dashboard')">
           <a-icon type="dashboard" />
-          <span>Home</span>
+          <span>Dashboard</span>
         </a-menu-item>
-        <a-menu-item key="1" @click="$router.push('Myprojects')">
+        <a-menu-item key="1" @click="$router.push('/Myprojects')">
           <a-icon type="appstore" />
           <span>Manage my Projects</span>
         </a-menu-item>
-        <a-menu-item key="2" @click="$router.push('Create')">
+        <a-menu-item key="2" @click="$router.push('/Create')">
           <a-icon type="plus" />
           <span>Create a Project</span>
         </a-menu-item>
-        <a-menu-item key="3" @click="$router.push('Escrow')">
+        <a-menu-item key="3" @click="$router.push('/Escrow')">
           <a-icon type="bank" />
 
           <span>Escrow Management</span>
@@ -52,7 +52,7 @@
           <a-icon type="solution" />
           <span>Edit Profile</span>
         </a-menu-item>
-        <a-menu-item key="8">
+        <a-menu-item key="8" @click="logout">
           <a-icon type="logout" />
           <span>logout</span>
         </a-menu-item>
@@ -103,6 +103,19 @@ export default {
     },
     onBreakpoint(broken) {
       return broken;
+    },
+    logout() {
+      this.$store.dispatch('setToken', null);
+      this.$store.dispatch('setUser', null)
+      this.$store.dispatch('setisLoggedIn', false)
+      this.$store.dispatch('setUser_object', null)
+      this.$store.dispatch('setProjectedit', null)
+
+
+
+      this.$router.push({
+        name: 'home'
+      })
     },
   }
 }

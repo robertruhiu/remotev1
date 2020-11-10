@@ -33,11 +33,7 @@
                       <img src="@/assets/images/planning.svg" style="width: 30%"/>
 
                     </div>
-                    <div >
 
-
-                      <a-badge count="3" :number-style="{ backgroundColor: '#008fff' }" /> ongoing
-                    </div>
                   </div>
                 </router-link>
 
@@ -65,6 +61,32 @@
 
 
             </a-col>
+            <a-col span="6">
+              <a-tooltip>
+                <template slot="title">
+                  Invite developers(friends) to help out in projects
+                </template>
+                <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
+                  <router-link to="/Teams">
+                  <div>
+                    <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">Create/Manage Teams</p>
+                    <div >
+                      <img src="@/assets/images/calendar.svg" style="width: 30%"/>
+
+                    </div>
+
+
+
+                  </div>
+                  </router-link>
+
+
+                </a-card>
+              </a-tooltip>
+
+
+
+            </a-col>
 
             <a-col span="6">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
@@ -77,12 +99,7 @@
 
                   </div>
 
-                  <div >
 
-
-
-                    <a-badge count="2" :number-style="{ backgroundColor: '#008fff' }" /> pending
-                  </div>
 
 
 
@@ -92,31 +109,7 @@
 
 
             </a-col>
-            <a-col span="6">
-              <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
-                <div>
-                  <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">My Meetings</p>
-                  <div >
-                    <img src="@/assets/images/calendar.svg" style="width: 30%"/>
 
-                  </div>
-                  <span >
-                       <div >
-
-
-
-                        <a-badge count="4" :number-style="{ backgroundColor: '#008fff' }" /> events
-                       </div>
-                    </span>
-
-
-                </div>
-
-
-              </a-card>
-
-
-            </a-col>
             <a-col span="6">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;%;">
                 <router-link to="/DevBugs">
@@ -126,14 +119,6 @@
                     <img src="@/assets/images/alert.svg" style="width: 30%"/>
 
                   </div>
-
-                  <div>
-
-                    <a-badge count="1" :number-style="{ backgroundColor: '#008fff' }" /> issues
-                  </div>
-
-
-
 
 
 
@@ -155,12 +140,7 @@
 
                   </div>
 
-                  <div >
 
-
-
-                    <a-badge count="6" :number-style="{ backgroundColor: '#008fff' }" /> unread
-                  </div>
 
 
 

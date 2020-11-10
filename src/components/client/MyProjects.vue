@@ -16,8 +16,8 @@
             <a-row>
               <a-col span="12">
                 <a-breadcrumb>
-                  <a-breadcrumb-item><a @click="$router.push('Dashboard')">Home</a></a-breadcrumb-item>
-                  <a-breadcrumb-item><a @click="$router.push('Myprojects')">My projects</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('/Dashboard')">Home</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('/Myprojects')">My projects</a></a-breadcrumb-item>
 
                 </a-breadcrumb>
                 <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
@@ -39,6 +39,7 @@
         </div>
 
         <div style="min-height: 40vh ;position: relative">
+
           <div style="padding: 3%" v-if="myprojects.length=== 0">
 
             <a-empty
@@ -52,28 +53,29 @@
           </div>
           <div style="padding: 0 3%">
             <a-tabs default-active-key="1" @change="callback">
-              <a-tab-pane key="1" tab="In developement">
+              <a-tab-pane key="1" tab="In development" v-if="Inprogress.length>0">
                 <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" style="width: 60%">
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
                     <a-card style="width: 100%">
                     <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
 
-                    <p>{{item.description}}</p>
+
 
                     <div slot="actions">
                       <a-row style="padding: 1%">
                         <a-col span="4">
-                          <a-button type="primary" @click="$router.push('ProjectBoard')">
+                          <a-button type="primary" @click="$router.push({ name: 'ProjectBoard', params: { projectSlug: item.slug } })">
                             View project
                           </a-button>
 
                         </a-col>
-                        <a-col span="20">
-                        <span style="float: right"><a-avatar
-                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>: {{item.developer}}</span>
 
-                        </a-col>
 
                       </a-row>
                     </div>
@@ -84,26 +86,30 @@
 
 
               </a-tab-pane>
-              <a-tab-pane key="2" tab="Contract discussions" force-render>
+              <a-tab-pane key="2" tab="Contract discussions" force-render v-if="Incontract.length>0">
                 <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" style="width: 60%">
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
                     <a-card style="width: 100%">
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
 
-                      <p>{{item.description}}</p>
+
 
                       <div slot="actions">
                         <a-row style="padding: 1%">
                           <a-col span="4">
-                            <a-button type="primary" @click="$router.push('Contract')">
+                            <a-button type="primary" @click="$router.push({ name: 'Contract', params: { projectSlug: item.slug } })" >
                               Start negotiations
                             </a-button>
 
                           </a-col>
                           <a-col span="20">
-                        <span style="float: right"><a-avatar
-                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>: {{item.developer}}</span>
+
 
                           </a-col>
 
@@ -115,20 +121,95 @@
                 </a-list>
 
               </a-tab-pane>
-              <a-tab-pane key="3" tab="Bids stage">
+              <a-tab-pane key="3" tab="Bids " v-if="Inbidding.length>0">
                 <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inbidding" style="width: 60%">
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
                     <a-card style="width: 100%">
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
 
-                      <p>{{item.description}}</p>
+
 
                       <div slot="actions">
                         <a-row style="padding: 1%">
                           <a-col span="4">
-                            <a-button type="primary" @click="$router.push('Bids')">
+                            <a-button type="primary" @click="$router.push({ name: 'Bids', params: { projectSlug: item.slug } })">
                               View bids
+                            </a-button>
+
+                          </a-col>
+                          <a-col span="20">
+
+
+                          </a-col>
+
+                        </a-row>
+                      </div>
+                    </a-card>
+
+                  </a-list-item>
+                </a-list>
+
+              </a-tab-pane>
+              <a-tab-pane key="4" tab="Awaiting Codeln verification " v-if="PendingVerification.length>0">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="PendingVerification" style="width: 60%">
+
+                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                    <a-card style="width: 100%">
+                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
+
+
+
+                      <div slot="actions">
+                        <a-row style="padding: 1%">
+                          <a-col span="4">
+                            <a-button type="primary" @click="Edit(item.id)">
+                              Edit Project
+                            </a-button>
+
+                          </a-col>
+                          <a-col span="20">
+
+
+                          </a-col>
+
+                        </a-row>
+                      </div>
+                    </a-card>
+
+                  </a-list-item>
+                </a-list>
+
+              </a-tab-pane>
+              <a-tab-pane key="5" tab="Unfinished projects (Continue creation) " v-if="InComplete.length>0">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="InComplete" style="width: 60%">
+
+                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                    <a-card style="width: 100%">
+                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                      <a-collapse v-model="activeKey" >
+                        <a-collapse-panel key="1" header="Project description.">
+                          <markdown>{{ item.description }}</markdown>
+                        </a-collapse-panel>
+                      </a-collapse>
+
+
+
+                      <div slot="actions">
+                        <a-row style="padding: 1%">
+                          <a-col span="4">
+                            <a-button type="primary" @click="Edit(item.id)">
+                              Edit Project
                             </a-button>
 
                           </a-col>
@@ -159,8 +240,8 @@
 <script>
 import ClientSider from '@/components/client/layout/ClientSider'
 import moment from 'moment';
-// import Projects from '@/services/Projects'
-
+import Projects from '@/services/Projects'
+import markdown from 'vue-markdown'
 export default {
   name: "MyProjects",
   data() {
@@ -177,55 +258,14 @@ export default {
     }
   },
   components: {
-    ClientSider
+    ClientSider,markdown
 
 
   },
   async mounted() {
-    // Projects.myprojects()
-    //     .then(resp=>{
-    //       this.myprojects = resp.data
-    //     })
-    this.myprojects =
-        [
-          {
-            'title': 'project1',
-            'description': 'this is a project in developement',
-            'stage':'developement',
-            'developer':'dennis'
-          },
-          {
-            'title': 'project2',
-            'description': 'hi hi there',
-            'stage':'contract',
-            'developer':'dennis'
-          },
-          {
-            'title': 'project3',
-            'description': 'am in bidding stage',
-            'stage':'bid',
-            'developer':'dennis'
-          },
-          {
-            'title': 'project4',
-            'description': 'am in bidding stage',
-            'stage':'bid',
-            'developer':'dennis'
-          },
-          {
-            'title': 'project5',
-            'description': 'am in bidding stage',
-            'stage':'bid',
-            'developer':'dennis'
-          },
-          {
-            'title': 'project6',
-            'description': 'am in bidding stage',
-            'stage':'bid',
-            'developer':'dennis'
-          }
+    this.FetchProject()
 
-        ]
+
 
   },
   computed: {
@@ -268,7 +308,25 @@ export default {
     Inbidding() {
       let projects = []
       this.myprojects.forEach(project => {
-        if (project.stage === 'bid') {
+        if (project.stage === 'bid' && project.verified) {
+          projects.push(project)
+        }
+      })
+      return projects
+    },
+    PendingVerification() {
+      let projects = []
+      this.myprojects.forEach(project => {
+        if (project.stage === 'bid' && project.verified === false) {
+          projects.push(project)
+        }
+      })
+      return projects
+    },
+    InComplete() {
+      let projects = []
+      this.myprojects.forEach(project => {
+        if (project.stage === 'creation' || project.stage ==='escrow1') {
           projects.push(project)
         }
       })
@@ -276,6 +334,23 @@ export default {
     }
 
 
+  },
+  methods:{
+    FetchProject(){
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Projects.myprojects(this.$store.state.user.pk,auth)
+          .then(resp=>{
+            this.myprojects = resp.data
+          })
+
+    },
+    Edit(id){
+      this.$store.dispatch('setProjectedit', id)
+      this.$router.push('Create')
+    }
   }
 }
 </script>

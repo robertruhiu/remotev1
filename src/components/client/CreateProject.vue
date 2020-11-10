@@ -1,5 +1,5 @@
 <template>
-  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
+  <a-layout style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
 
 
     <ClientSider/>
@@ -15,8 +15,9 @@
           <a-row>
             <a-col span="12">
               <a-breadcrumb>
-                <a-breadcrumb-item><a @click="$router.push('Dashboard')">Home</a></a-breadcrumb-item>
-                <a-breadcrumb-item><a @click="$router.push('Create')" >Create projects</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('/Dashboard')">Home</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('/Myprojects')">My projects</a></a-breadcrumb-item>
+                <a-breadcrumb-item><a @click="$router.push('/Create')">Create/Edit project</a></a-breadcrumb-item>
 
               </a-breadcrumb>
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
@@ -54,8 +55,9 @@
                           <div style="text-align: center">
                             <img src="@/assets/images/new.svg" style="width: 10%"/>
                             <p style="font-family: sofia_problack">Express what you want</p>
-                            <p>Start a new project and write up the project features and the story under each.</p>
+
                           </div>
+
 
                           <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
                             <a-form-model-item label="Project title">
@@ -67,11 +69,8 @@
                               </div>
                             </a-form-model-item>
                             <a-form-model-item label="Project description">
-                              <a-textarea v-model="project.description" @change="step1changedescription"
+                              <vue-simplemde v-model="project.description" ref="markdownEditor" @change="step1changedescription"/>
 
-
-                                          :auto-size="{ minRows: 3, maxRows: 5 }"
-                              />
                               <div v-for="error in step1errors" v-bind:key="error">
                                 <div v-if="error === 'description'" style="color: red">
                                   required
@@ -90,105 +89,6 @@
                     </div>
 
                     <div v-if="current===1">
-                      <a-row style="width: 90%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
-                          <div style="text-align: center">
-                            <img src="@/assets/images/feature.svg" style="width: 10%"/>
-                            <p style="font-family: sofia_problack">Breakdown your project</p>
-                            <p>Express project features with a user story on interaction.You can have multiple Features just
-                              add and submit to continue adding more.These will serve as your milestones</p>
-                          </div>
-                          <a-row gutter="16">
-
-                            <a-col span="12">
-                              <p style="font-family: sofia_problack">Feature list</p>
-
-                                <div v-if="featureserror" style="color: red">
-                                  required
-                                </div>
-
-
-                              <div v-if="features.length===0">
-                                <p>Add feature<span style="float: right"><a-icon type="arrow-right"/></span></p>
-                              </div>
-                              <div v-else style="overflow-y: scroll;height: 40vh">
-
-                                <div v-for="feature in features" v-bind:key="feature">
-
-                                  <a-card size="small" :title="feature.title" style="width: 80%;margin-bottom: 1rem">
-                                    <a slot="extra" @click="editfeature(feature)">edit feature</a>
-                                    <p style="font-family: sofia_proregular" v-for="story in feature.storylist"
-                                       v-bind:key="story">
-                                      {{ story.story }}
-                                    </p>
-                                  </a-card>
-
-                                </div>
-                              </div>
-
-
-                            </a-col>
-                            <a-col span="12" class="addfeature">
-                              <a-form :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
-                                <a-form-item label="Feature name">
-                                  <a-input v-model="featuretitle" placeholder="Registration" @change="featuretitlechange"
-
-                                  />
-                                  <div v-if="featuretitleerror" style="color: red">
-                                    title required
-                                  </div>
-                                </a-form-item>
-                                <p style="font-family: sofia_proregular">Feature user stories
-                                  <a-button @click="addstory" :size="small" style="margin-right: 1%">
-                                    Add story
-                                  </a-button>
-                                </p>
-                                <p style="font-family: sofia_proregular"><strong>These provide context on what the feature
-                                  is supposed to do.</strong>Example:As a developer I want to be able to sign up and create
-                                  a profile
-
-
-                                <div
-                                    v-for="(story, counter) in stories"
-                                    v-bind:key="counter">
-
-
-                                  <a-form-item>
-                                    <label slot="label">Story{{ counter + 1 }} <span style="float: right"
-                                                                                     @click="deleteStory(counter)"><a-icon
-                                        type="close"/></span></label>
-
-                                    <a-textarea v-model="story.story"
-                                                placeholder="As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners"
-                                                :auto-size="{ minRows: 2, maxRows: 5 }"
-
-
-                                    />
-
-                                  </a-form-item>
-
-
-                                </div>
-                                <a-button v-if="featureedit" type="primary" @click="editfeaturesubmit" :size="small">
-                                  Submit changes
-                                </a-button>
-
-                                <a-button v-else type="primary" @click="addFeature" :size="small">
-                                  Submit Feature
-                                </a-button>
-
-
-                              </a-form>
-                            </a-col>
-                          </a-row>
-
-
-                        </a-col>
-
-                      </a-row>
-                    </div>
-
-                    <div v-if="current===2">
                       <a-row style="width: 70%;margin: 0 auto">
                         <a-col span="24" class="stepcard">
                           <div style="text-align: center">
@@ -205,7 +105,8 @@
 
 
                               <a-select
-                                  mode="multiple"
+                                  :default-value="projectype"
+
 
                                   style="width: 100%"
                                   placeholder="Please select project type"
@@ -214,15 +115,15 @@
                                 <a-select-option value="website">
                                   Website
                                 </a-select-option>
-                                <a-select-option value="android">
+                                <a-select-option value="android-App">
                                   Android app
                                 </a-select-option>
-                                <a-select-option value="ios">
+                                <a-select-option value="ios-App">
                                   Ios app
                                 </a-select-option>
 
 
-                                <a-select-option value="desktop">
+                                <a-select-option value="desktop-App">
                                   Desktop application
                                 </a-select-option>
                               </a-select>
@@ -234,6 +135,8 @@
                           <div v-if="projectype">
                             <div>
                               <p>Development tools types</p>
+
+
                               <template v-for="tag in projecttypetags">
                                 <a-checkable-tag
                                     :key="tag"
@@ -282,7 +185,7 @@
 
                       </a-row>
                     </div>
-                    <div v-if="current===3">
+                    <div v-if="current===2">
                       <a-row style="width: 70%;margin: 0 auto">
                         <a-col span="24" class="stepcard">
                           <div style="text-align: center">
@@ -311,9 +214,9 @@
                             </a-col>
                             <a-col span="10">
                               <div style="text-align: center">
-                              <img src="@/assets/images/worker.svg" style="width: 30%"/>
+                                <img src="@/assets/images/worker.svg" style="width: 30%"/>
                                 <span style="font-family: sofia_probold">&</span>
-                              <img src="@/assets/images/graphic.svg" style="width: 30%"/>
+                                <img src="@/assets/images/graphic.svg" style="width: 30%"/>
                                 <p>I want a designer for the UI/UX stage and a developer to implement</p>
                                 <a-checkbox v-model="both" @change="teampick(2)">
                                   pick
@@ -324,12 +227,11 @@
                           </a-row>
 
 
-
                         </a-col>
 
                       </a-row>
                     </div>
-                    <div v-if="current===4">
+                    <div v-if="current===3">
                       <a-row style="width: 70%;margin: 0 auto">
                         <a-col span="24" class="stepcard">
                           <div style="text-align: center">
@@ -355,7 +257,8 @@
                               </div>
 
                             </a-form-model-item>
-                            <a-form-model-item v-if="teamcompostion==='both'" label="Designer budget(how much of the budget above should be for the designer)">
+                            <a-form-model-item v-if="teamcompostion==='both'"
+                                               label="Designer budget(how much of the budget above should be for the designer)">
                               <a-input-number style="width: 100%"
                                               v-model="project.designbudget"
                                               :default-value="500"
@@ -371,22 +274,10 @@
                               </div>
 
                             </a-form-model-item>
-                            <a-form-model-item label="Project timeline(weeks,months,days)">
-                              <a-input type="number" v-model="project.time" @change="Timechanges">
+                            <a-form-model-item label="Project timeline in days">
+                              <a-input type="Number" v-model="project.time" :min="0" addon-after="days"/>
 
-                                <a-select slot="addonAfter"  style="width: 80px" default-value="weeks" v-model="project.datetype">
-                                  <a-select-option value="days">
-                                    days
-                                  </a-select-option>
-                                  <a-select-option value="weeks">
-                                    weeks
-                                  </a-select-option>
-                                  <a-select-option value="months">
-                                    months
-                                  </a-select-option>
 
-                                </a-select>
-                              </a-input>
                               <div v-for="error in step4errors" v-bind:key="error">
                                 <div v-if="error === 'time'">
                                   <div style="color: red">required</div>
@@ -404,19 +295,20 @@
                       </a-row>
                     </div>
 
-                    <div v-if="current===5">
+                    <div v-if="current===4">
                       <a-row style="width: 50%;margin: 0 auto">
                         <a-col span="24" class="stepcard">
                           <div style="text-align: center">
                             <img src="@/assets/images/pay.svg" style="width: 30%"/>
                             <p style="font-family: sofia_problack">Escrow Stage 1</p>
 
-                            <p>A 40 % escrow is needed to be deposited .This is to serve more as a commitment fee towards
+                            <p>A 40 % escrow is needed to be deposited .This is to serve more as a commitment fee
+                              towards
                               your project.
                               Amount is held in escrow
                             </p>
-                            <p>A second  escrow on the remaining amount will happen when you contract a developer </p>
-                            <p style="font-family: sofia_probold">Amount Payable :$ {{deposit}}</p>
+                            <p>A second escrow on the remaining amount will happen when you contract a developer </p>
+                            <p style="font-family: sofia_probold">Amount Payable :$ {{ deposit }}</p>
                             <paystack
                                 :amount="deposit*100"
                                 :email="email"
@@ -442,19 +334,26 @@
 
                     <div style="text-align: center">
                       <div class="steps-action" style="margin: 2% auto">
-                        <a-button v-if="current < steps.length - 1" type="primary" @click="next">
-                          Next
-                        </a-button>
-                        <a-button
-                            v-if="current == steps.length - 1"
-                            type="primary"
-                            @click="Done"
-                        >
-                          Done
-                        </a-button>
-                        <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
-                          Previous
-                        </a-button>
+                        <div v-if="loading">
+                          <a-spin/>
+
+                        </div>
+                        <div v-else>
+                          <a-button v-if="current < steps.length - 1" type="primary" @click="next">
+                            Next
+                          </a-button>
+                          <a-button
+                              v-if="current == steps.length - 1"
+                              type="primary"
+                              @click="Done"
+                          >
+                            Done
+                          </a-button>
+                          <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
+                            Previous
+                          </a-button>
+                        </div>
+
                       </div>
                     </div>
 
@@ -467,7 +366,7 @@
             </a-col>
             <a-col span="4">
               <div class="timelinecard">
-                <p style="font-family: sofia_probold;font-size: 1.5rem">Project development timeline</p>
+                <p style="font-family: sofia_probold;font-size: 1.5rem">Project development lifecycle</p>
                 <a-timeline>
                   <a-timeline-item>creation</a-timeline-item>
                   <a-timeline-item>Team selection</a-timeline-item>
@@ -476,7 +375,7 @@
                   <a-timeline-item>Accept bids/shortlist and Pick bid</a-timeline-item>
                   <a-timeline-item>Contract creation - terms and feature discussions</a-timeline-item>
                   <a-timeline-item>Second escrow</a-timeline-item>
-                  <a-timeline-item>UI/UX stage - wireframes and Ui designs </a-timeline-item>
+                  <a-timeline-item>UI/UX stage - wireframes and Ui designs</a-timeline-item>
                   <a-timeline-item>Development-software development OF feature based on UI/UX</a-timeline-item>
                 </a-timeline>
               </div>
@@ -495,7 +394,9 @@
 <script>
 import ClientSider from "@/components/client/layout/ClientSider";
 import paystack from 'vue-paystack';
-
+import Project from '@/services/Projects'
+import VueSimplemde from 'vue-simplemde'
+import 'simplemde/dist/simplemde.min.css';
 
 export default {
   name: "CreateProject",
@@ -507,10 +408,7 @@ export default {
           title: 'Project details',
 
         },
-        {
-          title: 'Features',
 
-        },
         {
           title: 'Tech',
 
@@ -530,23 +428,9 @@ export default {
       ],
       labelCol: {span: 24},
       wrapperCol: {span: 24},
-      project:{
-        'title':'h',
-        'description':'i',
-        'features':'',
-        'tools':'',
-        'custom_tools':'',
-        'team':'',
-        'budget':0,
-        'time':0,
-        'datetype':'weeks',
-        'designbudget':'',
-        'stage':''
-      },
+      project: {'tools': []},
       projecttitle: '',
       projectdescription: '',
-      stories: [],
-      features: [],
       show: false,
       featuretitle: '',
       featureedit: false,
@@ -559,87 +443,145 @@ export default {
       projectype: null,
       time: '',
       budget: 0,
-      designbudget:0,
+      designbudget: 0,
       paystackkey: "pk_live_33025d4840017202a65e05c8ba2d2e907aae7cf9", //paystack public key
       email: "robertruhiu@gmail.com",
       amount: 100,
       paystack_amount: 0,
       currency: "USD",
-      teamcompostion:'',
-      one:false,
-      both:false,
-      step1errors:[],
-      featureserror:false,
-      compositionerror:false,
-      notoolserror:false,
-      featuretitleerror:false,
-      step4errors:[]
+      teamcompostion: '',
+      one: false,
+      both: false,
+      step1errors: [],
+      featureserror: false,
+      compositionerror: false,
+      notoolserror: false,
+      featuretitleerror: false,
+      step4errors: [],
+      loading: false,
+      featureslist: [],
+      storylist: [],
+      feature_id: null,
+      story_id: null,
+      currentfeature: null
 
 
     };
   },
   components: {
-    ClientSider,paystack
+    ClientSider, paystack,VueSimplemde
 
 
   },
-  async mounted(){
+  async mounted() {
+    this.CurrentProject()
+
 
   },
-  computed:{
-    deposit(){
-      return 0.4*this.budget
+  computed: {
+    deposit() {
+      return 0.4 * this.project.budget
     },
+
+    CurrentProject() {
+      let project = {}
+
+      if (this.$store.state.projectedit_id) {
+        this.currentProject()
+
+
+      }
+
+
+      return project
+    },
+
+    Time() {
+      return this.project.timeline.split(" ")
+    },
+
+    Toolscombine() {
+      let tools = []
+      tools = this.tags.concat(this.selectedTags).join()
+
+      return tools
+    }
   },
+
+
   methods: {
+    slugifytitle(value) {
+      return value
+          .toString()
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^\w-]+/g, "")
+          .replace(/--+/g, "-")
+          .replace(/^-+/, "")
+          .replace(/-+$/, "");
 
-    addstory() {
-      this.stories.push({
-        story: '',
-
-      })
 
     },
-    deleteStory(counter) {
-      this.stories.splice(counter, 1);
-    },
-    addFeature() {
 
-      if(this.featuretitle === ''){
-        this.featuretitleerror = true
+    currentProject() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
       }
+      this.features = []
+      Project.getproject(this.$store.state.projectedit_id, auth)
+          .then(
+              resp => {
+                this.project = resp.data
+                this.selectedTags = []
+                let time = this.project.timeline.split(" ")
+                this.project.time = Number(time[0])
 
-      if(this.featuretitleerror === false){
-        this.features.push({'title': this.featuretitle, 'storylist': this.stories})
-        this.featuretitle = ''
-        this.stories = []
-        this.featureserror = false
-      }
+                this.tags = []
+
+                if (this.project.tools) {
+                  this.projectype = this.project.project_type
+                  this.selectprojectype(this.projectype)
+
+                  let tools = this.project.tools.split(',')
+                  this.projecttypetags.forEach(tag => {
+                    if (tools.includes(tag)) {
+
+                      this.selectedTags.push(tag)
+                      const index = tools.indexOf(tag);
+                      if (index > -1) {
+                        tools.splice(index, 1);
+                      }
+                      this.tags = tools
+
+                    }
+                  })
+                }
+                if (this.project.team_size === 'single_dev') {
+                  this.teampick(1)
+
+                } else if (this.project.team_size === 'team') {
+                  this.teampick(2)
+
+                }
 
 
+
+
+              }
+          )
 
     },
-    editfeature(feature) {
-      this.featureedit = true
-      this.featureindex = this.features.indexOf(feature)
-      this.featuretitle = this.features[this.featureindex].title
-      this.stories = this.features[this.featureindex].storylist
 
 
-    },
-    editfeaturesubmit() {
-      if(this.featuretitle === ''){
-        this.featuretitleerror = true
-      }
-      if(this.featuretitleerror === false){
-        this.features[this.featureindex] = {'title': this.featuretitle, 'storylist': this.stories}
-        this.featureedit = false
-        this.featuretitle = ''
-        this.stories = []
-      }
 
 
-    },
+
+
+
+    // for tags provided by codeln
+
     handleChange(tag, checked) {
       const {selectedTags} = this;
       const nextSelectedTags = checked
@@ -649,6 +591,7 @@ export default {
       this.selectedTags = nextSelectedTags;
       this.notoolserror = false
     },
+
     handleClose(removedTag) {
       const tags = this.tags.filter(tag => tag !== removedTag);
 
@@ -661,6 +604,8 @@ export default {
         this.$refs.input.focus();
       });
     },
+
+    // for tags inputed by client
 
     handleInputChange(e) {
       this.inputValue = e.target.value;
@@ -680,151 +625,126 @@ export default {
       });
       this.notoolserror = false
     },
+
     selectprojectype(value) {
       this.projectype = value
-      let android = ['kotlin', 'java']
-      let ios = ['go', 'java']
-      let website = ['react', 'laravel']
-      let desktop = ['electron', 'c#']
-      let all = ['kotlin', 'java', 'go', 'java', 'react', 'laravel', 'electron', 'c#']
 
-      if (value.length > 1) {
-        this.projecttypetags = all
+      let android = process.env.VUE_APP_ANDROID
 
-      } else if (value.includes('ios')) {
-        this.projecttypetags = ios
+      let ios = process.env.VUE_APP_IOS
+      let website = process.env.VUE_APP_WEBSITE
+      let desktop = process.env.VUE_APP_DESKTOP
 
-      } else if (value.includes('website')) {
-        this.projecttypetags = website
 
-      } else if (value.includes('desktop')) {
-        this.projecttypetags = desktop
+      if (value === 'ios-App') {
+        this.projecttypetags = ios.split(',')
 
-      } else if (value.includes('android')) {
-        this.projecttypetags = android
+      } else if (value === 'website') {
+        this.projecttypetags = website.split(',')
+
+      } else if (value === 'desktop-App') {
+        this.projecttypetags = desktop.split(',')
+
+      } else if (value === 'android-App') {
+        this.projecttypetags = android.split(',')
       }
 
     },
-    teampick(value){
-      if(value===1){
+
+    teampick(value) {
+      if (value === 1) {
         this.one = true
         this.both = false
-        this.teamcompostion='one'
+        this.teamcompostion = 'one'
 
-      }else {
+      } else {
         this.one = false
         this.both = true
         this.teamcompostion = 'both'
       }
-      if(this.teamcompostion !== ''){
+      if (this.teamcompostion !== '') {
         this.compositionerror = false
       }
 
     },
-    Done(){
-      this.$router.push('Myprojects')
-    },
-    step1changetitle(){
-      if(this.step1errors.includes('title')){
-        if(this.project.title !== ''){
+
+    step1changetitle() {
+      if (this.step1errors.includes('title')) {
+        if (this.project.title !== '') {
           let index = this.step1errors.indexOf('title')
           if (index > -1) {
             this.step1errors.splice(index, 1);
           }
         }
-      }else {
-        if(this.project.title === ''){
+      } else {
+        if (this.project.title === '') {
           this.step1errors.push('title')
         }
 
       }
     },
-    step1changedescription(){
-      if(this.step1errors.includes('description')){
-        if(this.project.description !== ''){
+
+    step1changedescription() {
+      if (this.step1errors.includes('description')) {
+        if (this.project.description !== '') {
           let index = this.step1errors.indexOf('description')
           if (index > -1) {
             this.step1errors.splice(index, 1);
           }
         }
-      }else {
-        if(this.project.description === ''){
+      } else {
+        if (this.project.description === '') {
           this.step1errors.push('description')
         }
 
       }
     },
-    featuretitlechange(){
-      if(this.featuretitle !== ''){
-        this.featuretitleerror = false
-
-      }
-
-    },
-    Timechanges(){
-
-      if(this.step4errors.includes('time')){
-        if(this.project.time !== '' || this.project.time != null){
-          let index = this.step4errors.indexOf('time')
-          if (index > -1) {
-            this.step4errors.splice(index, 1);
-          }
-        }
-      }else {
-        if(this.project.time === '' || this.project.time === null){
-          this.step4errors.push('time')
-        }
-
-      }
 
 
 
+    Budgetchanges() {
 
-    },
-    Budgetchanges(){
-
-      if(this.step4errors.includes('budget')){
-        if(this.project.budget !== '' || this.project.budget != null){
+      if (this.step4errors.includes('budget')) {
+        if (this.project.budget !== '' || this.project.budget != null) {
           let index = this.step4errors.indexOf('budget')
           if (index > -1) {
             this.step4errors.splice(index, 1);
           }
         }
-      }else {
-        if(this.project.budget === '' || this.project.budget === null){
+      } else {
+        if (this.project.budget === '' || this.project.budget === null) {
           this.step4errors.push('budget')
         }
 
       }
 
 
-
-
     },
-    Designbudgetchanges(){
 
-      if(this.step4errors.includes('designbudget')){
-        if(this.project.designbudget !== '' || this.project.designbudget != null){
+    Designbudgetchanges() {
+
+      if (this.step4errors.includes('designbudget')) {
+        if (this.project.designbudget !== '' || this.project.designbudget != null) {
           let index = this.step4errors.indexOf('designbudget')
           if (index > -1) {
             this.step4errors.splice(index, 1);
           }
         }
-      }else {
-        if(this.project.designbudget === '' || this.project.designbudget === null){
+      } else {
+        if (this.project.designbudget === '' || this.project.designbudget === null) {
           this.step4errors.push('designbudget')
         }
 
       }
 
 
-
-
     },
+
     next() {
+      let self = this
       if (this.current === 0) {
         this.step1errors = []
-        if (this.project.title  === '') {
+        if (this.project.title === '') {
           this.step1errors.push('title')
 
         }
@@ -835,50 +755,41 @@ export default {
 
 
         if (this.step1errors.length === 0) {
-          this.current++;
+          self.stepsaves()
 
 
         }
 
 
-      }else if (this.current === 1) {
+      } else if (this.current === 1) {
+        if (this.project.tools) {
+          self.stepsaves()
+        } else {
+          if (this.tags.length === 0 && this.selectedTags.length === 0) {
+            this.notoolserror = true
+          } else {
 
-        if (this.features.length === 0) {
-          this.featureserror = true
-        }
-        if (this.featureserror === false) {
+            self.stepsaves()
 
-          this.project.features = this.features
-          this.current++;
-        }
-      }
-      else if (this.current === 2) {
-
-        if (this.tags.length ===0 && this.selectedTags.length===0) {
-          this.notoolserror = true
-        }
-        else{
-          if(this.tags.length>0){
-            this.project.custom_tools = this.tags
           }
-          if(this.selectedTags.length>0){
-            this.project.tools = this.selectedTags
-          }
-          this.current++;
-
         }
-      }
-      else if (this.current === 3) {
+
+
+      } else if (this.current === 2) {
 
         if (this.teamcompostion === '') {
           this.compositionerror = true
         }
         if (this.compositionerror === false) {
           this.project.team = this.teamcompostion
-          this.current++;
+          if (this.teamcompostion === 'one') {
+            this.project.team_size = 'single_dev'
+          } else {
+            this.project.team_size = 'team'
+          }
+          self.stepsaves()
         }
-      }
-      else if (this.current === 4) {
+      } else if (this.current === 3) {
 
 
         if (Number(this.project.time) === 0) {
@@ -887,7 +798,7 @@ export default {
         if (Number(this.project.budget) === 0) {
           this.step4errors.push('budget')
         }
-        if(this.teamcompostion === 'both'){
+        if (this.teamcompostion === 'both') {
           if (Number(this.project.designbudget) === 0) {
             this.step4errors.push('designbudget')
           }
@@ -895,14 +806,140 @@ export default {
         if (this.step4errors.length === 0) {
           this.project.stage = 'escrow1'
 
-          this.current++;
+          this.project.timeline = this.project.time * 86400
+
+          self.stepsaves()
         }
       }
 
     },
+
     prev() {
       this.current--;
     },
+
+    Done() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      this.project.stage = 'bid'
+      Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
+          .then(() => {
+                this.$router.push('Myprojects')
+                this.$store.dispatch('setProjectedit', null)
+
+              }
+          )
+
+    },
+
+    stepsaves() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      this.loading = true
+      if (this.current === 0) {
+        if (this.$store.state.projectedit_id === null) {
+          let step1 = {
+            title: this.project.title,
+            description: this.project.description,
+            slug: this.slugifytitle(this.project.title),
+            client: this.$store.state.user.pk,
+            posted_by: this.$store.state.user.pk,
+            stage: 'creation'
+
+
+          }
+          Project.createproject(step1, auth)
+              .then(resp => {
+                    this.$store.dispatch('setProjectedit', resp.data.id)
+                    this.project = resp.data
+                    this.current++
+                    this.loading = false
+                  }
+              )
+
+        } else {
+          this.project.slug = this.slugifytitle(this.project.title)
+
+
+
+          Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
+              .then(resp => {
+                    this.project = resp.data
+                    this.current++
+                    let self = this
+                    self.currentProject()
+                    this.loading = false
+                  }
+              )
+
+        }
+
+      } else if (this.current === 1) {
+        this.project.tools = this.Toolscombine
+        this.project.project_type = this.projectype
+
+        Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
+            .then(resp => {
+                  this.project = resp.data
+                  this.current++
+                  let self = this
+                  self.currentProject()
+                  this.loading = false
+
+                }
+            )
+
+      } else if (this.current === 2) {
+
+
+        Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
+            .then(resp => {
+                  this.project = resp.data
+                  this.current++
+                  let self = this
+                  self.currentProject()
+                  this.loading = false
+
+                }
+            )
+
+      } else if (this.current === 3) {
+
+
+        Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
+            .then(resp => {
+                  this.project = resp.data
+                  this.current++
+                  let self = this
+                  self.currentProject()
+                  this.loading = false
+
+                }
+            )
+
+      }
+
+
+    },
+
+    callback() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
+          .then(() => {
+                this.$router.push('Myprojects')
+                this.$store.dispatch('setProjectedit', null)
+
+              }
+          )
+
+    }
 
   }
 
@@ -927,6 +964,7 @@ export default {
   border-radius: 0;
 
 }
+
 .timelinecard {
   padding: 3%;
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
@@ -955,6 +993,7 @@ export default {
 .steps-action {
   margin-top: 24px;
 }
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;

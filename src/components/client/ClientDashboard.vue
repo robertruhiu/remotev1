@@ -13,7 +13,7 @@
 
           <a-card class="hellocard">
             <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">{{Greeting}}
-                Dennis</span>
+                {{$store.state.user_object.user.first_name | capitalize}}</span>
             <p style="font-family: sofia_proregular;font-size: 1.2rem;line-height: 1rem;color: black">What would you like to do today?</p>
           </a-card>
 
@@ -33,11 +33,7 @@
                       <img src="@/assets/images/planning.svg" style="width: 30%"/>
 
                     </div>
-                    <div >
 
-
-                      <a-badge count="3" :number-style="{ backgroundColor: '#008fff' }" /> ongoing
-                    </div>
                   </div>
                 </router-link>
 
@@ -72,12 +68,7 @@
 
                   </div>
 
-                       <div >
 
-
-
-                        <a-badge count="2" :number-style="{ backgroundColor: '#008fff' }" /> pending
-                       </div>
 
 
 
@@ -96,12 +87,7 @@
 
                   </div>
                   <span >
-                       <div >
 
-
-
-                        <a-badge count="4" :number-style="{ backgroundColor: '#008fff' }" /> events
-                       </div>
                     </span>
 
 
@@ -122,10 +108,7 @@
 
                   </div>
 
-                  <div>
 
-                    <a-badge count="1" :number-style="{ backgroundColor: '#008fff' }" /> issues
-                  </div>
 
 
 
@@ -150,12 +133,7 @@
 
                   </div>
 
-                       <div >
 
-
-
-                        <a-badge count="6" :number-style="{ backgroundColor: '#008fff' }" /> unread
-                       </div>
 
 
 
@@ -189,6 +167,13 @@ export default {
     ClientSider
 
 
+  },
+  filters: {
+    capitalize: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
   },
   computed:{
     Greeting(){
