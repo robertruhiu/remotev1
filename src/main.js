@@ -96,8 +96,13 @@ Vue.use(Space)
 Vue.use(Comment)
 Vue.use(Popconfirm)
 Vue.prototype.$message = message;
+import VueSignaturePad from 'vue-signature-pad';
 
+Vue.use(VueSignaturePad);
+import VueSimpleMarkdown from 'vue-simple-markdown'
+import 'vue-simple-markdown/dist/vue-simple-markdown.css'
 
+Vue.use(VueSimpleMarkdown)
 Vue.config.productionTip = false
 
 sync(store, router);

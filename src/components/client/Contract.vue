@@ -1,5 +1,5 @@
 <template>
-  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
+  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;">
 
 
     <ClientSider/>
@@ -98,7 +98,7 @@
     }"
               >
                 <span slot="description"> Contract Meeting  </span>
-                <a-button type="primary" @click="$router.push('/Meeting')">
+                <a-button type="primary" @click="$router.push({ name: 'Meeting', params: { projectSlug: $route.params.projectSlug} })" >
                   Create meeting
                 </a-button>
               </a-empty>

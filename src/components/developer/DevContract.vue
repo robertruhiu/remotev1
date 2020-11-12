@@ -64,16 +64,7 @@
 
                       </a-card>
                     </a-col>
-                    <a-col span="12">
-                      <a-card  style="width: 90%">
-                        <span slot="title" style=";font-family: sofia_prosemibold;color: black">Sketch pad</span>
-                        <p>Enables both parties to sketch thus bringing out more understanding of features.We highly recommend using this during the feature discussion</p>
 
-
-
-
-                      </a-card>
-                    </a-col>
                   </a-row>
 
 
@@ -92,7 +83,7 @@
               >
                 <span slot="description"> Contract Meeting  </span>
                 <p>Awaiting meeting invitation</p>
-                <a-button type="primary" @click="$router.push('/Meeting')">
+                <a-button type="primary" @click="$router.push({ name: 'Meeting', params: { projectSlug: $route.params.projectSlug } })">
                   Create meeting
                 </a-button>
               </a-empty>

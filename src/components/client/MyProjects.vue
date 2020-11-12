@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
+  <a-layout style="min-height: 100vh;background-color: #F4F7FC;">
 
 
     <ClientSider/>

@@ -45,7 +45,7 @@
           <div style="">
 
             <a-row v-if="viewmode === 'milestone'">
-              <a-tabs default-active-key="1" @change="callback">
+              <a-tabs default-active-key="1" >
                 <a-tab-pane key="1"
                 >
                   <span slot="tab">
@@ -108,6 +108,10 @@
                                 <ul v-for="story in element.userstories" v-bind:key="story">
                                   <li>{{ story.user_story }}</li>
                                 </ul>
+                                <a-tag color="orange">
+                                  <a-icon type="clock-circle" />
+                                  due date: {{element.due_date | momentformat}}
+                                </a-tag>
 
 
                               </template>
@@ -257,30 +261,10 @@
                 </a-tab-pane>
                 <a-tab-pane key="3" force-render>
                   <span slot="tab">
-                    <a-icon type="file-sync"/>
-                    Project description
+                    <a-icon type="file-done" />
+                    Project contract
                   </span>
-                  <a-row>
-                    <a-col span="12">
-                      <a-card style="">
-                        <a-collapse   style=" margin-bottom: 1rem">
-                          <a-collapse-panel key="1" header="Project description.">
-                            <markdown style=" border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;">{{ project.description }}</markdown>
-                          </a-collapse-panel>
-                        </a-collapse>
-                        <p>Tools</p>
-                        <a-tag v-for="tag in tools " color="blue"
-                               :key="tag">
-                          {{ tag }}
-                        </a-tag>
-                        <p>Budget: $ {{ project.budget }}</p>
-
-
-
-
-                      </a-card>
-                    </a-col>
-                  </a-row>
+                  <contract/>
 
 
                 </a-tab-pane>
@@ -470,16 +454,18 @@ import Tasks from "@/components/shared/trackerboard/tasks"
 import Issues from "@/components/shared/trackerboard/issues"
 import Project from "@/services/Projects";
 import Fileshare from "@/components/shared/trackerboard/fileshare"
-import markdown from 'vue-markdown'
+import contract from "@/components/shared/trackerboard/contract"
+
 
 class Feature {
-  constructor(id, title, stage, userstories, developer_note, escrow) {
+  constructor(id, title, stage, userstories, developer_note, escrow,due_date) {
     this.id = id;
     this.title = title;
     this.stage = stage;
     this.userstories = userstories;
     this.developer_note = developer_note;
     this.escrow = escrow;
+    this.due_date =due_date
 
 
   }
@@ -508,14 +494,20 @@ export default {
       project: {},
       features: [],
       developer: false,
-      tools: []
+      tools: [],
+      yoh:''
 
 
     };
   },
   components: {
-    SmallSider, Tasks, Issues, DeveloperSmall, Fileshare, markdown
+    SmallSider, Tasks, Issues, DeveloperSmall, Fileshare,contract
 
+  },
+  filters: {
+    momentformat: function (date) {
+      return moment(date).format('MMMM Do YYYY');
+    },
 
   },
   mounted() {
@@ -569,11 +561,7 @@ export default {
   watch: {
 
     developer_note: function () {
-      if (this.developer_note !== '') {
-        this.note_validate = false
-      } else {
-        this.note_validate = true
-      }
+      this.note_validate = this.developer_note === '';
     }
 
 
@@ -588,6 +576,7 @@ export default {
       Project.getprojectslug(this.$route.params.projectSlug, auth)
           .then(resp => {
                 this.project = resp.data
+
                 this.tools = this.project.tools.split(',')
                 this.fetchFeatures()
 
@@ -623,8 +612,9 @@ export default {
                 let userstories = resp.data;
                 let developer_note = feature.developer_note;
                 let escrow = feature.escrow_disbursed;
+                let due_date =feature.due_date
 
-                let onefeature = new Feature(id, title, stage, userstories, developer_note, escrow)
+                let onefeature = new Feature(id, title, stage, userstories, developer_note, escrow,due_date)
                 this.features.push(onefeature)
 
 

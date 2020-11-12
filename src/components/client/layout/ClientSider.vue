@@ -5,8 +5,7 @@
         collapsed-width="0"
         @collapse="onCollapse"
         @breakpoint="onBreakpoint"
-        style="box-shadow: 2px 0 6px rgba(0,21,41,.35);background-color: #F4F7FC;height: available"
-        :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
+        style="box-shadow: 2px 0 6px rgba(0,21,41,.35);background-color: #F4F7FC"
     >
       <hide-at :breakpoints="{small: 425, medium: 768}" breakpoint="mediumAndBelow">
         <router-link to="/">

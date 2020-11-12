@@ -136,7 +136,7 @@ let router = new Router({
             component: DevBugs
         },
         {
-            path: '/Meeting',
+            path: '/Meeting/:projectSlug',
             name: 'Meeting',
             component: Meeting
         },

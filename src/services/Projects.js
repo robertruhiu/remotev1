@@ -173,6 +173,16 @@ export default {
     updatefile( file_id,team,auth) {
         return Api().patch(`remote/v1/projects/files/updatefile/${file_id}`,team, auth)
     },
+    //signatures
+    createsignature(signature, auth) {
+        return Api().post(`remote/v1/projects/signatures/create/`,signature, auth)
+    },
+    fetchsignature(owner_id,auth) {
+        return Api().get(`remote/v1/projects/signatures/fetchsignature/${owner_id}`,auth)
+    },
+    updatesignature( signature_id,signature,auth) {
+        return Api().patch(`remote/v1/projects/signatures/updatesignature/${signature_id}`,signature, auth)
+    },
 
 
 
