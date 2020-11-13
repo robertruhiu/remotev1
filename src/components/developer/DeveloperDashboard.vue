@@ -132,11 +132,6 @@
                     <a-badge count="1" :number-style="{ backgroundColor: '#008fff' }" /> issues
                   </div>
 
-
-
-
-
-
                 </div>
                 </router-link>
 
@@ -147,7 +142,7 @@
             </a-col>
             <a-col span="6">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
-
+                <router-link to="/Chat">
                 <div>
                   <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">Chat</p>
                   <div >
@@ -166,7 +161,7 @@
 
 
                 </div>
-
+                </router-link>
               </a-card>
 
 
@@ -186,8 +181,7 @@ export default {
   name: "ClientDashboard",
   data() {
     return {
-
-
+      user: 'dev'
     };
   },
   components: {

@@ -27,6 +27,9 @@ const DevContract = () => import('@/components/developer/DevContract')
 const Meeting = () => import('@/components/shared/meeting/meeting')
 const Login = () => import('@/components/homepages/auth/login')
 const ManageDevs = () => import('@/components/admin/ManageDevs')
+
+//chat
+const Chat = () => import('@/components/shared/chat/Chat')
 Vue.use(Router);
 
 let router = new Router({
@@ -157,9 +160,11 @@ let router = new Router({
             name: 'ManageDevs',
             component: ManageDevs
         },
-
-
-
+        {
+            path: '/chat',
+            name: 'Chat',
+            component: Chat
+        },
     ],
     scrollBehavior( ) {
         return new Promise((resolve) => {
