@@ -10,8 +10,8 @@
         <div style="">
           <div style="padding: 2% 5%" v-if="bidstageprojects.length>0">
             <a-row style="color: black">
-              <a-col :xs="{span: 18, offset: 0 }" :sm="{span: 12, offset: 6 }" :md="{span: 12, offset: 6 }"
-                     :lg="{span: 12, offset: 6 }" :xl="{span: 12, offset: 6 }">
+              <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }" :md="{span: 20, offset: 2 }"
+                     :lg="{span: 18, offset: 4 }" :xl="{span: 18, offset: 4 }">
 
                 <div style=" ">
 
@@ -20,7 +20,7 @@
                     <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall" style="background-color: #F1F3F9">
 
                       <template slot="actions">
-                              <span>
+                        <span>
                                 <a-icon type="calendar" style="margin-right: 8px"/>
                                 {{ item.time }} days
                               </span>
@@ -36,7 +36,9 @@
                           </a-tag>
 
                               </span>
-                        <span v-if="$store.state.user_object">
+                        <a-space>
+
+                          <span v-if="$store.state.user_object">
                           <span v-if="item.bid">
                             <a-tag color="green"><a-icon type="file-done"/>
                               bid placed
@@ -52,16 +54,18 @@
                                 </span>
 
                         </span>
-                        <span v-else>
+                          <span v-else>
                           <a-button @click="$router.push('/Login')">
                               login to apply
                             </a-button>
                         </span>
+                        </a-space>
+
 
 
                       </template>
                       <p style="font-family: sofia_probold"> {{ item.title }}</p>
-                      <a-collapse v-model="activeKey">
+                      <a-collapse >
                         <a-collapse-panel key="1" header="Project description.">
                           <markdown>{{ item.description }}</markdown>
                         </a-collapse-panel>
@@ -462,37 +466,9 @@ export default {
 </script>
 
 <style scoped>
-.hellocard {
-
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-
-  background: white;
-  border-radius: 0;
-  margin-bottom: 1rem;
-
-}
-
-.bidcard {
-
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-  background: white;
-  border-radius: 0;
-  padding: 2%;
-
-}
-
-.casecard {
 
 
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
 
-  background: white;
-  border-radius: 0;
-  padding: 2%;
-  border: 1px solid #e8e8e8;
-  min-height: 40rem;
-
-}
 
 .shadowsmall {
 

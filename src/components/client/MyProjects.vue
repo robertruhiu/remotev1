@@ -23,13 +23,17 @@
                 <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 My Projects</span>
               </a-col>
-              <a-col span="6">
+              <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                     :md="{span: 12, offset: 0 }"
+                     :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
                 <div style="text-align: center">
                   <img src="@/assets/images/planning.svg" style="width: 25%"/>
                 </div>
 
 
               </a-col>
+              </hide-at>
             </a-row>
 
 
@@ -52,14 +56,19 @@
             </a-empty>
           </div>
           <div style="padding: 0 3%">
-            <a-tabs default-active-key="1" @change="callback">
+
+            <a-tabs default-active-key="1">
               <a-tab-pane key="1" tab="In development" v-if="Inprogress.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" style="width: 60%">
+                <a-row>
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 18, offset: 0 }"
+                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" >
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
+                    <a-card >
                     <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse v-model="activeKey" >
+                      <a-collapse  >
                         <a-collapse-panel key="1" header="Project description.">
                           <markdown>{{ item.description }}</markdown>
                         </a-collapse-panel>
@@ -83,16 +92,22 @@
 
                   </a-list-item>
                 </a-list>
+                  </a-col>
+                </a-row>
 
 
               </a-tab-pane>
               <a-tab-pane key="2" tab="Contract discussions" force-render v-if="Incontract.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" style="width: 60%">
+                <a-row>
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 18, offset: 0 }"
+                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" >
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
+                    <a-card >
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse v-model="activeKey" >
+                      <a-collapse  >
                         <a-collapse-panel key="1" header="Project description.">
                           <markdown>{{ item.description }}</markdown>
                         </a-collapse-panel>
@@ -119,15 +134,22 @@
 
                   </a-list-item>
                 </a-list>
+                  </a-col>
+                </a-row>
 
               </a-tab-pane>
+
               <a-tab-pane key="3" tab="Bids " v-if="Inbidding.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inbidding" style="width: 60%">
+                <a-row>
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 18, offset: 0 }"
+                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inbidding" >
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
+                    <a-card >
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse v-model="activeKey" >
+                      <a-collapse>
                         <a-collapse-panel key="1" header="Project description.">
                           <markdown>{{ item.description }}</markdown>
                         </a-collapse-panel>
@@ -154,15 +176,22 @@
 
                   </a-list-item>
                 </a-list>
+                  </a-col>
+                </a-row>
 
               </a-tab-pane>
+
               <a-tab-pane key="4" tab="Awaiting Codeln verification " v-if="PendingVerification.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="PendingVerification" style="width: 60%">
+                <a-row>
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 18, offset: 0 }"
+                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="PendingVerification" >
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
+                    <a-card >
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse v-model="activeKey" >
+                      <a-collapse  >
                         <a-collapse-panel key="1" header="Project description.">
                           <markdown>{{ item.description }}</markdown>
                         </a-collapse-panel>
@@ -189,15 +218,23 @@
 
                   </a-list-item>
                 </a-list>
+                  </a-col>
+                </a-row>
 
               </a-tab-pane>
+
               <a-tab-pane key="5" tab="Unfinished projects (Continue creation) " v-if="InComplete.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="InComplete" style="width: 60%">
+                <a-row>
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 18, offset: 0 }"
+                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="InComplete" >
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
+                    <a-card >
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse v-model="activeKey" >
+                      <a-collapse  >
                         <a-collapse-panel key="1" header="Project description.">
                           <markdown>{{ item.description }}</markdown>
                         </a-collapse-panel>
@@ -224,9 +261,12 @@
 
                   </a-list-item>
                 </a-list>
+                  </a-col>
+                </a-row>
 
               </a-tab-pane>
             </a-tabs>
+
 
 
           </div>
@@ -242,6 +282,7 @@ import ClientSider from '@/components/client/layout/ClientSider'
 import moment from 'moment';
 import Projects from '@/services/Projects'
 import markdown from 'vue-markdown'
+import { hideAt} from 'vue-breakpoints'
 export default {
   name: "MyProjects",
   data() {
@@ -249,16 +290,13 @@ export default {
 
       myprojects: [],
       pagination: {
-        onChange: page => {
-          console.log(page);
-        },
         pageSize: 3,
       },
 
     }
   },
   components: {
-    ClientSider,markdown
+    ClientSider,markdown,hideAt
 
 
   },

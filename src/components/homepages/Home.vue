@@ -7,15 +7,16 @@
         <a-layout-content :style="{  marginTop: '0rem' }">
           <pageheader></pageheader>
 
-          <div class="mainheader">
+          <div class="mainheader" >
             <div class="hero">
 
 
               <div class="headercontainer">
-                <div class="yeah">
-                  <p class="maintitle scale-in-centerheader">Manage your Remote Developers Through  Milestone Driven KPIS</p>
+                <div >
+                  <p class="maintitle scale-in-centerheader">Access Top African Freelance Programmers</p>
                   <p class="text__paragraph-big scale-in-centersubheader">
-                    Story driven milestones to enable tasks fulfilment
+                    An innovative platform for managing your
+                    project, timelines and freelancer’s tasks
 
                   </p>
                 </div>
@@ -23,8 +24,9 @@
 
 
                 <span class="scale-in-centersubheader">
-                        <a href="https://forms.gle/wDEeGfD4mq7MF2yG8" target="_blank">
-                        <a-button type="primary" class="ctabutton" style="margin-right: 1%;"
+                  <a-space>
+                    <a href="https://forms.gle/wDEeGfD4mq7MF2yG8" target="_blank">
+                        <a-button type="primary" class="ctabutton"
                                   :size="large">
                           Create a project
                         </a-button>
@@ -35,12 +37,14 @@
                                   ghost>See available gigs
                         </a-button>
                       </router-link>
+                  </a-space>
+
                       </span>
 
               </div>
 
 
-              <div class="mainpresentation scale-in-centerimages" style="margin-top: 5%">
+              <div class="mainpresentation scale-in-centerimages" style="margin-top: 3%">
                 <hide-at breakpoint="mediumAndBelow">
                   <div>
                     <img class="dots-4 noselect" src="https://finezjo.pl/src/assets/images/dots-4.svg" alt="">
@@ -763,8 +767,8 @@ export default {
 
 .mainheader {
   background: #fff;
-  overflow: hidden;
-  height: 1180px;
+
+  height: 100vh;
   position: relative;
   z-index: 0;
 }
@@ -1019,8 +1023,8 @@ export default {
 
   .mainheader {
     background: #fff;
-    overflow: hidden;
-    height: 1180px;
+    margin-bottom: 1rem;
+    height: 100vh;
     position: relative;
     z-index: 0;
   }
@@ -1607,7 +1611,7 @@ export default {
   .mainheader {
     background: #fff;
     overflow: hidden;
-    height: 340px;
+    height: 100vh;
     position: relative;
     z-index: 0;
   }
@@ -1864,7 +1868,7 @@ export default {
   .mainheader {
     background: #fff;
     overflow: hidden;
-    height: 340px;
+    height: 100vh;
     position: relative;
     z-index: 0;
   }

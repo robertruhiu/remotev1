@@ -13,7 +13,9 @@
         <a-card class="hellocard">
 
           <a-row>
-            <a-col span="12">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
               <a-breadcrumb>
                 <a-breadcrumb-item><a @click="$router.push('/Developer')">Home</a></a-breadcrumb-item>
                 <a-breadcrumb-item><a >Manage and Create Teams</a></a-breadcrumb-item>
@@ -23,13 +25,18 @@
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 Manage and Create Teams</span>
             </a-col>
-            <a-col span="6">
-              <div style="text-align: center">
-                <img src="@/assets/images/planning.svg" style="width: 20%"/>
-              </div>
+
+            <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                     :md="{span: 12, offset: 0 }"
+                     :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                <div style="text-align: center">
+                  <img src="@/assets/images/planning.svg" style="width: 20%"/>
+                </div>
 
 
-            </a-col>
+              </a-col>
+            </hide-at>
           </a-row>
 
 
@@ -39,14 +46,33 @@
           <div style="padding: 0 3%">
 
             <div v-if="myteams.length>0">
-              <a-row>
-                <a-col span="12">
+              <a-row :gutter="gutter">
+                <show-at breakpoint="mediumAndBelow">
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 12, offset: 0 }"
+                         :lg="{span: 6, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                    <a-result title="Create a new team" v-if="!create">
+                      <template #icon>
+                        <a-icon type="rocket" theme="twoTone"/>
+                      </template>
+                      <template #extra>
+                        <a-button type="primary" @click="NewTeam">
+                          create
+                        </a-button>
+                      </template>
+                    </a-result>
+                  </a-col>
 
-                  <div v-for="team in myteams" v-bind:key="team" style="margin-bottom: 1rem">
-                    <a-card :title="team.name" style="width: 30rem">
+                </show-at>
+                <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                       :md="{span: 12, offset: 0 }"
+                       :lg="{span: 16, offset: 0 }" :xl="{span: 16,offset: 0 }">
+
+                  <div v-for="team in myteams" v-bind:key="team.id" style="margin-bottom: 1rem">
+                    <a-card :title="team.name" >
                       <a slot="extra" @click="openteam(team)">view team</a>
                       <div v-if="team.project">
-                        <div v-for="project in Inprogress" v-bind:key="project">
+                        <div v-for="project in Inprogress" v-bind:key="project.id">
                           <p v-if="team.project === project.id">
                             Project working on : {{ project.title }}
 
@@ -75,9 +101,13 @@
 
 
                 </a-col>
-                <a-col span="6">
+                <hide-at breakpoint="mediumAndBelow">
+                <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                       :md="{span: 12, offset: 0 }"
+                       :lg="{span: 6, offset: 0 }" :xl="{span: 6,offset: 0 }">
+
                   <div v-if="currentteam">
-                    <a-card style="width:40rem">
+                    <a-card >
 
                       <a-form layout="vertical">
 
@@ -90,7 +120,7 @@
                         <a-form-item v-if="currentteam.project">
                           <p>Do you want to change attached project</p>
                           <a-select @change="handleChange" :default-value="currentteam.project">
-                            <a-select-option v-for="project in Inprogress" v-bind:key="project" :value="project.id">
+                            <a-select-option v-for="project in Inprogress" v-bind:key="project.id" :value="project.id">
                               {{ project.title }}
                             </a-select-option>
 
@@ -100,7 +130,7 @@
                         <a-form-item v-else>
                           <p>Do you want to attach team to one of your projects</p>
                           <a-select style="width: 120px" @change="handleChange">
-                            <a-select-option v-for="project in Inprogress" v-bind:key="project" :value="project.id">
+                            <a-select-option v-for="project in Inprogress" v-bind:key="project.id" :value="project.id">
                               {{ project.title }}
                             </a-select-option>
 
@@ -161,7 +191,7 @@
                     </a-result>
 
                     <div v-if="create">
-                      <a-card title="New team" style="width:20rem">
+                      <a-card title="New team" style="">
 
                         <a-form layout="vertical">
 
@@ -174,7 +204,7 @@
                           <a-form-item>
                             <p>Do you want to attach team to one of your projects</p>
                             <a-select style="width: 120px" @change="handleChange">
-                              <a-select-option v-for="project in Inprogress" v-bind:key="project" :value="project.id">
+                              <a-select-option v-for="project in Inprogress" v-bind:key="project.id" :value="project.id">
                                 {{ project.title }}
                               </a-select-option>
 
@@ -201,6 +231,7 @@
 
 
                 </a-col>
+                </hide-at>
               </a-row>
 
 
@@ -228,7 +259,7 @@
                     <a-form-item>
                       <p>Do you want to attach team to one of your projects</p>
                       <a-select style="width: 120px" @change="handleChange">
-                        <a-select-option v-for="project in Inprogress" v-bind:key="project" :value="project.id">
+                        <a-select-option v-for="project in Inprogress" v-bind:key="project.id" :value="project.id">
                           {{ project.title }}
                         </a-select-option>
 
@@ -259,6 +290,111 @@
 
           </div>
         </div>
+        <show-at breakpoint="mediumAndBelow">
+          <a-modal v-if="currentteam" v-model="viewteam" :footer="null" >
+            <a-form layout="vertical">
+
+              <a-form-item
+                  label="Team name"
+
+              >
+                <a-input v-model="currentteam.name"/>
+              </a-form-item>
+              <a-form-item v-if="currentteam.project">
+                <p>Do you want to change attached project</p>
+                <a-select @change="handleChange" :default-value="currentteam.project">
+                  <a-select-option v-for="project in Inprogress" v-bind:key="project.id" :value="project.id">
+                    {{ project.title }}
+                  </a-select-option>
+
+
+                </a-select>
+              </a-form-item>
+              <a-form-item v-else>
+                <p>Do you want to attach team to one of your projects</p>
+                <a-select style="width: 120px" @change="handleChange">
+                  <a-select-option v-for="project in Inprogress" v-bind:key="project" :value="project.id">
+                    {{ project.title }}
+                  </a-select-option>
+
+
+                </a-select>
+              </a-form-item>
+              <div style="margin-bottom: 1rem">
+                <p>Team members</p>
+                <template v-for="(tag, index) in members">
+
+                  <a-tag color="blue" :key="tag" :closable="index === 0" @close="() => handleClose(tag)">
+                    {{ tag.user.first_name }}
+                  </a-tag>
+                </template>
+                <div>
+                  <p>Invite someone to join</p>
+
+
+                  <a-input-search placeholder="input user email you want to invite" v-model="email"
+                                  @search="lookUpuser"/>
+                  <a-spin v-if="loading"/>
+                  <p style="color: red" v-if="error"> no user found</p>
+                  <p v-if="pendingmembers.length>0">Pending invites</p>
+                  <template v-for="(tag, index) in pendingmembers">
+
+                    <a-tag color="blue" :key="tag" :closable="index === 0" @close="() => handleClose1(tag)">
+                      {{ tag.first_name }}
+                    </a-tag>
+                  </template>
+                </div>
+              </div>
+
+
+              <a-form-item>
+                <a-space>
+                  <a-button type="primary" @click="Submit">
+                    Submit
+                  </a-button>
+                  <a-button @click="Close">
+                    Cancel
+                  </a-button>
+                </a-space>
+              </a-form-item>
+            </a-form>
+          </a-modal>
+        </show-at>
+        <show-at breakpoint="mediumAndBelow">
+          <a-modal v-model="create" :footer="null" >
+            <a-form layout="vertical">
+
+              <a-form-item
+                  label="Team name"
+
+              >
+                <a-input v-model="teamname"/>
+              </a-form-item>
+              <a-form-item>
+                <p>Do you want to attach team to one of your projects</p>
+                <a-select style="width: 120px" @change="handleChange">
+                  <a-select-option v-for="project in Inprogress" v-bind:key="project.id" :value="project.id">
+                    {{ project.title }}
+                  </a-select-option>
+
+
+                </a-select>
+              </a-form-item>
+
+
+              <a-form-item>
+                <a-space>
+                  <a-button type="primary" @click="CreateTeam">
+                    Submit
+                  </a-button>
+                  <a-button @click="Close">
+                    Cancel
+                  </a-button>
+                </a-space>
+              </a-form-item>
+            </a-form>
+          </a-modal>
+        </show-at>
 
 
       </a-layout-content>
@@ -271,7 +407,7 @@ import DevSider from '@/components/developer/layout/DevSider'
 import Projects from "@/services/Projects";
 import User from '@/services/UsersService'
 import VeeValidate from 'vee-validate';
-
+import { hideAt,showAt} from 'vue-breakpoints'
 import Vue from 'vue'
 
 
@@ -308,13 +444,15 @@ export default {
       loading: false,
       pendingmembers: [],
       member_ids: [],
-      pending_ids: []
+      pending_ids: [],
+      gutter:16,
+      viewteam:false
 
 
     }
   },
   components: {
-    DevSider
+    DevSider,hideAt,showAt
 
 
   },
@@ -413,6 +551,7 @@ export default {
 
     },
     Close() {
+      this.viewteam= false
       this.create = false
       this.currentteam = null
     },
@@ -475,6 +614,7 @@ export default {
 
         }
       })
+      this.viewteam = true
       this.fetchmembers()
       this.fetchpending()
 
@@ -510,13 +650,15 @@ export default {
       }
       let pendingmembers =[]
       pendingmembers = this.currentteam.pending.split(',')
-      pendingmembers.forEach(onemember => {
-        User.retrieveuser(onemember, auth)
-            .then(resp => {
-              this.pendingmembers.push(resp.data)
+      if (this.currentteam.pending.length > 0) {
+        pendingmembers.forEach(onemember => {
+          User.retrieveuser(onemember, auth)
+              .then(resp => {
+                this.pendingmembers.push(resp.data)
 
-            })
-      })
+              })
+        })
+      }
 
     },
     lookUpuser() {

@@ -13,7 +13,9 @@
         <a-card class="hellocard">
 
           <a-row>
-            <a-col span="12">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
               <a-breadcrumb>
                 <a-breadcrumb-item><a @click="$router.push('/Developer')" >Home</a></a-breadcrumb-item>
                 <a-breadcrumb-item><a @click="$router.push('/DeveloperProjects')" >My Projects</a></a-breadcrumb-item>
@@ -24,13 +26,19 @@
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 Contract Negotiations</span>
             </a-col>
-            <a-col span="6">
-              <div style="text-align: center">
-                <img src="@/assets/images/contract.svg" style="width: 20%"/>
-              </div>
+
+            <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                     :md="{span: 12, offset: 0 }"
+                     :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                <div style="text-align: center">
+                  <img src="@/assets/images/contract.svg" style="width: 20%"/>
+                </div>
 
 
-            </a-col>
+              </a-col>
+            </hide-at>
+
           </a-row>
 
 
@@ -38,43 +46,30 @@
         <div>
           <a-row>
 
-            <a-col span="16">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 16, offset: 0 }"
+                   :lg="{span: 16, offset: 0 }" :xl="{span: 16,offset: 0 }">
 
               <div class="timelinecard">
-                <p style="font-family: sofia_probold;font-size: 1.2rem">Here are the elements that you will discuss via the Video call meeting </p>
+                <p style="font-family: sofia_probold;font-size: 1.2rem">Here are the elements that you will discuss at the negotiations </p>
                 <a-timeline>
-                  <a-timeline-item>Project details and Parties involved</a-timeline-item>
-                  <a-timeline-item>Features</a-timeline-item>
+                  <a-timeline-item>Project details </a-timeline-item>
+                  <a-timeline-item>Project breakdown into features</a-timeline-item>
                   <a-timeline-item>Time allocation of features</a-timeline-item>
                   <a-timeline-item>Budget and Escrow disbursment</a-timeline-item>
                   <a-timeline-item>Technologies to be used</a-timeline-item>
                   <a-timeline-item>Codeln Role</a-timeline-item>
 
                 </a-timeline>
-                <div>
-                  <p style="font-family: sofia_proregular;font-weight: bold">Helper features that we provide to ensure a success meeting discussions</p>
-                  <a-row>
-                    <a-col span="12">
-                      <a-card  style="width: 90%">
-                        <span slot="title" style="font-family: sofia_prosemibold;color: black">Contract form</span>
 
-                        <p>Click on the icon shown when meeting starts to open the contract form this will have a guided steps
-                          to enable a succesful filling on the elements stated above</p>
-
-
-                      </a-card>
-                    </a-col>
-
-                  </a-row>
-
-
-                </div>
               </div>
 
 
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 6, offset: 0 }"
+                   :lg="{span: 6, offset: 0 }" :xl="{span: 6,offset: 0 }">
               <a-empty
                   image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
                   :image-style="{
@@ -97,7 +92,7 @@
 
 <script>
 import DevSider from '@/components/developer/layout/DevSider'
-
+import { hideAt} from 'vue-breakpoints'
 
 export default {
   name: "DevContract",
@@ -108,7 +103,7 @@ export default {
     };
   },
   components: {
-    DevSider
+    DevSider,hideAt
 
 
   },

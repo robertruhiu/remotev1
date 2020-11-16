@@ -454,7 +454,6 @@ name: "AdminCreateProject",
       both: false,
       step1errors: [],
       featureserror: false,
-      compositionerror: false,
       notoolserror: false,
       featuretitleerror: false,
       step4errors: [],
@@ -974,21 +973,7 @@ name: "AdminCreateProject",
         }
 
 
-      } else if (this.current === 3) {
-
-        if (this.teamcompostion === '') {
-          this.compositionerror = true
-        }
-        if (this.compositionerror === false) {
-          this.project.team = this.teamcompostion
-          if (this.teamcompostion === 'one') {
-            this.project.team_size = 'single_dev'
-          } else {
-            this.project.team_size = 'team'
-          }
-          self.stepsaves()
-        }
-      } else if (this.current === 4) {
+      }  else if (this.current === 3) {
 
 
         if (Number(this.project.time) === 0) {
@@ -997,11 +982,7 @@ name: "AdminCreateProject",
         if (Number(this.project.budget) === 0) {
           this.step4errors.push('budget')
         }
-        if (this.teamcompostion === 'both') {
-          if (Number(this.project.designbudget) === 0) {
-            this.step4errors.push('designbudget')
-          }
-        }
+
         if (this.step4errors.length === 0) {
           this.project.stage = 'escrow1'
 
@@ -1093,20 +1074,6 @@ name: "AdminCreateProject",
             )
 
       } else if (this.current === 3) {
-
-
-        Project.updateproject(this.$store.state.project_id, this.project, auth)
-            .then(resp => {
-                  this.project = resp.data
-                  this.current++
-                  let self = this
-                  self.currentProject()
-                  this.loading = false
-
-                }
-            )
-
-      } else if (this.current === 4) {
 
 
         Project.updateproject(this.$store.state.project_id, this.project, auth)

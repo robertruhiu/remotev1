@@ -13,7 +13,9 @@
         <a-card class="hellocard" >
 
           <a-row>
-            <a-col span="12">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
               <a-breadcrumb>
                 <a-breadcrumb-item><a @click="$router.push('/Developer')">Home</a></a-breadcrumb-item>
                 <a-breadcrumb-item><a @click="$router.push('/DeveloperEscrow')">Escrow Management</a></a-breadcrumb-item>
@@ -22,24 +24,74 @@
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 Escrow management</span>
             </a-col>
-            <a-col span="6">
-              <div style="text-align: center">
-                <img src="@/assets/images/esc.svg" style="width: 20%"/>
-              </div>
+
+            <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                     :md="{span: 12, offset: 0 }"
+                     :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                <div style="text-align: center">
+                  <img src="@/assets/images/esc.svg" style="width: 20%"/>
+                </div>
 
 
-            </a-col>
+              </a-col>
+            </hide-at>
           </a-row>
 
 
         </a-card>
         <div style="min-height: 40vh ;position: relative">
-          <a-row gutter="16">
-            <a-col span="16">
+          <a-row :gutter="gutter">
+            <show-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 18, offset: 2 }" :sm="{span: 18, offset: 2 }"
+                     :md="{span: 6, offset: 0 }"
+                     :lg="{span: 4, offset: 0 }" :xl="{span: 4,offset: 0 }">
+                <p>Overview</p>
+                <a-card>
+                  <a-statistic
+                      title="Pending approval"
+                      :value=Pending
+
+
+                      class="demo-class"
+                      :value-style="{ color: '#cf1322' }"
+                  >
+
+                  </a-statistic>
+                </a-card>
+                <a-card>
+                  <a-statistic
+                      title="Disburssed amount"
+                      :value=Disbursed
+
+                      suffix="$"
+                      :value-style="{ color: '#3f8600' }"
+                      style="margin-right: 50px"
+                  >
+
+                  </a-statistic>
+                </a-card>
+                <a-card>
+                  <a-statistic
+                      title="Remaining Balance"
+                      :value=Allbalance
+
+                      suffix="$"
+                      class="demo-class"
+
+                  >
+
+                  </a-statistic>
+                </a-card>
+              </a-col>
+            </show-at>
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 18, offset: 0 }"
+                   :lg="{span: 16, offset: 0 }" :xl="{span: 16,offset: 0 }">
 
 
               <div style="padding: 3%">
-                <a-collapse expandIconPosition="right" v-for="project in AllProjects" v-bind:key="project"
+                <a-collapse expandIconPosition="right" v-for="project in AllProjects" v-bind:key="project.id"
                             style="border-radius: 0;background-color: white">
                   <a-collapse-panel style="margin-bottom: 1rem;border-radius: 0;background-color: white">
                     <div slot="header">
@@ -47,7 +99,9 @@
                         <a-col span="12">
                           <p style="font-family: sofia_probold;font-size: 1rem">{{ project.title }}</p>
                         </a-col>
-                        <a-col span="12">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 18, offset: 0 }"
+                               :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
                           <a-space>
                             <a-tag color="cyan">
                               ${{ project.balance }} balance
@@ -79,16 +133,16 @@
 
                       </a-row>
                     </div>
-                    <a-tabs v-model="activeKey" @change="callback">
+                    <a-tabs >
                       <a-tab-pane key="1" >
                         <span slot="tab">
-                          <a-icon type="hourglass" spin/>
+                          <a-icon type="container" />
                           Pending approval
                         </span>
 
 
                         <a-card style="width: 100%;margin-bottom: 1rem" v-for="task in project.pending"
-                                v-bind:key="task">
+                                v-bind:key="task.id">
                           <p slot="title">{{ task.name }}</p>
 
                           <div
@@ -151,7 +205,10 @@
                 </a-collapse>
               </div>
             </a-col>
-            <a-col span="4">
+            <hide-at breakpoint="mediumAndBelow">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 6, offset: 0 }"
+                   :lg="{span: 6, offset: 0 }" :xl="{span: 4,offset: 0 }">
               <p>Overview</p>
               <a-card>
                 <a-statistic
@@ -191,6 +248,7 @@
               </a-card>
 
             </a-col>
+            </hide-at>
           </a-row>
         </div>
       </a-layout-content>
@@ -202,6 +260,7 @@
 import DevSider from '@/components/developer/layout/DevSider'
 import moment from 'moment';
 import Project from "@/services/Projects";
+import { hideAt,showAt} from 'vue-breakpoints'
 const milestonecolumns = [
 
   {
@@ -253,22 +312,22 @@ export default {
   name: "Escrow",
   data() {
     return {
+      gutter:16,
       Projectlist: [],
       Featurelist: [],
       milestonecolumns,
       disbursedcolumns,
-      activeKey: '1',
+
 
       submitting: false,
       value: '',
       moment,
-      client:'dennis'
 
 
     };
   },
   components: {
-    DevSider
+    DevSider,hideAt,showAt
 
 
   },
@@ -378,7 +437,7 @@ export default {
       this.Projectlist.forEach(project => {
         Project.getfeatures(project.id, auth)
             .then(resp => {
-              console.log(resp.data)
+
               resp.data.forEach(feature=>{
                 this.Featurelist.push(feature)
               })

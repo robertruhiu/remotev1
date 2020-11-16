@@ -23,13 +23,18 @@
                 <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 My Projects</span>
               </a-col>
-              <a-col span="6">
-                <div style="text-align: center">
-                  <img src="@/assets/images/planning.svg" style="width: 20%"/>
-                </div>
+
+              <hide-at breakpoint="mediumAndBelow">
+                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                       :md="{span: 12, offset: 0 }"
+                       :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                  <div style="text-align: center">
+                    <img src="@/assets/images/planning.svg" style="width: 20%"/>
+                  </div>
 
 
-              </a-col>
+                </a-col>
+              </hide-at>
             </a-row>
 
 
@@ -42,14 +47,18 @@
 
           <div style="padding: 0 3%">
 
-            <a-tabs default-active-key="1" @change="callback">
+            <a-tabs default-active-key="1">
               <a-tab-pane key="1" tab="In developement" v-if="Inprogress.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" style="width: 60%">
+                <a-row>
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 18, offset: 0 }"
+                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" >
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
+                    <a-card >
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse v-model="activeKey" >
+                      <a-collapse >
                         <a-collapse-panel key="1" header="Project description.">
                           <markdown>{{ item.description }}</markdown>
                         </a-collapse-panel>
@@ -73,15 +82,23 @@
 
                   </a-list-item>
                 </a-list>
+                  </a-col>
+                </a-row>
 
               </a-tab-pane>
-              <a-tab-pane key="2" tab="Contract discussions" force-render v-if="Incontract.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" style="width: 60%">
+              <a-tab-pane key="2" tab="Contract discussions"  v-if="Incontract.length>0">
+
+                <a-row>
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 18, offset: 0 }"
+                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" >
+
 
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
+                    <a-card>
                       <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse v-model="activeKey" >
+                      <a-collapse  >
                         <a-collapse-panel key="1" header="Project description.">
                           <markdown>{{ item.description }}</markdown>
                         </a-collapse-panel>
@@ -107,11 +124,16 @@
                     </a-card>
 
                   </a-list-item>
+
                 </a-list>
+                  </a-col>
+                </a-row>
               </a-tab-pane>
-              <a-tab-pane key="3" tab="Bids placed" v-if="bid">
+              <a-tab-pane key="3" tab="Bids placed" v-if="BidProjects.length>0">
                 <a-row>
-                  <a-col span="12">
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 12, offset: 0 }"
+                         :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
 
 
                     <a-list item-layout="vertical" size="middle" :pagination="pagination" :data-source="BidProjects">
@@ -122,30 +144,43 @@
                           <span slot="title"
                                 style="font-size: 1.2rem;font-family: sofia_prosemibold;color: black">{{ item.project.title }}
 
-                            <a-tag color="#108ee9" v-if="item.shortlisted">    <a-icon type="filter" />    shortlisted      </a-tag>
+                            <a-tag color="blue" v-if="item.shortlisted" style="float: right">       shortlisted      </a-tag>
 
                           </span>
-                          <a-collapse v-model="activeKey" >
+                          <a-collapse style="margin-bottom: 1rem" >
                             <a-collapse-panel key="1" header="Project description.">
                               <markdown>{{ item.project.description }}</markdown>
                             </a-collapse-panel>
                           </a-collapse>
 
-                          {{item.project.tools}}
-
+                          <a-tag v-for="tag in item.tools" color="blue"
+                                 :key="tag">
+                            {{ tag }}
+                          </a-tag>
 
                           <div slot="actions">
-                            <a-button type="primary" @click="viewbid(item)">
-                              View bid
-                            </a-button>
+                            <a-row style="padding: 1%">
+                              <a-col span="4">
+                                <a-button type="primary" @click="viewbid(item)">
+                                View bid
+                              </a-button>
 
+                              </a-col>
+
+
+                            </a-row>
                           </div>
+
+
                         </a-card>
 
                       </a-list-item>
                     </a-list>
                   </a-col>
-                  <a-col span="12" v-if="bid">
+                  <hide-at breakpoint="mediumAndBelow">
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 12, offset: 0 }"
+                         :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }" v-if="bid">
                     <div style="padding: 0 1%">
                       <div class="casecard">
 
@@ -234,11 +269,90 @@
 
 
                   </a-col>
+                  </hide-at>
                 </a-row>
 
 
               </a-tab-pane>
             </a-tabs>
+
+            <show-at breakpoint="mediumAndBelow">
+              <a-modal v-model="bid" :footer="null" >
+                <div  v-if="bid">
+
+                  <div>
+
+                            <span><p><strong>Project title:</strong>{{ bid.project.title }}</p>
+
+
+                            </span>
+
+
+                  </div>
+
+
+                  <p>Project Proposal(why i should get project)1200 character limit</p>
+                  <a-textarea v-model="bid.proposal" maxlength="1200"
+
+
+                              :auto-size="{ minRows: 5 }"
+                  />
+                  <p>Tools i will use</p>
+                  <template v-for="(tag, index) in tags">
+                    <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
+                      <a-tag :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
+                        {{ `${tag.slice(0, 20)}...` }}
+                      </a-tag>
+                    </a-tooltip>
+                    <a-tag v-else :key="tag" :closable="index !== 0" @close="() => handleClose(tag)">
+                      {{ tag }}
+                    </a-tag>
+                  </template>
+                  <a-input
+                      v-if="inputVisible"
+                      ref="input"
+                      type="text"
+                      size="small"
+                      :style="{ width: '78px' }"
+                      :value="inputValue"
+                      @change="handleInputChange"
+                      @blur="handleInputConfirm"
+                      @keyup.enter="handleInputConfirm"
+                  />
+                  <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput">
+                    <a-icon type="plus"/>
+                    New Tag
+                  </a-tag>
+
+
+                  <p>Time i will take in days</p>
+                  <a-input type="Number"  v-model="bid.time" :min="0" addon-after="days"/>
+
+                  <p>Budget
+                    <span v-if="bidflag" style="color: red">(bids are capped you can only go 10% lower than quoted by client )</span>
+                    <span v-else>(bids are capped you can only go 10% lower than quoted by client )</span>
+                  </p>
+                  <a-input type="number" @change="budgetflag" v-model="bid.budget" addon-after="$"/>
+
+                  <div style="margin-top: 1rem">
+                              <span v-if="editload">
+                                <a-spin/>
+                              </span>
+                    <a-space v-else>
+                      <a-button key="submit" type="primary" @click="editbid()" v-if="!bid.shortlisted">
+                        Submit edit
+                      </a-button>
+                      <a-button type="danger" @click="withdrawbid()">
+                        Withdraw bid
+                      </a-button>
+                    </a-space>
+
+
+                  </div>
+
+                </div>
+              </a-modal>
+            </show-at>
 
 
           </div>
@@ -255,6 +369,7 @@ import moment from 'moment';
 import Project from "@/services/Projects";
 import Projects from "@/services/Projects";
 import markdown from 'vue-markdown'
+import { hideAt,showAt} from 'vue-breakpoints'
 class BidProjects {
   constructor(id, proposal, budget, time, tools, project,shortlisted,accepted) {
     this.id = id;
@@ -274,15 +389,13 @@ export default {
   name: "Developerprojects",
   data() {
     return {
-      projects: [1],
-      bid: {},
+
+      bid: null,
       tags: [],
       inputVisible: false,
       inputValue: '',
       pagination: {
-        onChange: page => {
-          console.log(page);
-        },
+
         pageSize: 3,
       },
       bidflag: false,
@@ -294,7 +407,7 @@ export default {
     }
   },
   components: {
-    DevSider,markdown
+    DevSider,markdown,hideAt,showAt
 
 
   },
@@ -302,6 +415,12 @@ export default {
 
     this.DeveloperBids()
     this.FetchProject()
+
+  },
+  filters: {
+    split_tools: function (tools) {
+      return tools.split(',')
+    },
 
   },
   computed: {
@@ -390,9 +509,8 @@ export default {
       Project.activedeveloperbids(this.$store.state.user.pk, auth).then(
           resp => {
             this.bids = resp.data
-            console.log(this.bids)
-            this.bid = this.BidProjects[0]
-            this.tags = this.bid.tools
+
+
 
 
 

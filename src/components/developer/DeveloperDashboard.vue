@@ -22,8 +22,10 @@
 
 
         <div style="min-height: 40vh ;position: relative">
-          <a-row gutter="16">
-            <a-col span="6">
+          <a-row :gutter="gutter">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card hoverable class="cardshadow" style="width: 100%;margin-bottom: 1rem">
                 <router-link to="/DeveloperProjects">
                   <div>
@@ -41,7 +43,9 @@
               </a-card>
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
                 <router-link to="/Jobs">
                 <div>
@@ -61,7 +65,9 @@
 
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-tooltip>
                 <template slot="title">
                   Invite developers(friends) to help out in projects
@@ -88,7 +94,9 @@
 
             </a-col>
 
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
                 <router-link to="/DeveloperEscrow">
                 <div>
@@ -110,7 +118,9 @@
 
             </a-col>
 
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;%;">
                 <router-link to="/DevBugs">
                 <div>
@@ -130,7 +140,9 @@
 
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
 
                 <div>
@@ -166,6 +178,7 @@ export default {
   name: "ClientDashboard",
   data() {
     return {
+      gutter:16
 
 
     };

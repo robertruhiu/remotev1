@@ -14,7 +14,9 @@
           <a-card class="hellocard">
 
             <a-row>
-              <a-col span="12">
+              <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                     :md="{span: 14, offset: 0 }"
+                     :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
                 <a-breadcrumb>
                   <a-breadcrumb-item><a @click="$router.push('/Dashboard')">Home</a></a-breadcrumb-item>
                   <a-breadcrumb-item><a @click="$router.push('/Myprojects')">My projects</a></a-breadcrumb-item>
@@ -25,13 +27,18 @@
                   {{project.title}}</span>
 
               </a-col>
-              <a-col span="6">
-                <div style="text-align: center">
-                  <img src="@/assets/images/planning.svg" style="width: 20%"/>
-                </div>
+
+              <hide-at breakpoint="mediumAndBelow">
+                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                       :md="{span: 10, offset: 0 }"
+                       :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                  <div style="text-align: center">
+                    <img src="@/assets/images/planning.svg" style="width: 20%"/>
+                  </div>
 
 
-              </a-col>
+                </a-col>
+              </hide-at>
             </a-row>
 
 
@@ -43,129 +50,246 @@
           <div style="">
             <div v-if="BidsinReview.length>0 || ShortlistedBids.length>0">
               <a-row style="color: black">
-                <a-col span="8" class="">
+                <div v-if="bid && DeveloperProfile !==null ">
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 12, offset: 0 }"
+                         :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }" >
 
-                  <a-tabs>
+                    <a-tabs>
 
-                    <a-tab-pane key="1" tab="Pending bids" v-if="BidsinReview.length>0">
-                      <div style=";height: 40rem;padding: 3% ">
-
-
-                        <a-list item-layout="vertical" size="large" :pagination="pagination"
-                                :data-source="BidsinReview">
-
-                          <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                            <h4>Proposal</h4>
-                            <p>{{ item.proposal }}</p>
+                      <a-tab-pane key="1" tab="Pending bids" v-if="BidsinReview.length>0">
+                        <div style=";height: 40rem;padding: 3% ">
 
 
-                            <p>Proposed tools:
+                          <a-list item-layout="vertical" size="large" :pagination="pagination"
+                                  :data-source="BidsinReview">
+
+                            <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                              <h4>Proposal</h4>
+                              <p>{{ item.proposal }}</p>
+
+
+                              <p>Proposed tools:
+                                <a-tag v-for="tag in item.tools" color="blue"
+                                       :key="tag">
+                                  {{ tag }}
+                                </a-tag>
+                              </p>
+
+                              <a-row>
+
+
+                                <a-col span="8">
+                                  Time:{{ item.time }} days
+
+                                </a-col>
+                                <a-col span="8">
+                                  Budget:{{ item.budget }}$
+
+                                </a-col>
+                                <a-col span="8">
+                                  <a-button type="primary" size="small" @click="openbid(item)">view bid</a-button>
+
+                                </a-col>
+
+                              </a-row>
+
+                            </a-list-item>
+                          </a-list>
+
+
+                        </div>
+
+                      </a-tab-pane>
+                      <a-tab-pane key="2" tab="Shortlisted" v-if="ShortlistedBids.length>0">
+                        <div style="height: 40rem;padding: 3% ">
+
+                          <a-list item-layout="vertical" size="large" :pagination="pagination"
+                                  :data-source="ShortlistedBids">
+
+                            <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                              <h4>Proposal</h4>
+                              <p>{{ item.proposal | truncate(100,'....')}}</p>
+
+
+                              <p>Proposed tools:
+
+                              </p>
                               <a-tag v-for="tag in item.tools" color="blue"
                                      :key="tag">
                                 {{ tag }}
                               </a-tag>
-                            </p>
 
-                            <a-row>
-
-
-                              <a-col span="8">
-                                Time:{{ item.time }} days
-
-                              </a-col>
-                              <a-col span="8">
-                                Budget:{{ item.budget }}$
-
-                              </a-col>
-                              <a-col span="8">
-                                <a-button type="primary" size="small" @click="openbid(item)">view bid</a-button>
-
-                              </a-col>
-
-                            </a-row>
-
-                          </a-list-item>
-                        </a-list>
+                              <a-row>
 
 
-                      </div>
+                                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                                       :md="{span: 12, offset: 0 }"
+                                       :lg="{span: 8, offset: 0 }" :xl="{span: 8,offset: 0 }">
+                                  Time:{{ item.time }} days
 
-                    </a-tab-pane>
-                    <a-tab-pane key="2" tab="Shortlisted" v-if="ShortlistedBids.length>0">
-                      <div style="height: 40rem;padding: 3% ">
+                                </a-col>
+                                <a-col  :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                                        :md="{span: 12, offset: 0 }"
+                                        :lg="{span: 8, offset: 0 }" :xl="{span: 8,offset: 0 }">
+                                  Budget:{{ item.budget }}$
 
-                        <a-list item-layout="vertical" size="large" :pagination="pagination"
-                                :data-source="ShortlistedBids">
+                                </a-col>
+                                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                                       :md="{span: 12, offset: 0 }"
+                                       :lg="{span: 8, offset: 0 }" :xl="{span: 8,offset: 0 }">
+                                  <a-button type="primary" size="small" @click="openbid(item)">view bid</a-button>
 
-                          <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                            <h4>Proposal</h4>
-                            <p>{{ item.proposal }}</p>
+                                </a-col>
+
+                              </a-row>
+
+                            </a-list-item>
+                          </a-list>
 
 
-                            <p>Proposed tools:
+                        </div>
+                      </a-tab-pane>
+
+                    </a-tabs>
+
+
+                  </a-col>
+                </div>
+                <div v-else>
+                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                         :md="{span: 16, offset: 0 }"
+                         :lg="{span: 16, offset: 0 }" :xl="{span: 12,offset: 0 }" >
+
+                    <a-tabs>
+
+                      <a-tab-pane key="1" tab="Pending bids" v-if="BidsinReview.length>0">
+                        <div style=";height: 40rem;padding: 3% ">
+
+
+                          <a-list item-layout="vertical" size="large" :pagination="pagination"
+                                  :data-source="BidsinReview">
+
+                            <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                              <h4>Proposal</h4>
+                              <p>{{ item.proposal }}</p>
+
+
+                              <p>Proposed tools
+
+                              </p>
                               <a-tag v-for="tag in item.tools" color="blue"
                                      :key="tag">
                                 {{ tag }}
                               </a-tag>
-                            </p>
 
-                            <a-row>
-
-
-                              <a-col span="8">
-                                Time:{{ item.time }} days
-
-                              </a-col>
-                              <a-col span="8">
-                                Budget:{{ item.budget }}$
-
-                              </a-col>
-                              <a-col span="8">
-                                <a-button type="primary" size="small" @click="openbid(item)">view bid</a-button>
-
-                              </a-col>
-
-                            </a-row>
-
-                          </a-list-item>
-                        </a-list>
+                              <a-row>
 
 
-                      </div>
-                    </a-tab-pane>
+                                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                                       :md="{span: 12, offset: 0 }"
+                                       :lg="{span: 8, offset: 0 }" :xl="{span: 8,offset: 0 }">
+                                  Time:{{ item.time }} days
 
-                  </a-tabs>
+                                </a-col>
+                                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                                       :md="{span: 12, offset: 0 }"
+                                       :lg="{span: 8, offset: 0 }" :xl="{span: 8,offset: 0 }">
+                                  Budget:{{ item.budget }}$
+
+                                </a-col>
+                                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                                       :md="{span: 12, offset: 0 }"
+                                       :lg="{span: 8, offset: 0 }" :xl="{span: 8,offset: 0 }">
+                                  <a-button type="primary" size="small" @click="openbid(item)">view bid</a-button>
+
+                                </a-col>
+
+                              </a-row>
+
+                            </a-list-item>
+                          </a-list>
 
 
-                </a-col>
-                <a-col span="16">
-                  <div style="padding: 0 1%" v-if="bid">
+                        </div>
+
+                      </a-tab-pane>
+                      <a-tab-pane key="2" tab="Shortlisted" v-if="ShortlistedBids.length>0">
+                        <div style="height: 40rem;padding: 3% ">
+
+                          <a-list item-layout="vertical" size="large" :pagination="pagination"
+                                  :data-source="ShortlistedBids">
+
+                            <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                              <h4>Proposal</h4>
+                              <p>{{ item.proposal | truncate(100,'....')}}</p>
+
+
+                              <p>Proposed tools
+
+                              </p>
+                              <a-tag v-for="tag in item.tools" color="blue"
+                                     :key="tag">
+                                {{ tag }}
+                              </a-tag>
+
+                              <a-row>
+
+
+                                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                                       :md="{span: 12, offset: 0 }"
+                                       :lg="{span: 8, offset: 0 }" :xl="{span: 8,offset: 0 }">
+                                  Time:{{ item.time }} days
+
+                                </a-col>
+                                <a-col  :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                                        :md="{span: 12, offset: 0 }"
+                                        :lg="{span: 8, offset: 0 }" :xl="{span: 8,offset: 0 }">
+                                  Budget:{{ item.budget }}$
+
+                                </a-col>
+                                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                                       :md="{span: 12, offset: 0 }"
+                                       :lg="{span: 8, offset: 0 }" :xl="{span: 8,offset: 0 }">
+                                  <a-button type="primary" size="small" @click="openbid(item)">view bid</a-button>
+
+                                </a-col>
+
+                              </a-row>
+
+                            </a-list-item>
+                          </a-list>
+
+
+                        </div>
+                      </a-tab-pane>
+
+                    </a-tabs>
+
+
+                  </a-col>
+                </div>
+
+                <hide-at breakpoint="mediumAndBelow">
+                <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                       :md="{span: 12, offset: 0 }"
+                       :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
+                  <div style="padding: 0 1%" v-if="bid && DeveloperProfile !==null ">
 
                     <div class="casecard">
                       <div style="padding: 2%">
-                        <a-descriptions title="Developer bid">
 
-                          <a-descriptions-item label="Name">
-                            {{ DeveloperProfile.user.first_name }} {{ DeveloperProfile.user.last_name }}
-
-                          </a-descriptions-item>
-                          <a-descriptions-item label="email">
-                            {{ DeveloperProfile.user.email }}
-                          </a-descriptions-item>
-                          <a-descriptions-item label="Location">
-                            {{ DeveloperProfile.country }}
-                          </a-descriptions-item>
-                          <a-descriptions-item label="My skills">
-                            <a-tag v-for="tag in DeveleperSkills" color="blue"
-                                   :key="tag">
-                              {{ tag }}
-                            </a-tag>
+                        <p><strong>Name:</strong> {{ DeveloperProfile.user.first_name }} {{ DeveloperProfile.user.last_name }}</p>
+                        <p><strong>Email:</strong>{{ DeveloperProfile.user.email }} </p>
+                        <p><strong>Country:</strong> {{ DeveloperProfile.country }} </p>
+                        <p><strong>Skills: </strong>
+                          <a-tag v-for="tag in DeveleperSkills" color="blue"
+                                 :key="tag">
+                            {{ tag }}
+                          </a-tag>
+                        </p>
 
 
-                          </a-descriptions-item>
-
-
-                        </a-descriptions>
                       </div>
 
 
@@ -176,7 +300,7 @@
                               ok-text="Yes"
                               cancel-text="No"
                               @confirm="acceptbid"
-                              @cancel="cancel"
+
                           >
                             <a >
                               <a-button type="primary" size="small"  >
@@ -280,7 +404,9 @@
                   </div>
 
 
+
                 </a-col>
+                </hide-at>
 
 
               </a-row>
@@ -291,6 +417,138 @@
               </a-result>
 
             </div>
+            <show-at breakpoint="mediumAndBelow">
+              <a-modal v-model="visible" :footer="null" >
+                <div  v-if="bid && DeveloperProfile !==null ">
+                <div >
+                  <div style="padding: 2%">
+
+                    <p><strong>Name:</strong> {{ DeveloperProfile.user.first_name }} {{ DeveloperProfile.user.last_name }}</p>
+                    <p><strong>Email:</strong>{{ DeveloperProfile.user.email }} </p>
+                    <p><strong>Country:</strong> {{ DeveloperProfile.country }} </p>
+                    <p><strong>Skills: </strong>
+                      <a-tag v-for="tag in DeveleperSkills" color="blue"
+                             :key="tag">
+                        {{ tag }}
+                      </a-tag>
+                    </p>
+
+
+                  </div>
+
+
+                  <div >
+                    <a-space>
+                      <a-popconfirm v-if="bid.shortlisted"
+                                    title="Are you sure you want to proceed with this developer?"
+                                    ok-text="Yes"
+                                    cancel-text="No"
+                                    @confirm="acceptbid"
+
+                      >
+                        <a >
+                          <a-button type="primary" size="small"  >
+                            Accept bid
+                          </a-button>
+                        </a>
+                      </a-popconfirm>
+
+                      <a-button type="primary" size="small" v-if="bid.shortlisted === false" @click="shortlistbid"
+                      >
+                        Shortlist
+                      </a-button>
+                      <a-button type="danger" size="small" v-if="bid.shortlisted" @click="removebid">
+                        Remove from shortlist
+                      </a-button>
+                      <a-button type="danger" size="small" @click="rejectbid">
+                        Reject bid
+                      </a-button>
+
+                    </a-space>
+                    <a-tabs default-active-key="1">
+                      <a-tab-pane key="1" tab="Proposal">
+                        <p>Proposal</p>
+                        <p>
+                          {{ bid.proposal }}
+                        </p>
+                        <p>Tools am going to use</p>
+                        <p>
+                          <a-tag v-for="tag in bid.tools" color="blue"
+                                 :key="tag">
+                            {{ tag }}
+                          </a-tag>
+                        </p>
+                        <p>Project budget : {{ bid.budget }}$</p>
+                        <p>Time to finish project : {{ bid.time }} days</p>
+
+                      </a-tab-pane>
+                      <a-tab-pane key="2" tab="Project potfolio" force-render>
+                        <div v-if="Portfoliolist">
+
+                          <div style="border-bottom: 1px solid #e8e8e8;padding-bottom: 2%;padding-top: 2%"
+                               v-for="item in Portfoliolist" v-bind:key="item.id">
+                            <p style="font-weight: 700">
+                              {{ item.title }}
+
+
+                            </p>
+                            <p>
+                              Tools used:
+                              <a-tag v-for="tag in item.tags" color="blue"
+                                     :key="tag">
+                                {{ tag }}
+                              </a-tag>
+
+                            </p>
+                            <p>{{ item.description }}
+                            </p>
+                            <a :href=" item.demo" target="_blank">view project</a>
+
+                          </div>
+                        </div>
+                      </a-tab-pane>
+                      <a-tab-pane key="3" tab="Work experience">
+                        <div v-if="Experiencelist">
+                          <a-timeline>
+                            <a-timeline-item v-for="item in Experiencelist"
+                                             v-bind:key="item.id">
+
+                              <p style="font-weight: 700">
+                                {{ item.title }}
+
+
+                              </p>
+                              <p><span><a-icon type="bank"/>  {{ item.company }} <a-icon
+                                  type="environment"/>  {{ item.location }} <a-icon
+                                  type="hourglass"/>  {{ item.duration }}months</span>
+                              </p>
+                              <p>
+                                Technologies used:
+                                <a-tag v-for="tag in item.tags" color="blue"
+                                       :key="tag">
+                                  {{ tag }}
+                                </a-tag>
+
+                              </p>
+
+
+                              <p>{{ item.description }}</p>
+
+                            </a-timeline-item>
+
+                          </a-timeline>
+                        </div>
+                      </a-tab-pane>
+                    </a-tabs>
+
+                  </div>
+
+
+                </div>
+                </div>
+              </a-modal>
+            </show-at>
+
 
           </div>
         </div>
@@ -303,7 +561,7 @@
 
 
 import User from "@/services/UsersService";
-
+import { hideAt,showAt} from 'vue-breakpoints'
 
 class Bid {
   constructor(id, proposal, budget, time, tools, project, shortlisted, developer, withdraw) {
@@ -357,25 +615,23 @@ export default {
 
 
       pagination: {
-        onChange: page => {
-          console.log(page);
-        },
         pageSize: 3,
       },
       bid: {},
       allbids: [],
       bidlistobjects: [],
-      DeveloperProfile: {},
+      DeveloperProfile: null,
       DeveleperSkills: [],
       myprojects: [],
       experienceslist: [],
-      project: {}
+      project: {},
+      visible:false
 
 
     };
   },
   components: {
-    ClientSider
+    ClientSider,hideAt,showAt
 
 
   },
@@ -384,6 +640,15 @@ export default {
     this.fetchProject()
 
 
+  },
+  filters: {
+    truncate: function (text, length, suffix) {
+      if (text.length > length) {
+        return text.substring(0, length) + suffix;
+      } else {
+        return text;
+      }
+    },
   },
   computed: {
     ShortlistedBids() {
@@ -488,37 +753,7 @@ export default {
             this.project = resp.data
           })
     },
-    FetchPortfolio() {
 
-      const auth = {
-        headers: {Authorization: 'JWT ' + this.$store.state.token}
-
-      }
-      User.portfolio(this.bid.developer, auth)
-          .then(
-              resp => {
-                this.myprojects = resp.data
-
-                this.FetchExperience()
-              }
-          )
-
-    },
-    FetchExperience() {
-      const auth = {
-        headers: {Authorization: 'JWT ' + this.$store.state.token}
-
-      }
-
-      User.experience(this.bid.developer, auth).then(
-          resp => {
-            this.experienceslist = resp.data
-
-          }
-      )
-
-
-    },
     FetchBids() {
       const auth = {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
@@ -527,15 +762,14 @@ export default {
       Project.fetchprojectbids(this.$route.params.projectSlug, auth)
           .then(resp => {
             this.bidlistobjects = resp.data
-            console.log(this.bidlistobjects)
-            this.bid = this.BidList[0]
-            this.fetchUserprofile()
+
 
 
           })
     },
     openbid(bid) {
       this.bid = bid
+      this.visible = true
       this.fetchUserprofile()
     },
     shortlistbid() {
@@ -637,7 +871,38 @@ export default {
             this.FetchPortfolio()
           }
       )
-    }
+    },
+    FetchPortfolio() {
+
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      User.portfolio(this.bid.developer, auth)
+          .then(
+              resp => {
+                this.myprojects = resp.data
+
+                this.FetchExperience()
+              }
+          )
+
+    },
+    FetchExperience() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+
+      User.experience(this.bid.developer, auth).then(
+          resp => {
+            this.experienceslist = resp.data
+
+          }
+      )
+
+
+    },
   }
 }
 </script>

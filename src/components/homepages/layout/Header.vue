@@ -12,6 +12,7 @@
 
 
         </div>
+      <hide-at breakpoint="mediumAndBelow">
       <div class="ant-menu-horizontal " :style="{ lineHeight: '64px',float: 'right',borderBottom: 0}">
         <router-link to="/Jobs"   class="ant-menu-item" style="margin-bottom: 0">Job board</router-link>
 
@@ -48,6 +49,12 @@
           </a-button>
         </a>
       </div>
+      </hide-at>
+      <show-at breakpoint="mediumAndBelow">
+        <div style="float: right">
+        <Menusider/>
+        </div>
+      </show-at>
 
 
 
@@ -59,12 +66,13 @@
 </template>
 
 <script>
-
-
+import {showAt, hideAt} from 'vue-breakpoints'
+import Menusider from '@/components/homepages/layout/Menusider'
 
     export default {
         name: "Header",
         components: {
+          hideAt, showAt,Menusider
 
 
 
@@ -75,6 +83,7 @@
 
             }
         },
+
         async mounted() {
 
 
@@ -108,7 +117,6 @@
     #components-layout-demo-fixed .logo {
         width: 120px;
         height: 31px;
-
         margin: 0 24px 16px 0;
         float: left;
     }

@@ -13,7 +13,9 @@
         <a-card class="hellocard">
 
           <a-row>
-            <a-col span="12">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
               <a-breadcrumb>
                 <a-breadcrumb-item><a @click="$router.push('/Dashboard')" >Home</a></a-breadcrumb-item>
                 <a-breadcrumb-item><a @click="$router.push('/Myprojects')" >My Projects</a></a-breadcrumb-item>
@@ -24,13 +26,18 @@
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 Contract Negotiations</span>
             </a-col>
-            <a-col span="6">
-              <div style="text-align: center">
-                <img src="@/assets/images/contract.svg" style="width: 20%"/>
-              </div>
+
+            <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                     :md="{span: 12, offset: 0 }"
+                     :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                <div style="text-align: center">
+                  <img src="@/assets/images/contract.svg" style="width: 20%"/>
+                </div>
 
 
-            </a-col>
+              </a-col>
+            </hide-at>
           </a-row>
 
 
@@ -38,59 +45,30 @@
         <div>
           <a-row>
 
-            <a-col span="16">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 16, offset: 0 }"
+                   :lg="{span: 16, offset: 0 }" :xl="{span: 16,offset: 0 }">
 
               <div class="timelinecard">
-                <p style="font-family: sofia_probold;font-size: 1.2rem">Here are the elements that you will discuss via the Video call meeting </p>
+                <p style="font-family: sofia_probold;font-size: 1.2rem">Here are the elements that you will discuss at the negotiations </p>
                 <a-timeline>
-                  <a-timeline-item>Project details and Parties involved</a-timeline-item>
-                  <a-timeline-item>Features</a-timeline-item>
+                  <a-timeline-item>Project details </a-timeline-item>
+                  <a-timeline-item>Project breakdown into features</a-timeline-item>
                   <a-timeline-item>Time allocation of features</a-timeline-item>
                   <a-timeline-item>Budget and Escrow disbursment</a-timeline-item>
                   <a-timeline-item>Technologies to be used</a-timeline-item>
                   <a-timeline-item>Codeln Role</a-timeline-item>
 
                 </a-timeline>
-                <div>
-                  <p style="font-family: sofia_proregular;font-weight: bold">Helper features that we provide to ensure a success meeting discussions</p>
-                  <a-row>
-                    <a-col span="12">
-                      <a-card  style="width: 90%">
-                        <span slot="title" style="font-family: sofia_prosemibold;color: black">Contract form
-                        <a-icon style="float: right" type="form" />
-                        </span>
 
-
-                        <p>Click on the icon shown above when meeting starts to open the contract form this will have a guided steps
-                          to enable a succesful filling on the elements stated above</p>
-
-
-                      </a-card>
-                    </a-col>
-<!--                    <a-col span="12">-->
-<!--                      <a-card  style="width: 90%">-->
-<!--                        <span slot="title" style=";font-family: sofia_prosemibold;color: black">Sketch pad-->
-<!--                          <a-icon style="float: right" type="sketch" />-->
-<!--                        </span>-->
-
-<!--                        <p>Enables both parties to sketch thus bringing out more understanding of features.We highly recommend using this during the feature discussion-->
-<!--                        look for the icon above</p>-->
-
-
-
-
-<!--                      </a-card>-->
-<!--                    </a-col>-->
-                  </a-row>
-
-
-                </div>
               </div>
 
 
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 6, offset: 0 }"
+                   :lg="{span: 6, offset: 0 }" :xl="{span: 6,offset: 0 }">
               <a-empty
                   image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
                   :image-style="{
@@ -115,8 +93,8 @@
 <script>
 import ClientSider from "@/components/client/layout/ClientSider";
 import Vue from 'vue'
+import { hideAt} from 'vue-breakpoints'
 
-import Peer from 'skyway-js'
 
 
 export default {
@@ -131,7 +109,7 @@ name: "Contract",
 
   },
   components: {
-    ClientSider,
+    ClientSider,hideAt
 
 
 
@@ -146,52 +124,7 @@ name: "Contract",
     },
   },
   mounted() {
-    this.peer = new Peer(this.name, {
-      key: '2de21544-d969-411c-9e8d-7bb7056ca62c',
-      debug: 3,
-    })
 
-
-
-    this.peer.on('open', () => {
-      this.peerId = this.peer.id
-    })
-
-    this.peer.on('close', () => {
-      this.close()
-    })
-
-    this.peer.on('error', () => {
-      this.close()
-    })
-
-    this.peer.on('disconnected', () => {
-      this.close()
-    })
-
-    this.peer.on('call', (call) => {
-      this.dialog = true
-      this.call = call
-    })
-
-    navigator.mediaDevices.enumerateDevices()
-        .then((deviceInfos) => {
-          deviceInfos.forEach((deviceInfo) => {
-            if (deviceInfo.kind === 'audioinput') {
-              this.audios.push({
-                text: deviceInfo.label
-                    || `Microphone ${this.audios.length + 1}`,
-                value: deviceInfo.deviceId,
-              })
-            } else if (deviceInfo.kind === 'videoinput') {
-              this.videos.push({
-                text: deviceInfo.label
-                    || `Camera  ${this.videos.length - 1}`,
-                value: deviceInfo.deviceId,
-              })
-            }
-          })
-        })
   },
   methods: {
     next() {

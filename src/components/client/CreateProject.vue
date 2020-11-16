@@ -13,7 +13,9 @@
         <a-card class="hellocard">
 
           <a-row>
-            <a-col span="12">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
               <a-breadcrumb>
                 <a-breadcrumb-item><a @click="$router.push('/Dashboard')">Home</a></a-breadcrumb-item>
                 <a-breadcrumb-item><a @click="$router.push('/Myprojects')">My projects</a></a-breadcrumb-item>
@@ -23,13 +25,18 @@
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 Create Project</span>
             </a-col>
-            <a-col span="6">
-              <div style="text-align: center">
-                <img src="@/assets/images/createproject.svg" style="width: 20%"/>
-              </div>
+
+            <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                     :md="{span: 12, offset: 0 }"
+                     :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                <div style="text-align: center">
+                  <img src="@/assets/images/createproject.svg" style="width: 20%"/>
+                </div>
 
 
-            </a-col>
+              </a-col>
+            </hide-at>
           </a-row>
 
 
@@ -37,8 +44,10 @@
 
 
         <div style="min-height: 40vh ;position: relative">
-          <a-row gutter="16">
-            <a-col span="20">
+          <a-row :gutter="gutter">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 24, offset: 0 }"
+                   :lg="{span: 24, offset: 0 }" :xl="{span: 24,offset: 0 }">
               <div>
                 <div style="width: 90%;margin: 0 auto">
                   <a-steps :current="current" style="">
@@ -50,10 +59,12 @@
                 <div style="margin-top: 2rem">
                   <div style="margin: 0 auto">
                     <div v-if="current===0">
-                      <a-row style="width: 60%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <div style="text-align: center">
-                            <img src="@/assets/images/new.svg" style="width: 10%"/>
+
                             <p style="font-family: sofia_problack">Express what you want</p>
 
                           </div>
@@ -89,10 +100,12 @@
                     </div>
 
                     <div v-if="current===1">
-                      <a-row style="width: 70%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <div style="text-align: center">
-                            <img src="@/assets/images/coding.svg" style="width: 10%"/>
+
                             <p style="font-family: sofia_problack">Which tools to be used</p>
 
                           </div>
@@ -185,57 +198,14 @@
 
                       </a-row>
                     </div>
+
                     <div v-if="current===2">
-                      <a-row style="width: 70%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <div style="text-align: center">
 
-                            <p style="font-family: sofia_problack;font-size: 1rem">Team composition</p>
-                            <div v-if="compositionerror" style="color: red">
-                              please pick one that suites you
-                            </div>
-
-                          </div>
-
-                          <a-row>
-                            <a-col span="10">
-                              <div style="text-align: center">
-                                <img src="@/assets/images/worker.svg" style="width: 30%"/>
-                                <p>Single developer to handle both the design and development</p>
-                                <a-checkbox v-model="one" @change="teampick(1)">
-                                  pick
-                                </a-checkbox>
-                              </div>
-
-
-                            </a-col>
-                            <a-col span="2">
-                              <p style="text-align: center">or</p>
-                            </a-col>
-                            <a-col span="10">
-                              <div style="text-align: center">
-                                <img src="@/assets/images/worker.svg" style="width: 30%"/>
-                                <span style="font-family: sofia_probold">&</span>
-                                <img src="@/assets/images/graphic.svg" style="width: 30%"/>
-                                <p>I want a designer for the UI/UX stage and a developer to implement</p>
-                                <a-checkbox v-model="both" @change="teampick(2)">
-                                  pick
-                                </a-checkbox>
-                              </div>
-
-                            </a-col>
-                          </a-row>
-
-
-                        </a-col>
-
-                      </a-row>
-                    </div>
-                    <div v-if="current===3">
-                      <a-row style="width: 70%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
-                          <div style="text-align: center">
-                            <img src="@/assets/images/budget.svg" style="width: 10%"/>
                             <p style="font-family: sofia_problack"> Time and budget fot the project</p>
 
 
@@ -252,23 +222,6 @@
                               />
                               <div v-for="error in step4errors" v-bind:key="error">
                                 <div v-if="error === 'budget'">
-                                  <div style="color: red">required</div>
-                                </div>
-                              </div>
-
-                            </a-form-model-item>
-                            <a-form-model-item v-if="teamcompostion==='both'"
-                                               label="Designer budget(how much of the budget above should be for the designer)">
-                              <a-input-number style="width: 100%"
-                                              v-model="project.designbudget"
-                                              :default-value="500"
-                                              @change="Designbudgetchanges"
-                                              :formatter="value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                                              :parser="value => value.replace(/\$\s?|(,*)/g, '')"
-
-                              />
-                              <div v-for="error in step4errors" v-bind:key="error">
-                                <div v-if="error === 'designbudget'">
                                   <div style="color: red">required</div>
                                 </div>
                               </div>
@@ -295,11 +248,13 @@
                       </a-row>
                     </div>
 
-                    <div v-if="current===4">
-                      <a-row style="width: 50%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                    <div v-if="current===3">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <div style="text-align: center">
-                            <img src="@/assets/images/pay.svg" style="width: 30%"/>
+
                             <p style="font-family: sofia_problack">Escrow Stage 1</p>
 
                             <p>A 40 % escrow is needed to be deposited .This is to serve more as a commitment fee
@@ -364,25 +319,24 @@
 
               </div>
             </a-col>
-            <a-col span="4">
-              <div class="timelinecard">
-                <p style="font-family: sofia_probold;font-size: 1.5rem">Project development lifecycle</p>
-                <a-timeline>
-                  <a-timeline-item>creation</a-timeline-item>
-                  <a-timeline-item>Team selection</a-timeline-item>
-                  <a-timeline-item>Budget allocation</a-timeline-item>
-                  <a-timeline-item>first escrow</a-timeline-item>
-                  <a-timeline-item>Accept bids/shortlist and Pick bid</a-timeline-item>
-                  <a-timeline-item>Contract creation - terms and feature discussions</a-timeline-item>
-                  <a-timeline-item>Second escrow</a-timeline-item>
-                  <a-timeline-item>UI/UX stage - wireframes and Ui designs</a-timeline-item>
-                  <a-timeline-item>Development-software development OF feature based on UI/UX</a-timeline-item>
-                </a-timeline>
-              </div>
 
-
-            </a-col>
           </a-row>
+
+          <a-modal v-model="tips" title="Project development lifecycle" :footer="null">
+            <div >
+
+              <a-timeline>
+                <a-timeline-item>creation</a-timeline-item>
+                <a-timeline-item>Budget allocation</a-timeline-item>
+                <a-timeline-item>first escrow</a-timeline-item>
+                <a-timeline-item>Accept bids/shortlist and Pick bid</a-timeline-item>
+                <a-timeline-item>Contract creation - terms and feature discussions</a-timeline-item>
+                <a-timeline-item>Second escrow</a-timeline-item>
+                <a-timeline-item>UI/UX stage - wireframes and Ui designs</a-timeline-item>
+                <a-timeline-item>Development-software development OF feature based on UI/UX</a-timeline-item>
+              </a-timeline>
+            </div>
+          </a-modal>
 
 
         </div>
@@ -397,11 +351,12 @@ import paystack from 'vue-paystack';
 import Project from '@/services/Projects'
 import VueSimplemde from 'vue-simplemde'
 import 'simplemde/dist/simplemde.min.css';
-
+import { hideAt} from 'vue-breakpoints'
 export default {
   name: "CreateProject",
   data() {
     return {
+      gutter:16,
       current: 0,
       steps: [
         {
@@ -411,10 +366,6 @@ export default {
 
         {
           title: 'Tech',
-
-        },
-        {
-          title: 'Team',
 
         },
         {
@@ -432,9 +383,6 @@ export default {
       projecttitle: '',
       projectdescription: '',
       show: false,
-      featuretitle: '',
-      featureedit: false,
-      featureindex: '',
       projecttypetags: [],
       selectedTags: [],
       tags: [],
@@ -443,57 +391,37 @@ export default {
       projectype: null,
       time: '',
       budget: 0,
-      designbudget: 0,
-      paystackkey: "pk_live_33025d4840017202a65e05c8ba2d2e907aae7cf9", //paystack public key
-      email: "robertruhiu@gmail.com",
+
+      paystackkey: "", //paystack public key
+      email: "",
       amount: 100,
       paystack_amount: 0,
       currency: "USD",
-      teamcompostion: '',
-      one: false,
-      both: false,
       step1errors: [],
-      featureserror: false,
-      compositionerror: false,
       notoolserror: false,
-      featuretitleerror: false,
       step4errors: [],
       loading: false,
-      featureslist: [],
-      storylist: [],
-      feature_id: null,
-      story_id: null,
-      currentfeature: null
+      tips:true
 
 
     };
   },
   components: {
-    ClientSider, paystack,VueSimplemde
+    ClientSider, paystack,VueSimplemde,hideAt
 
 
   },
   async mounted() {
-    this.CurrentProject()
+    this.currentProject()
+    this.email = this.$store.state.user.email
+    this.paystackkey = process.env.VUE_APP_PAYSTACK
 
 
   },
+
   computed: {
     deposit() {
       return 0.4 * this.project.budget
-    },
-
-    CurrentProject() {
-      let project = {}
-
-      if (this.$store.state.projectedit_id) {
-        this.currentProject()
-
-
-      }
-
-
-      return project
     },
 
     Time() {
@@ -529,48 +457,44 @@ export default {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
-      this.features = []
-      Project.getproject(this.$store.state.projectedit_id, auth)
-          .then(
-              resp => {
-                this.project = resp.data
-                this.selectedTags = []
-                let time = this.project.timeline.split(" ")
-                this.project.time = Number(time[0])
+      if (this.$store.state.projectedit_id) {
+        this.features = []
+        Project.getproject(this.$store.state.projectedit_id, auth)
+            .then(
+                resp => {
+                  this.project = resp.data
+                  this.selectedTags = []
+                  let time = this.project.timeline.split(" ")
+                  this.project.time = Number(time[0])
 
-                this.tags = []
+                  this.tags = []
 
-                if (this.project.tools) {
-                  this.projectype = this.project.project_type
-                  this.selectprojectype(this.projectype)
+                  if (this.project.tools) {
+                    this.projectype = this.project.project_type
+                    this.selectprojectype(this.projectype)
 
-                  let tools = this.project.tools.split(',')
-                  this.projecttypetags.forEach(tag => {
-                    if (tools.includes(tag)) {
+                    let tools = this.project.tools.split(',')
+                    this.projecttypetags.forEach(tag => {
+                      if (tools.includes(tag)) {
 
-                      this.selectedTags.push(tag)
-                      const index = tools.indexOf(tag);
-                      if (index > -1) {
-                        tools.splice(index, 1);
+                        this.selectedTags.push(tag)
+                        const index = tools.indexOf(tag);
+                        if (index > -1) {
+                          tools.splice(index, 1);
+                        }
+                        this.tags = tools
+
                       }
-                      this.tags = tools
+                    })
+                  }
 
-                    }
-                  })
-                }
-                if (this.project.team_size === 'single_dev') {
-                  this.teampick(1)
-
-                } else if (this.project.team_size === 'team') {
-                  this.teampick(2)
 
                 }
+            )
 
 
+      }
 
-
-              }
-          )
 
     },
 
@@ -651,22 +575,7 @@ export default {
 
     },
 
-    teampick(value) {
-      if (value === 1) {
-        this.one = true
-        this.both = false
-        this.teamcompostion = 'one'
 
-      } else {
-        this.one = false
-        this.both = true
-        this.teamcompostion = 'both'
-      }
-      if (this.teamcompostion !== '') {
-        this.compositionerror = false
-      }
-
-    },
 
     step1changetitle() {
       if (this.step1errors.includes('title')) {
@@ -721,24 +630,7 @@ export default {
 
     },
 
-    Designbudgetchanges() {
 
-      if (this.step4errors.includes('designbudget')) {
-        if (this.project.designbudget !== '' || this.project.designbudget != null) {
-          let index = this.step4errors.indexOf('designbudget')
-          if (index > -1) {
-            this.step4errors.splice(index, 1);
-          }
-        }
-      } else {
-        if (this.project.designbudget === '' || this.project.designbudget === null) {
-          this.step4errors.push('designbudget')
-        }
-
-      }
-
-
-    },
 
     next() {
       let self = this
@@ -775,21 +667,7 @@ export default {
         }
 
 
-      } else if (this.current === 2) {
-
-        if (this.teamcompostion === '') {
-          this.compositionerror = true
-        }
-        if (this.compositionerror === false) {
-          this.project.team = this.teamcompostion
-          if (this.teamcompostion === 'one') {
-            this.project.team_size = 'single_dev'
-          } else {
-            this.project.team_size = 'team'
-          }
-          self.stepsaves()
-        }
-      } else if (this.current === 3) {
+      }  else if (this.current === 2) {
 
 
         if (Number(this.project.time) === 0) {
@@ -798,11 +676,7 @@ export default {
         if (Number(this.project.budget) === 0) {
           this.step4errors.push('budget')
         }
-        if (this.teamcompostion === 'both') {
-          if (Number(this.project.designbudget) === 0) {
-            this.step4errors.push('designbudget')
-          }
-        }
+
         if (this.step4errors.length === 0) {
           this.project.stage = 'escrow1'
 
@@ -893,21 +767,7 @@ export default {
                 }
             )
 
-      } else if (this.current === 2) {
-
-
-        Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
-            .then(resp => {
-                  this.project = resp.data
-                  this.current++
-                  let self = this
-                  self.currentProject()
-                  this.loading = false
-
-                }
-            )
-
-      } else if (this.current === 3) {
+      }  else if (this.current === 2) {
 
 
         Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
