@@ -22,9 +22,8 @@
         </a-card>
 
 
-
         <div style="min-height: 40vh ;position: relative">
-          <a-row gutter="16">
+          <a-row :gutter="gutter">
             <a-col span="24">
               <div>
 
@@ -32,15 +31,17 @@
                 <div style="">
                   <div style="margin: 0 auto">
                     <div v-if="CurrentProject.current===0">
-                      <a-row style="width: 60%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <div style="text-align: center">
 
 
                           </div>
 
 
-                          <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
+                          <a-form-model>
                             <a-form-model-item label="Project title">
                               <a-input v-model="CurrentProject.project.title" @change="sendProjectdata"/>
                               <div v-for="error in step1errors" v-bind:key="error">
@@ -71,8 +72,10 @@
 
                     <div v-if="CurrentProject.current===1">
 
-                      <a-row style="width: 90%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <div style="text-align: center">
 
                             <p style="font-family: sofia_problack">Breakdown your project</p>
@@ -80,9 +83,11 @@
                               just
                               add and submit to continue adding more.These will serve as your milestones</p>
                           </div>
-                          <a-row gutter="16">
+                          <a-row :gutter="gutter">
 
-                            <a-col span="12">
+                            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                                   :md="{span: 12, offset: 0 }"
+                                   :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
                               <p style="font-family: sofia_problack">Feature list</p>
 
                               <div v-if="featureserror" style="color: red">
@@ -95,13 +100,13 @@
                               </div>
                               <div v-else style="overflow-y: scroll;height: 40vh">
 
-                                <div v-for="feature in CurrentProject.features" v-bind:key="feature">
+                                <div v-for="feature in CurrentProject.features" v-bind:key="feature.id">
 
                                   <a-card size="small" :title="feature.title" style="width: 80%;margin-bottom: 1rem">
                                     <a slot="extra" @click="editfeature(feature)">edit </a>
 
                                     <p style="font-family: sofia_proregular" v-for="story in feature.storylist"
-                                       v-bind:key="story">
+                                       v-bind:key="story.id">
                                       {{ story.user_story }}
                                     </p>
                                   </a-card>
@@ -111,67 +116,142 @@
 
 
                             </a-col>
-                            <a-col span="12" class="addfeature">
-                              <a-form :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }" @submit="handleSubmit">
-                                <a-form-item label="Feature name">
-                                  <a-input v-model="featuretitle" placeholder="Registration"
-                                           @change="featuretitlechange"
 
-                                  />
-                                  <div v-if="featuretitleerror" style="color: red">
-                                    title required
-                                  </div>
-                                </a-form-item>
-                                <p style="font-family: sofia_proregular">Feature user stories
-                                  <a-button @click="addstory" :size="small" style="margin-right: 1%">
-                                    Add story
-                                  </a-button>
-                                </p>
-                                <p style="font-family: sofia_proregular"><strong>These provide context on what the
-                                  feature
-                                  is supposed to do.</strong>Example:As a developer I want to be able to sign up and
-                                  create
-                                  a profile
-
-
-                                <div
-                                    v-for="(story, counter) in stories"
-                                    v-bind:key="counter">
-
-
-                                  <a-form-item>
-                                    <label slot="label">Story{{ counter + 1 }} <span style="float: right"
-                                                                                     @click="deleteStory(counter)"><a-icon
-                                        type="close"/></span></label>
-
-                                    <a-textarea v-model="story.user_story"
-                                                placeholder="As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners"
-                                                :auto-size="{ minRows: 2, maxRows: 5 }"
-
+                            <hide-at breakpoint="mediumAndBelow">
+                              <a-col span="12" class="addfeature">
+                                <a-form :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
+                                  <a-form-item label="Feature name">
+                                    <a-input v-model="featuretitle" placeholder="Registration"
+                                             @change="featuretitlechange"
 
                                     />
-
+                                    <div v-if="featuretitleerror" style="color: red">
+                                      title required
+                                    </div>
                                   </a-form-item>
+                                  <p style="font-family: sofia_proregular">Feature user stories
+                                    <a-button @click="addstory" size="small" style="margin-right: 1%">
+                                      Add story
+                                    </a-button>
+                                  </p>
+                                  <p style="font-family: sofia_proregular"><strong>These provide context on what the
+                                    feature
+                                    is supposed to do.</strong>Example:As a developer I want to be able to sign up and
+                                    create
+                                    a profile
 
 
-                                </div>
-                                <a-space>
-                                  <a-button v-if="featureedit" type="primary" @click="editfeaturesubmit" :size="small">
-                                    Submit changes
-                                  </a-button>
-                                  <a-button v-if="featureedit" type="danger" @click="featuredelete" :size="small">
-                                    delete
-                                  </a-button>
+                                  <div
+                                      v-for="(story, counter) in stories"
+                                      v-bind:key="counter">
 
 
-                                  <a-button v-else type="primary" @click="addFeature" :size="small">
-                                    Submit Feature
-                                  </a-button>
-                                </a-space>
+                                    <a-form-item>
+                                      <label slot="label">Story{{ counter + 1 }} <span style="float: right"
+                                                                                       @click="deleteStory(counter)"><a-icon
+                                          type="close"/></span></label>
+
+                                      <a-textarea v-model="story.user_story"
+                                                  placeholder="As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners"
+                                                  :auto-size="{ minRows: 2, maxRows: 5 }"
 
 
-                              </a-form>
-                            </a-col>
+                                      />
+
+                                    </a-form-item>
+
+
+                                  </div>
+                                  <a-space>
+                                    <a-button v-if="featureedit" type="primary" @click="editfeaturesubmit" size="small">
+                                      Submit changes
+                                    </a-button>
+                                    <a-button v-if="featureedit" type="danger" @click="featuredelete" size="small">
+                                      delete
+                                    </a-button>
+
+
+                                    <a-button v-else type="primary" @click="addFeature" size="small">
+                                      Submit Feature
+                                    </a-button>
+                                  </a-space>
+
+
+                                </a-form>
+                              </a-col>
+                            </hide-at>
+                            <show-at breakpoint="mediumAndBelow">
+                              <a-col span="24" class="addfeature">
+                                <a-button type="primary" @click="new_edit_feature">add new feature</a-button>
+
+                                <a-modal v-model="featuremodal" :footer="null">
+                                  <div>
+                                    <a-form :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
+                                      <a-form-item label="Feature name">
+                                        <a-input v-model="featuretitle" placeholder="Registration"
+                                                 @change="featuretitlechange"
+
+                                        />
+                                        <div v-if="featuretitleerror" style="color: red">
+                                          title required
+                                        </div>
+                                      </a-form-item>
+                                      <p style="font-family: sofia_proregular">Feature user stories
+                                        <a-button @click="addstory" size="small" style="margin-right: 1%">
+                                          Add story
+                                        </a-button>
+                                      </p>
+                                      <p style="font-family: sofia_proregular"><strong>These provide context on what the
+                                        feature
+                                        is supposed to do.</strong>Example:As a developer I want to be able to sign up
+                                        and
+                                        create
+                                        a profile
+
+
+                                      <div
+                                          v-for="(story, counter) in stories"
+                                          v-bind:key="counter">
+
+
+                                        <a-form-item>
+                                          <label slot="label">Story{{ counter + 1 }} <span style="float: right"
+                                                                                           @click="deleteStory(counter)"><a-icon
+                                              type="close"/></span></label>
+
+                                          <a-textarea v-model="story.user_story"
+                                                      placeholder="As a developer I want to be able to create a public profile on remote.codeln.com so that i can be attractive to project owners"
+                                                      :auto-size="{ minRows: 2, maxRows: 5 }"
+
+
+                                          />
+
+                                        </a-form-item>
+
+
+                                      </div>
+                                      <a-space>
+                                        <a-button v-if="featureedit" type="primary" @click="editfeaturesubmit"
+                                                  size="small">
+                                          Submit changes
+                                        </a-button>
+                                        <a-button v-if="featureedit" type="danger" @click="featuredelete" size="small">
+                                          delete
+                                        </a-button>
+
+
+                                        <a-button v-else type="primary" @click="addFeature" size="small">
+                                          Submit Feature
+                                        </a-button>
+                                      </a-space>
+
+
+                                    </a-form>
+                                  </div>
+                                </a-modal>
+
+                              </a-col>
+                            </show-at>
                           </a-row>
 
 
@@ -181,8 +261,10 @@
                     </div>
 
                     <div v-if="CurrentProject.current === 2">
-                      <a-row style="width: 90%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <div style="text-align: center">
                             <p style="font-family: sofia_problack">Lets allot due dates for each feature stated
                               previously </p>
@@ -195,27 +277,37 @@
 
 
                           <a-row>
-                            <a-col span="12">
+                            <a-col :xs="{span: 8, offset: 0 }" :sm="{span: 8, offset: 0 }"
+                                   :md="{span: 8, offset: 0 }"
+                                   :lg="{span: 12, offset: 0 }" :xl="{span:12 ,offset: 0 }">
                               <p style="font-weight: bold">Features</p>
                             </a-col>
-                            <a-col span="6">
+                            <a-col :xs="{span: 8, offset: 0 }" :sm="{span: 8, offset: 0 }"
+                                   :md="{span: 8, offset: 0 }"
+                                   :lg="{span: 6, offset: 0 }" :xl="{span:6 ,offset: 0 }">
                               <p style="font-weight: bold">Due date</p>
 
                             </a-col>
-                            <a-col span="6">
+                            <a-col :xs="{span: 8, offset: 0 }" :sm="{span: 8, offset: 0 }"
+                                   :md="{span: 8, offset: 0 }"
+                                   :lg="{span: 6, offset: 0 }" :xl="{span:6 ,offset: 0 }">
                               <p style="font-weight: bold">Picked date</p>
 
                             </a-col>
                           </a-row>
 
-                          <div v-for="feature in CurrentProject.features" v-bind:key="feature">
+                          <div v-for="feature in CurrentProject.features" v-bind:key="feature.id">
                             <a-row style="border-bottom: 1px solid rgb(232, 232, 232);margin-bottom: 1%">
-                              <a-col span="12">
+                              <a-col :xs="{span: 8, offset: 0 }" :sm="{span: 8, offset: 0 }"
+                                     :md="{span: 8, offset: 0 }"
+                                     :lg="{span: 12, offset: 0 }" :xl="{span:12 ,offset: 0 }">
                                 <p style="font-family: sofia_probold">{{ feature.title }}</p>
 
 
                               </a-col>
-                              <a-col span="6">
+                              <a-col :xs="{span: 8, offset: 0 }" :sm="{span: 8, offset: 0 }"
+                                     :md="{span: 8, offset: 0 }"
+                                     :lg="{span: 6, offset: 0 }" :xl="{span:6 ,offset: 0 }">
                                 <a-date-picker
                                     format="YYYY-MM-DD"
                                     :disabled-date="disabledDate"
@@ -224,7 +316,9 @@
                                 />
 
                               </a-col>
-                              <a-col span="6">
+                              <a-col :xs="{span: 8, offset: 0 }" :sm="{span: 8, offset: 0 }"
+                                     :md="{span: 8, offset: 0 }"
+                                     :lg="{span: 6, offset: 0 }" :xl="{span:6 ,offset: 0 }">
                             <span v-if="feature.due_date">
                               {{ feature.due_date | momentformat }}
                             </span>
@@ -238,9 +332,12 @@
 
 
                     </div>
+
                     <div v-if="CurrentProject.current === 3">
-                      <a-row style="width: 90%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
 
 
                           <div style="text-align: center">
@@ -265,7 +362,7 @@
                             </a-col>
                           </a-row>
 
-                          <div v-for="feature in CurrentProject.features" v-bind:key="feature">
+                          <div v-for="feature in CurrentProject.features" v-bind:key="feature.id">
                             <a-row style="border-bottom: 1px solid rgb(232, 232, 232);margin-bottom: 1%">
                               <a-col span="12">
                                 <p>{{ feature.title }}</p>
@@ -289,16 +386,19 @@
                       </a-row>
 
                     </div>
+
                     <div v-if="CurrentProject.current === 4">
-                      <a-row style="width: 70%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <div style="text-align: center">
 
                             <p style="font-family: sofia_problack">Which tools to be used</p>
 
                           </div>
 
-                          <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
+                          <a-form-model>
                             <a-form-model-item label="Project type(you can pick than one type)">
                               <div v-if="notoolserror" style="color: red">
                                 required
@@ -387,9 +487,12 @@
 
                       </a-row>
                     </div>
+
                     <div v-if="CurrentProject.current === 5">
-                      <a-row style="width: 70%;margin: 0 auto">
-                        <a-col span="24" class="stepcard">
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <h3 style="font-weight: bold;font-family: sofia_probold;text-align: center">Codeln's
                             role </h3>
                           <p style="font-weight: bold">Escrow Management</p>
@@ -406,9 +509,13 @@
 
 
                     </div>
+
                     <div v-if="CurrentProject.current === 6">
-                      <a-row style="width: 100%;margin: 0 auto">
-                        <a-col span="18" class="stepcard">
+
+                      <a-row style="margin: 0 auto">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 0 }" class="stepcard">
 
 
                           <div style="padding: 2%" id="contract">
@@ -579,7 +686,9 @@
 
 
                         </a-col>
-                        <a-col span="6">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 24, offset: 0 }"
+                               :lg="{span: 12, offset: 0 }" :xl="{span: 6,offset: 0 }">
                           <div style="padding: 2%">
                             <div style="margin-bottom: 1rem">
                               <div v-if="$store.state.user_object.user_type === 'recruiter'">
@@ -704,7 +813,6 @@
 </template>
 
 <script>
-// import {JitsiMeet} from '@mycure/vue-jitsi-meet';
 
 
 function makeid(length) {
@@ -744,6 +852,7 @@ import moment from 'moment';
 import User from "@/services/UsersService";
 import SmallSider from "@/components/client/layout/ClientSider";
 import DeveloperSmall from "@/components/developer/layout/DevSider";
+import {hideAt, showAt} from 'vue-breakpoints'
 
 var socket = io.connect(process.env.VUE_APP_SOCKET);
 
@@ -752,11 +861,11 @@ export default {
   name: "meeting",
   components: {
     // VueJitsiMeet: JitsiMeet,
-    SmallSider, VueSimplemde, markdown, DeveloperSmall
+    SmallSider, VueSimplemde, markdown, DeveloperSmall, hideAt, showAt
   },
   data() {
     return {
-
+      gutter: 16,
       bottom: 60,
       sketch: false,
       contract: false,
@@ -840,7 +949,8 @@ export default {
       date: null,
       devsign: '',
       clientsign: '',
-      signaturedata: ''
+      signaturedata: '',
+      featuremodal: false
 
 
     };
@@ -851,10 +961,8 @@ export default {
       return {
         roomName: makeid(8),
         noSSL: false,
-        userInfo: {
-          email: this.$store.state.user_object.user.email,
-          displayName: this.$store.state.user_object.first_name,
-        },
+
+
         configOverwrite: {
           enableNoisyMicDetection: false
         },
@@ -1026,9 +1134,7 @@ export default {
                   this.project.sign_date = this.Date;
 
                 }
-                // else {
-                //   this.current =6
-                // }
+
 
                 if (this.project.tools) {
                   this.projectype = this.project.project_type
@@ -1211,7 +1317,9 @@ export default {
 
 
     },
-
+    new_edit_feature() {
+      this.featuremodal = true
+    },
     addFeature() {
 
       if (this.featuretitle === '') {
@@ -1259,6 +1367,7 @@ export default {
 
 
                   }
+                  this.featuremodal = false
                   this.CurrentProject.features = []
                   this.features = []
                   this.getfeatures()
@@ -1274,6 +1383,7 @@ export default {
     },
 
     editfeature(feature) {
+      this.featuremodal = true
       this.currentfeature = feature
       this.featureedit = true
       this.featureindex = this.CurrentProject.features.indexOf(feature)
@@ -1319,6 +1429,7 @@ export default {
 
                   }
                   this.featureedit = false
+                  this.featuremodal = false
                   this.featuretitle = ''
                   this.stories = []
                   this.CurrentProject.features = []
@@ -1364,6 +1475,7 @@ export default {
               }
           )
       this.featureedit = false
+      this.featuremodal = false
       this.currentfeature = null
 
 

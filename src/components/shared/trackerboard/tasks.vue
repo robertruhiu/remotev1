@@ -84,7 +84,7 @@
                         ok-text="Yes"
                         cancel-text="No"
                         @confirm="removetask(element)"
-                        @cancel="cancel"
+
                     >
                       <a href="#"><a-icon type="delete" theme="twoTone" two-tone-color="#eb2f96"/></a>
                       </a-popconfirm>
@@ -164,7 +164,7 @@
                         ok-text="Yes"
                         cancel-text="No"
                         @confirm="removetask(element)"
-                        @cancel="cancel"
+
                     >
                       <a href="#"><a-icon type="delete" theme="twoTone" two-tone-color="#eb2f96"/></a>
                       </a-popconfirm>
@@ -244,7 +244,7 @@
                         ok-text="Yes"
                         cancel-text="No"
                         @confirm="removetask(element)"
-                        @cancel="cancel"
+
                     >
                       <a href="#"><a-icon type="delete" theme="twoTone" two-tone-color="#eb2f96"/></a>
                       </a-popconfirm>
@@ -302,7 +302,7 @@
       </a-col>
 
     </a-row>
-    <a-modal v-model="visible" on-ok="handleOk">
+    <a-modal v-model="visible">
       <template slot="footer">
 
         <a-button key="submit" type="primary" :disabled="task_description_validate" :loading="loading"
@@ -355,6 +355,7 @@
         </a-button>
       </template>
       <a-form layout="vertical">
+        {{newtask}}
 
 
         <a-form-item
@@ -507,6 +508,7 @@ export default {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.newtask = false
       this.todolist =[]
       this.inprogress =[]
       this.donelist =[]
@@ -558,19 +560,24 @@ export default {
       if (evt.removed) {
 
         if (this.todolist.includes(evt.removed.element)) {
-          console.log(evt.removed.element)
+
           Project.featuretaskpatch(evt.removed.element.id, {stage: evt.removed.element.stage}, auth).then(
+              this.FeatureStageMove()
           )
 
 
         } else if (this.inprogress.includes(evt.removed.element)) {
           Project.featuretaskpatch(evt.removed.element.id, {stage: evt.removed.element.stage}, auth).then(
+              this.FeatureStageMove()
           )
 
 
         } else if (this.donelist.includes(evt.removed.element)) {
           Project.featuretaskpatch(evt.removed.element.id, {stage: evt.removed.element.stage}, auth).then(
+              this.FeatureStageMove()
           )
+
+
           let self = this
           self.Checkcomplete()
 
@@ -658,7 +665,10 @@ export default {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.newtask = false
       if (this.task_description !== '') {
+
+
         let task = {
           'stage': 'todo',
           'feature': this.$store.state.feature_id,
@@ -670,20 +680,28 @@ export default {
             () => {
 
               this.task_description = ''
-              this.newtask = false
-              this.$message.info('task has been saved')
+              this.$message.info('task added');
               this.fetchtasks()
+
+
 
 
             }
 
+
         )
+        this.task_description = ''
+        this.task_description_validate = false
+
+
 
 
 
       } else {
         this.task_description_validate = true
       }
+      this.newtask = false
+
 
 
     },
@@ -734,6 +752,34 @@ export default {
         })
       }
     },
+    FeatureStageMove(){
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      if(this.taskslist.length>0){
+        if(this.todolist.length === 0 && this.inprogress.length === 0  && this.donelist.length>0){
+
+          Project.updatefeature(this.feature.id, { stage: 'quality'}, auth)
+              .then(() => {
+                this.fetchtasks()
+
+
+              })
+
+        }else if( this.inprogress.length>0){
+          Project.updatefeature(this.feature.id, { stage: 'inprogress'}, auth)
+              .then(() => {
+                this.fetchtasks()
+
+              })
+
+
+        }
+      }
+
+
+    }
 
 
   }

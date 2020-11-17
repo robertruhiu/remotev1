@@ -17,7 +17,8 @@ export default new Vuex.Store({
         user: null,
         isUserLoggedIn: false,
         usertype: null,
-        projectedit_id:null
+        projectedit_id:null,
+        mobiletaskmode:false
 
 
     },
@@ -33,6 +34,9 @@ export default new Vuex.Store({
         },
         setProjectedit(state, projectedit_id) {
             state.projectedit_id = projectedit_id
+        },
+        setmobiletaskmode(state, mobiletaskmode) {
+            state.mobiletaskmode = mobiletaskmode
         },
         setToken(state, token) {
             state.token = token
@@ -73,6 +77,9 @@ export default new Vuex.Store({
         },
         setProjectedit({commit}, projectedit_id) {
             commit('setProjectedit', projectedit_id)
+        },
+        setmobiletaskmode({commit}, mobiletaskmode) {
+            commit('setmobiletaskmode', mobiletaskmode)
         },
         setToken({commit}, token) {
             commit('setToken', token)

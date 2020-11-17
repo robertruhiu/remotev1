@@ -1,7 +1,27 @@
 <template>
 <div>
   <a-row>
-    <a-col span="16">
+    <show-at breakpoint="mediumAndBelow">
+      <a-col span="24">
+
+
+
+
+        <a-card style="width: 100%">
+          <p style="font-family: sofia_proregular">Upload files or images you want to share</p>
+
+          <a-button type="primary" @click="CreateOpen" >
+            Get started
+          </a-button>
+        </a-card>
+
+
+      </a-col>
+    </show-at>
+
+    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+           :md="{span: 24, offset: 0 }"
+           :lg="{span: 16, offset: 0 }" :xl="{span: 16,offset: 0 }">
       <div style="padding: 0 2%">
 
         <div v-if="allfiles.length>0">
@@ -11,14 +31,17 @@
           <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="allfiles">
 
             <a-list-item slot="renderItem" key="issue" slot-scope="file">
-              <a-card style="width: 100%;margin-bottom: 1rem" >
+              <a-card style="margin-bottom: 1rem" >
                 <p class="describe">{{file.description}}
                 </p>
                 <p style="font-family: sofia_probold">Files</p>
-                <div v-for="url in file.files" v-bind:key="url" >
-                <a :href="url" target="_blank">
-                  {{url}}
-                </a>
+                <div v-for="url in file.files" v-bind:key="url.id" >
+                  <p>
+                    <a :href="url" target="_blank" style="overflow-wrap: break-word;">
+                      {{url}}
+                    </a>
+                  </p>
+
 
                 </div>
                 <div >
@@ -43,6 +66,7 @@
 
 
     </a-col>
+    <hide-at breakpoint="mediumAndBelow">
     <a-col span="8">
 
 
@@ -79,7 +103,7 @@
           </a-form-item>
           <a-form-item>
             <p>Current uploads</p>
-            <div v-for="url in filelist" v-bind:key="url" >
+            <div v-for="url in filelist" v-bind:key="url.id" >
               <a target="_blank" :href="url">{{ url }}</a>
               <a-popconfirm
                   title="Are you sure delete this file?"
@@ -128,12 +152,89 @@
 
 
     </a-col>
+    </hide-at>
   </a-row>
+
+  <a-modal v-model="create"  :footer="null">
+
+
+
+      <a-form layout="vertical" v-if="create">
+
+
+        <a-form-item
+            label="Describe purpose of the files below .eg(user flow diagrams)"
+
+        >
+          <a-textarea
+              v-model="description"
+              :auto-size="{ minRows: 3, maxRows: 5 }"
+          />
+          <p v-if="task_description_validate" style="color: red">
+            please write something
+          </p>
+
+        </a-form-item>
+        <a-form-item
+            label="Upload files(you can upload multiple) "
+
+        >
+          <div v-if="uploading">
+            <span>Uploading file <a-spin/></span>
+
+          </div>
+          <input style="margin-top: 1rem" v-else
+                 @change="handleUpload" type="file">
+
+        </a-form-item>
+        <a-form-item>
+          <p>Current uploads</p>
+          <div v-for="url in filelist" v-bind:key="url.id" >
+            <a target="_blank" :href="url">{{ url }}</a>
+            <a-popconfirm
+                title="Are you sure delete this file?"
+                ok-text="Yes"
+                cancel-text="No"
+                @confirm="removefile(url)"
+                @cancel="cancel"
+            >
+              <a href="#"><a-icon type="delete" theme="twoTone" two-tone-color="#eb2f96"/></a>
+
+            </a-popconfirm>
+
+
+          </div>
+        </a-form-item>
+
+
+
+
+        <a-form-item>
+          <a-space>
+            <a-button type="primary" v-if="currentfile" @click="updateFile" :disabled="task_description_validate">
+              Submit changes
+            </a-button>
+            <a-button type="primary" v-else @click="createFile" :disabled="task_description_validate">
+              Submit
+            </a-button>
+            <a-button  @click="CreateOpen" >
+              Cancel
+            </a-button>
+
+          </a-space>
+        </a-form-item>
+      </a-form>
+
+
+
+  </a-modal>
 
 </div>
 </template>
 
 <script>
+
+
 class File {
   constructor(id, description,files) {
     this.id = id;
@@ -146,16 +247,15 @@ class File {
 }
 import axios from 'axios'
 import Project from "@/services/Projects";
+import { hideAt,showAt} from 'vue-breakpoints'
 export default {
 name: "fileshare",
+  components: {hideAt,showAt},
   data() {
     return {
       file: '',
       filelist:[],
       pagination: {
-        onChange: page => {
-          console.log(page);
-        },
         pageSize: 3,
       },
       description:'',
@@ -164,11 +264,13 @@ name: "fileshare",
       task_description_validate:false,
       create:false,
       allfiles:[],
-      currentfile:null
+      currentfile:null,
+
 
 
 
     };
+
   },
   mounted() {
   this.fetchProject()

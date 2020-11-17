@@ -1,7 +1,9 @@
 <template>
 <div>
   <a-row style="width: 100%;margin: 0 auto">
-    <a-col span="18" class="stepcard">
+    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+           :md="{span: 24, offset: 0 }"
+           :lg="{span: 18, offset: 2 }" :xl="{span: 18,offset: 2 }" class="stepcard">
 
 
       <div style="padding: 2%" id="contract">
@@ -59,7 +61,7 @@
 
             </a-col>
           </a-row>
-          <div v-for="feature in features" v-bind:key="feature">
+          <div v-for="feature in features" v-bind:key="feature.id">
             <a-row style="border-bottom: 1px solid rgb(232, 232, 232);margin-bottom: 1%">
               <a-col span="12">
                 <p style="font-family: sofia_probold">{{ feature.title }}</p>
