@@ -44,7 +44,7 @@
         </div>
 
         <div style="min-height: 40vh ;position: relative">
-          <div style="padding: 3%" v-if="myprojects.length=== 0">
+          <div style="padding: 3%" v-if="myprojects.length=== 0 && bids.length === 0">
 
             <a-empty
                 image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"

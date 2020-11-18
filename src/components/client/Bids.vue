@@ -834,7 +834,7 @@ export default {
       Project.updatebid(this.bid.id, {'accepted': true}, auth)
           .then(() => {
 
-                Project.updateproject(this.bid.project, {stage: 'developement', assigned_to: this.bid.developer}, auth)
+                Project.updateproject(this.bid.project, {stage: 'contract', assigned_to: this.bid.developer}, auth)
                     .then(() => {
                       Project.acceptbidemail(this.bid.id, auth)
                       let accepted_bid = {
