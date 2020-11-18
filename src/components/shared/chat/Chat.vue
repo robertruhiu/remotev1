@@ -6,14 +6,14 @@
 <div v-for="channel in myChannels" v-bind:key="channel">
   <a-card :style="{ marginTop: '16px' }">
 
-
-      <a-button type="primary" @click="sendMessage('Phil is Calling')">Send Message</a-button>
-      <br>
-      <a-button type="primary" @click="createChannel('HARRY')">Create Channel</a-button>
-      <br>
     <p>Chat between {{ channel.creator.userId }} last message by {{ channel.lastMessage.message}}</p>
       <br>
-    <a-button type="primary">Open Chat</a-button>
+<!--    todo: implement if statement for the messages-->
+    <a-button type="primary" @click="$router.push('ViewChat')">Open Chat</a-button>
+    <br>
+    <br>
+      <a-button type="primary" @click="createChannel('HARRY')">Start New Chat</a-button>
+      <br>
 
     </a-card>
 </div>

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import ViewChat from "@/components/shared/chat/ViewChat";
 
 // admin view imports
 const Admindashboard = () => import('@/components/admin/adminDashboard')
@@ -30,6 +31,7 @@ const ManageDevs = () => import('@/components/admin/ManageDevs')
 
 //chat
 const Chat = () => import('@/components/shared/chat/Chat')
+const viewchat = () => import('@/components/shared/chat/ViewChat')
 Vue.use(Router);
 
 let router = new Router({
@@ -164,6 +166,11 @@ let router = new Router({
             path: '/chat',
             name: 'Chat',
             component: Chat
+        },
+        {
+            path: '/viewchat',
+            name: 'ViewChat',
+            component: ViewChat
         },
     ],
     scrollBehavior( ) {
