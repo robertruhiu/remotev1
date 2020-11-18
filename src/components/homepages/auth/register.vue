@@ -7,7 +7,7 @@
       <div :style="{ background: '#fff', minHeight: '81vh' }">
         <a-row>
           <a-col span="12">
-            <a-row  class="actioncards">
+            <a-row class="actioncards">
               <h2 style="text-align: center">Pick your profile</h2>
 
 
@@ -15,6 +15,7 @@
                 <div style="text-align: center">
                   <img src="@/assets/images/interview.svg" style="width: 30%"/>
                   <p>Client</p>
+                  <p>I want to post a project and get it worked on</p>
                   <a-checkbox v-model="client" @change="Choice(1)">
                     pick
                   </a-checkbox>
@@ -30,6 +31,7 @@
                   <img src="@/assets/images/programmer.svg" style="width: 30%"/>
 
                   <p>Developer</p>
+                  <p>I want to bid and work on projects</p>
                   <a-checkbox v-model="developer" @change="Choice(2)">
                     pick
                   </a-checkbox>
@@ -160,10 +162,14 @@
                 <a-card title="Register on codeln.com " :style="{width:'21rem'}">
                   <a-timeline>
                     <a-timeline-item>Create a profile on Codeln</a-timeline-item>
-                    <a-timeline-item>Opt into  remote codeln</a-timeline-item>
-                    <a-timeline-item>YOur profile goes under review</a-timeline-item>
+                    <a-timeline-item>Opt into remote codeln</a-timeline-item>
+                    <a-timeline-item>Your profile goes under review</a-timeline-item>
                     <a-timeline-item>Successful profile can now apply for gigs</a-timeline-item>
                   </a-timeline>
+                  <a href="https://www.codeln.com/register" target="_blank">
+                    <a-button type="primary">Get started</a-button>
+                  </a>
+
 
 
                 </a-card>
@@ -182,7 +188,6 @@
       </div>
 
 
-
     </a-layout-content>
 
     <Footer/>
@@ -198,6 +203,7 @@ import AuthService from '@/services/AuthService'
 import VeeValidate from 'vee-validate';
 
 import Vue from 'vue'
+import User from "@/services/UsersService";
 
 
 Vue.use(VeeValidate);
@@ -230,16 +236,17 @@ export default {
       password2: '',
       error: null,
       developer: false,
-      client: false
+      client: false,
+      currentUserProfile: {}
 
     }
   },
   computed: {
     Profile() {
       let profile = ''
-      if(this.client === false && this.developer === false){
-        profile =''
-      }else {
+      if (this.client === false && this.developer === false) {
+        profile = ''
+      } else {
         if (this.$store.state.usertype) {
           profile = this.$store.state.usertype
         }
@@ -265,9 +272,26 @@ export default {
             password2: this.password2
           })
               .then(resp => {
-
                 this.$store.dispatch('setToken', resp.data.token)
                 this.$store.dispatch('setUser', resp.data.user)
+                const auth = {
+                  headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+                }
+                User.currentuser(this.$store.state.user.pk, auth)
+                    .then(resp => {
+                          this.currentUserProfile = resp.data
+                          this.currentUserProfile.stage = 'complete'
+                          this.currentUserProfile.user_type = 'recruiter'
+                          User.update(this.$store.state.user.pk, this.currentUserProfile, auth)
+                              .then(() => {
+                                this.$router.push({
+                                  name: 'Dashboard'
+                                })
+                              })
+                        }
+                    )
+
 
                 this.loading = false
 

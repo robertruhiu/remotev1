@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
+  <a-layout style="min-height: 100vh;background-color: #F4F7FC;">
 
 
     <AdminSider/>
@@ -13,7 +13,9 @@
         <a-card class="hellocard">
 
           <a-row>
-            <a-col span="12">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
               <a-breadcrumb>
                 <a-breadcrumb-item><a @click="$router.push('Admindashboard')">Home</a></a-breadcrumb-item>
                 <a-breadcrumb-item><a @click="$router.push('AdminEscrow')">Escrow Management</a></a-breadcrumb-item>
@@ -22,29 +24,81 @@
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 Admin :Escrow management</span>
             </a-col>
-            <a-col span="6">
-              <div style="text-align: center">
-                <img src="@/assets/images/esc.svg" style="width: 20%"/>
-              </div>
+            <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                     :md="{span: 12, offset: 0 }"
+                     :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                <div style="text-align: center">
+                  <img src="@/assets/images/esc.svg" style="width: 20%"/>
+                </div>
 
 
-            </a-col>
+              </a-col>
+            </hide-at>
           </a-row>
 
 
         </a-card>
         <div style="min-height: 40vh ;position: relative">
-          <a-row gutter="16">
-            <a-col span="16">
+          <a-row :gutter="gutter">
+            <show-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 18, offset: 2 }" :sm="{span: 18, offset: 2 }"
+                     :md="{span: 6, offset: 0 }"
+                     :lg="{span: 4, offset: 0 }" :xl="{span: 4,offset: 0 }">
+                <p>Overview</p>
+                <a-card>
+                  <a-statistic
+                      title="Pending approval"
+                      :value=Pending
+
+
+                      class="demo-class"
+                      :value-style="{ color: '#cf1322' }"
+                  >
+
+                  </a-statistic>
+                </a-card>
+                <a-card>
+                  <a-statistic
+                      title="Disburssed amount"
+                      :value=Disbursed
+
+                      suffix="$"
+                      :value-style="{ color: '#3f8600' }"
+                      style="margin-right: 50px"
+                  >
+
+                  </a-statistic>
+                </a-card>
+                <a-card>
+                  <a-statistic
+                      title="Remaining Balance"
+                      :value=Allbalance
+
+                      suffix="$"
+                      class="demo-class"
+
+                  >
+
+                  </a-statistic>
+                </a-card>
+
+              </a-col>
+            </show-at>
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 18, offset: 0 }"
+                   :lg="{span: 16, offset: 0 }" :xl="{span: 16,offset: 0 }">
 
 
               <div style="padding: 3%">
-                <a-collapse expandIconPosition="right" v-for="project in AllProjects" v-bind:key="project"
+                <a-collapse expandIconPosition="right" v-for="project in AllProjects" v-bind:key="project.id"
                             style="border-radius: 0;background-color: white">
                   <a-collapse-panel style="margin-bottom: 1rem;border-radius: 0;background-color: white">
                     <div slot="header">
                       <a-row>
-                        <a-col span="12">
+                        <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                               :md="{span: 18, offset: 0 }"
+                               :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
                           <p style="font-family: sofia_probold;font-size: 1rem">{{ project.title }}</p>
                         </a-col>
                         <a-col span="12">
@@ -79,7 +133,7 @@
 
                       </a-row>
                     </div>
-                    <a-tabs v-model="activeKey" @change="callback">
+                    <a-tabs v-model="activeKey">
                       <a-tab-pane key="1">
                         <span slot="tab">
                           <a-icon type="hourglass" spin/>
@@ -152,46 +206,50 @@
               </div>
             </a-col>
 
-            <a-col span="4">
-              <p>Overview</p>
-              <a-card>
-                <a-statistic
-                    title="Pending approval"
-                    :value=Pending
+            <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                     :md="{span: 6, offset: 0 }"
+                     :lg="{span: 6, offset: 0 }" :xl="{span: 4,offset: 0 }">
+                <p>Overview</p>
+                <a-card>
+                  <a-statistic
+                      title="Pending approval"
+                      :value=Pending
 
 
-                    class="demo-class"
-                    :value-style="{ color: '#cf1322' }"
-                >
+                      class="demo-class"
+                      :value-style="{ color: '#cf1322' }"
+                  >
 
-                </a-statistic>
-              </a-card>
-              <a-card>
-                <a-statistic
-                    title="Disburssed amount"
-                    :value=Disbursed
+                  </a-statistic>
+                </a-card>
+                <a-card>
+                  <a-statistic
+                      title="Disburssed amount"
+                      :value=Disbursed
 
-                    suffix="$"
-                    :value-style="{ color: '#3f8600' }"
-                    style="margin-right: 50px"
-                >
+                      suffix="$"
+                      :value-style="{ color: '#3f8600' }"
+                      style="margin-right: 50px"
+                  >
 
-                </a-statistic>
-              </a-card>
-              <a-card>
-                <a-statistic
-                    title="Remaining Balance"
-                    :value=Allbalance
+                  </a-statistic>
+                </a-card>
+                <a-card>
+                  <a-statistic
+                      title="Remaining Balance"
+                      :value=Allbalance
 
-                    suffix="$"
-                    class="demo-class"
+                      suffix="$"
+                      class="demo-class"
 
-                >
+                  >
 
-                </a-statistic>
-              </a-card>
+                  </a-statistic>
+                </a-card>
 
-            </a-col>
+              </a-col>
+            </hide-at>
           </a-row>
 
 
@@ -205,7 +263,7 @@
 import moment from 'moment';
 import AdminSider from '@/components/admin/layout/Adminsider'
 import Project from "@/services/Projects";
-
+import { hideAt,showAt} from 'vue-breakpoints'
 const milestonecolumns = [
 
   {
@@ -249,6 +307,8 @@ const disbursedcolumns = [
   },
 
 
+
+
 ];
 
 export default {
@@ -256,6 +316,7 @@ export default {
   data() {
     return {
 
+      gutter:16,
       Projectlist: [],
       Featurelist: [],
       milestonecolumns,
@@ -264,7 +325,6 @@ export default {
       submitting: false,
       value: '',
       moment,
-      client: 'dennis',
       currentfeature: {},
       currentproject: {}
 
@@ -272,7 +332,8 @@ export default {
     };
   },
   components: {
-    AdminSider
+    AdminSider,hideAt,showAt
+
 
 
   },
@@ -389,7 +450,7 @@ export default {
       this.Projectlist.forEach(project => {
         Project.getfeatures(project.id, auth)
             .then(resp => {
-              console.log(resp.data)
+
               resp.data.forEach(feature => {
                 this.Featurelist.push(feature)
               })

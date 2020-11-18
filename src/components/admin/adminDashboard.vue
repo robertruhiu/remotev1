@@ -1,5 +1,5 @@
 <template>
-  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
+  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;">
 
 
     <AdminSider/>
@@ -22,8 +22,10 @@
 
 
         <div style="min-height: 40vh ;position: relative">
-          <a-row gutter="16">
-            <a-col span="6">
+          <a-row :gutter="gutter">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card hoverable class="cardshadow" style="width: 100%;margin-bottom: 1rem">
                 <router-link to="/AdminProjects">
                   <div>
@@ -41,7 +43,9 @@
               </a-card>
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card hoverable class="cardshadow" style="width: 100%;margin-bottom: 1rem" @click="newproject">
 
                   <div>
@@ -57,7 +61,9 @@
               </a-card>
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
                 <router-link to="/AdminEscrow">
                   <div>
@@ -78,7 +84,9 @@
 
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
                 <router-link to="/ManageDevs">
                 <div>
@@ -98,7 +106,9 @@
 
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;%;">
                 <router-link to="/AdminIssues">
                   <div>
@@ -123,7 +133,9 @@
 
 
             </a-col>
-            <a-col span="6">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
               <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
 
                 <div>
@@ -155,6 +167,13 @@
 import AdminSider from '@/components/admin/layout/Adminsider'
 export default {
 name: "adminDashboard",
+  data() {
+    return {
+      gutter:16
+
+
+    };
+  },
   components: {
     AdminSider
 

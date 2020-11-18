@@ -11,7 +11,7 @@
         </a-button>
       </div>
 
-      <a-row gutter="16">
+      <a-row :gutter="gutter">
 
         <a-col span="16">
           <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="issuelist">
@@ -190,14 +190,13 @@ export default {
   name: "issues",
   data() {
     return {
+      gutter:16,
       issuelist:[],
       feature_id: null,
       visible: false,
       loading: false,
       pagination: {
-        onChange: page => {
-          console.log(page);
-        },
+
         pageSize: 3,
       },
       issueopen: false,

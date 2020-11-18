@@ -44,7 +44,7 @@
         <div style="min-height: 40vh ;position: relative">
           <a-row :gutter="gutter">
             <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
-                   :md="{span: 12, offset: 0 }"
+                   :md="{span: 14, offset: 0 }"
                    :lg="{span: 14, offset: 0 }" :xl="{span: 16,offset: 0 }">
               <div style="padding: 3%;">
                 <a-tabs default-active-key="1" >
@@ -268,7 +268,7 @@
             </a-col>
             <hide-at breakpoint="mediumAndBelow">
             <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
-                   :md="{span: 12, offset: 0 }"
+                   :md="{span: 10, offset: 0 }"
                    :lg="{span: 10, offset: 0 }" :xl="{span: 8,offset:0  }" v-if="issueopen">
 
               <div style="padding: 2%">

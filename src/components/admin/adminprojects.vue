@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
+  <a-layout style="min-height: 100vh;background-color: #F4F7FC;">
 
 
     <AdminSider/>
@@ -23,13 +23,17 @@
                 <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 Admin :All Projects</span>
               </a-col>
-              <a-col span="6">
-                <div style="text-align: center">
-                  <img src="@/assets/images/planning.svg" style="width: 25%"/>
-                </div>
+              <hide-at breakpoint="mediumAndBelow">
+                <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                       :md="{span: 12, offset: 0 }"
+                       :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                  <div style="text-align: center">
+                    <img src="@/assets/images/planning.svg" style="width: 25%"/>
+                  </div>
 
 
-              </a-col>
+                </a-col>
+              </hide-at>
             </a-row>
 
 
@@ -39,204 +43,250 @@
         </div>
 
         <div style="min-height: 40vh ;position: relative">
-
-          <div style="padding: 3%" v-if="myprojects.length=== 0">
-
-            <a-empty
-                image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
-                :image-style="{height: '60px',}">
-              <span slot="description"> No projects created </span>
-              <a-button type="primary">
-                Create a Project
-              </a-button>
-            </a-empty>
+          <div v-if="loading">
+            <a-spin />
           </div>
-          <div style="padding: 0 3%">
-            <a-tabs default-active-key="1" @change="callback">
-              <a-tab-pane key="1" tab="In developement" v-if="Inprogress.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" style="width: 60%">
+          <div v-else>
+            <div style="padding: 3%" v-if="myprojects.length=== 0">
 
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
-                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a slot="extra" @click="editproject(item.id)">edit project</a>
+              <a-empty
+                  image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                  :image-style="{height: '60px',}">
+                <span slot="description"> No projects created </span>
 
-                      <a-collapse v-model="activeKey" >
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
+              </a-empty>
+            </div>
+            <div style="padding: 0 3%">
+              <a-tabs default-active-key="1" >
+                <a-tab-pane key="1" tab="In developement" v-if="Inprogress.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" >
 
-                      <div slot="actions">
-                        <a-row style="padding: 1%">
-                          <a-col span="4">
-                            <a-button type="primary" @click="$router.push({ name: 'AdminTracker', params: { projectSlug: item.slug } })">
-                              View project
-                            </a-button>
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                            <a slot="extra" @click="editproject(item.id)">edit project</a>
 
-                          </a-col>
+                            <a-collapse >
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
 
+                            <div slot="actions">
+                              <a-row style="padding: 1%">
+                                <a-col :xs="{span: 8, offset: 0 }" :sm="{span:8, offset: 0 }"
+                                       :md="{span: 6, offset: 0 }"
+                                       :lg="{span: 6, offset: 0 }" :xl="{span: 4,offset: 0 }">
+                                  <a-button type="primary" @click="$router.push({ name: 'AdminTracker', params: { projectSlug: item.slug } })">
+                                    View project
+                                  </a-button>
 
-                        </a-row>
-                      </div>
-                    </a-card>
-
-                  </a-list-item>
-                </a-list>
-
-
-              </a-tab-pane>
-              <a-tab-pane key="2" tab="Contract discussions" force-render v-if="Incontract.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" style="width: 60%">
-
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
-                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a slot="extra"  @click="editproject(item.id)">edit project</a>
-
-                      <a-collapse v-model="activeKey" >
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
-
-                      <div slot="actions">
-                        <a-row style="padding: 1%">
-                          <a-col span="4">
-                            <a-button type="primary" @click="$router.push({ name: 'Contract', params: { projectSlug: item.slug } })" >
-                              Start negotiations
-                            </a-button>
-
-                          </a-col>
-                          <a-col span="20">
+                                </a-col>
 
 
-                          </a-col>
+                              </a-row>
+                            </div>
+                          </a-card>
 
-                        </a-row>
-                      </div>
-                    </a-card>
-
-                  </a-list-item>
-                </a-list>
-
-              </a-tab-pane>
-              <a-tab-pane key="3" tab="Bids " v-if="Inbidding.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inbidding" style="width: 60%">
-
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
-                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a slot="extra"  @click="editproject(item.id)">edit project</a>
-
-                      <a-collapse v-model="activeKey" >
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
-
-                      <div slot="actions">
-                        <a-row style="padding: 1%">
-                          <a-col span="4">
-                            <a-button type="primary" @click="$router.push({ name: 'AdminBids', params: { projectSlug: item.slug } })">
-                              View bids
-                            </a-button>
-
-                          </a-col>
-                          <a-col span="4">
-                            <a-button type="danger" @click="removeverifyproject(item.id)">
-                              Unverify Project
-                            </a-button>
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
 
 
-                          </a-col>
+                </a-tab-pane>
 
-                        </a-row>
-                      </div>
-                    </a-card>
+                <a-tab-pane key="2" tab="Contract discussions" force-render v-if="Incontract.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" >
 
-                  </a-list-item>
-                </a-list>
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                            <a slot="extra"  @click="editproject(item.id)">edit project</a>
 
-              </a-tab-pane>
-              <a-tab-pane key="4" tab="Awaiting verification " v-if="AwaitingVerification.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="AwaitingVerification" style="width: 60%">
+                            <a-collapse  >
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
 
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
-                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                            <div slot="actions">
+                              <a-row style="padding: 1%">
+                                <a-col :xs="{span: 8, offset: 0 }" :sm="{span:8, offset: 0 }"
+                                       :md="{span: 6, offset: 0 }"
+                                       :lg="{span: 6, offset: 0 }" :xl="{span: 4,offset: 0 }">
+                                  <a-button type="primary" @click="$router.push({ name: 'Contract', params: { projectSlug: item.slug } })" >
+                                    Start negotiations
+                                  </a-button>
 
-
-                      <a-collapse v-model="activeKey" >
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
-
-                      <div slot="actions">
-
-                        <a-row style="padding: 1%">
-                          <a-col span="4">
-                            <a-button type="primary" @click="editproject(item.id)">
-                              Edit Project
-                            </a-button>
-
-                          </a-col>
-                          <a-col span="4">
-                            <a-button style="background-color: #52c41a;color: white" @click="verifyproject(item.id)">
-                              Verify Project
-                            </a-button>
+                                </a-col>
 
 
-                          </a-col>
+                              </a-row>
+                            </div>
+                          </a-card>
 
-                        </a-row>
-                      </div>
-                    </a-card>
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
 
-                  </a-list-item>
-                </a-list>
+                </a-tab-pane>
 
-              </a-tab-pane>
-              <a-tab-pane key="5" tab="In Creation stage " v-if="InCreation.length>0">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="InCreation" style="width: 60%">
+                <a-tab-pane key="3" tab="Bids " v-if="Inbidding.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inbidding" >
 
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card style="width: 100%">
-                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                            <a slot="extra"  @click="editproject(item.id)">edit project</a>
 
+                            <a-collapse  >
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
 
-                      <a-collapse v-model="activeKey" >
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
+                            <div slot="actions">
+                              <a-row style="padding: 1%">
+                                <a-col :xs="{span: 8, offset: 0 }" :sm="{span:8, offset: 0 }"
+                                       :md="{span: 6, offset: 0 }"
+                                       :lg="{span: 6, offset: 0 }" :xl="{span: 4,offset: 0 }">
+                                  <a-button type="primary" @click="$router.push({ name: 'AdminBids', params: { projectSlug: item.slug } })">
+                                    View bids
+                                  </a-button>
 
-                      <div slot="actions">
-                        <a-row style="padding: 1%">
-                          <a-col span="4">
-                            <a-button type="primary" @click="editproject(item.id)">
-                              Edit Project
-                            </a-button>
-
-                          </a-col>
-                          <a-col span="20">
-
-
-                          </a-col>
-
-                        </a-row>
-                      </div>
-                    </a-card>
-
-                  </a-list-item>
-                </a-list>
-
-              </a-tab-pane>
-            </a-tabs>
+                                </a-col>
+                                <a-col :xs="{span: 8, offset: 0 }" :sm="{span:8, offset: 0 }"
+                                       :md="{span: 6, offset: 0 }"
+                                       :lg="{span: 6, offset: 0 }" :xl="{span: 4,offset: 0 }">
+                                  <a-button type="danger" @click="removeverifyproject(item.id)">
+                                    Unverify Project
+                                  </a-button>
 
 
+                                </a-col>
+
+                              </a-row>
+                            </div>
+                          </a-card>
+
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
+
+                </a-tab-pane>
+
+                <a-tab-pane key="4" tab="Awaiting verification " v-if="AwaitingVerification.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="AwaitingVerification" >
+
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+
+
+                            <a-collapse  >
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
+
+                            <div slot="actions">
+                            <a-row style="padding: 1%">
+                              <a-col :xs="{span: 8, offset: 0 }" :sm="{span:8, offset: 0 }"
+                                     :md="{span: 6, offset: 0 }"
+                                     :lg="{span: 6, offset: 0 }" :xl="{span: 4,offset: 0 }">
+
+
+                                <a-button type="primary" @click="editproject(item.id)">
+                                  Edit Project
+                                </a-button>
+                              </a-col>
+                              <a-col :xs="{span: 8, offset: 0 }" :sm="{span:8, offset: 0 }"
+                                     :md="{span: 6, offset: 0 }"
+                                     :lg="{span: 6, offset: 0 }" :xl="{span: 4,offset: 0 }">
+
+                                <a-button style="background-color: #52c41a;color: white" @click="verifyproject(item.id)">
+                                  Verify Project
+                                </a-button>
+                              </a-col>
+
+                            </a-row>
+                            </div>
+                          </a-card>
+
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
+
+                </a-tab-pane>
+
+                <a-tab-pane key="5" tab="In Creation stage " v-if="InCreation.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="InCreation" >
+
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+
+
+                            <a-collapse  >
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
+
+                            <div slot="actions">
+                              <a-row style="padding: 1%">
+                                <a-col :xs="{span: 8, offset: 0 }" :sm="{span:8, offset: 0 }"
+                                       :md="{span: 6, offset: 0 }"
+                                       :lg="{span: 6, offset: 0 }" :xl="{span: 4,offset: 0 }">
+                                  <a-button type="primary" @click="editproject(item.id)">
+                                    Edit Project
+                                  </a-button>
+
+                                </a-col>
+
+
+                              </a-row>
+                            </div>
+                          </a-card>
+
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
+
+                </a-tab-pane>
+              </a-tabs>
+
+
+            </div>
           </div>
+
+
         </div>
 
       </a-layout-content>
@@ -250,23 +300,21 @@ import moment from 'moment';
 import Projects from '@/services/Projects'
 import Project from "@/services/Projects";
 import markdown from 'vue-markdown'
+import { hideAt} from 'vue-breakpoints'
 export default {
 name: "adminprojects",
   data() {
     return {
-
+      loading:false,
       myprojects: [],
       pagination: {
-        onChange: page => {
-          console.log(page);
-        },
         pageSize: 3,
       },
 
     }
   },
   components: {
-    AdminSider,markdown
+    AdminSider,markdown,hideAt
 
 
   },
@@ -348,14 +396,16 @@ name: "adminprojects",
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+
       Projects.myprojects(this.$store.state.user.pk,auth)
           .then(resp=>{
             this.myprojects = resp.data
+
           })
 
     },
     editproject(id) {
-      this.$store.dispatch('setProject', id)
+      this.$store.dispatch('setProjectedit', id)
       this.$router.push({
         name: 'AdminCreateEditProject'
       })

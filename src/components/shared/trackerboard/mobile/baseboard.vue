@@ -311,9 +311,12 @@ name: "baseboard",
 
     this.$store.dispatch('setFeature', this.currentfeature.id)
     this.fetchProject()
-    if (this.$store.state.user_object.user_type === 'developer') {
-      this.developer = true
+    if(this.$store.state.isUserLoggedIn){
+      if (this.$store.state.user_object.user_type === 'developer') {
+        this.developer = true
+      }
     }
+
 
 
   },
@@ -486,68 +489,18 @@ name: "baseboard",
 </script>
 
 <style scoped>
-.hellocard {
-
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-
-  background: #F1F3F9;
-  border-radius: 0;
 
 
-}
-
-.usercasecard {
 
 
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
 
-  background: white;
-  border-radius: 0;
-  padding: 2%;
-  margin-bottom: 1rem;
-
-}
-
-.casecard {
-
-
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-
-  background: white;
-  border-radius: 0;
-  padding: 2%;
-
-}
-
-.tasktabs {
-
-
-  padding: 1%;
-
-}
 
 .milestonecard {
   margin-bottom: 1rem;
 
 }
 
-.shadowsmall {
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-  border: 1px solid #e8e8e8;
-  color: black;
-  background: white;
-  border-radius: 3%;
-}
 
-.trackertasks {
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-  color: black;
-  background: white;
-  border-radius: 0;
-  border: 1px solid #e8e8e8;
-  padding: 2%;
-  margin-bottom: 1rem;
-}
 
 /* width */
 ::-webkit-scrollbar {
@@ -577,10 +530,10 @@ name: "baseboard",
 
 .rowtitle {
   color: #1990FF;
-  font-family: sofia_probold
+  font-family: sofia_probold,serif
 }
 
 .featuretitle {
-  font-family: sofia_probold
+  font-family: sofia_probold,serif
 }
 </style>

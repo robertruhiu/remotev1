@@ -4,11 +4,21 @@
       collapsed-width="0"
       @collapse="onCollapse"
       @breakpoint="onBreakpoint"
-      style="box-shadow: 2px 0 6px rgba(0,21,41,.35);background-color: #F4F7FC"
+      style="background-color: #F4F7FC"
   >
+    <show-at  breakpoint="mediumAndBelow">
+      <router-link to="/">
+
+        <img
+            style="width: 9rem;height: 2rem;margin-top: 1rem;margin-bottom: 1rem;margin-left: 1rem"
+            v-bind:src="defaultlogo"
+        >
+
+      </router-link>
+    </show-at>
 
 
-    <a-menu  mode="inline"  style="font-family: sofia_proregular;background-color: #F4F7FC">
+    <a-menu  mode="inline"  style="font-family: sofia_proregular;background-color: #F4F7FC;border-right: hidden">
       <a-menu-item key="9" @click="$router.push('/Developer')">
         <a-icon type="dashboard" />
         <span>Dashboard</span>
@@ -40,7 +50,7 @@
       </a-menu-item>
       <a-menu-item key="8" @click="logout">
         <a-icon type="logout" />
-        <span>logo</span>
+        <span>logout</span>
       </a-menu-item>
     </a-menu>
 
@@ -49,18 +59,20 @@
 
 <script>
 
-
+import { showAt} from 'vue-breakpoints'
+import Largelogo from '@/assets/logobg.svg'
 export default {
 name: "Kanbansider",
   data() {
     return {
       collapsed: false,
+      defaultlogo: Largelogo,
 
 
     }
 
   },
-  components: {
+  components: {showAt
 
 
 

@@ -21,12 +21,14 @@
             </a-breadcrumb>
             <p style="font-size: 1.7rem;font-family: sofia_prosemibold;color: black;margin-bottom: 0">
               {{ project.title }}</p>
+            <showAt breakpoint="mediumAndAbove">
             <span style="margin-bottom: 0">You can switch between milestone overview kanban to in depth view kanban
                   <a-button-group style="margin-left: 1%">
                     <a-button type="primary" @click="viewMode(1)"> <a-icon type="appstore"/>Milestone view </a-button>
                     <a-button type="primary" @click="viewMode(2)"> In depth view<a-icon type="profile"/> </a-button>
                   </a-button-group>
                 </span>
+            </showAt>
 
 
 
@@ -35,23 +37,63 @@
 
         </div>
 
-        <div style="min-height: 40vh ;position: relative;">
-          <div style="">
+        <show-at :breakpoints="{small: 900}" breakpoint="mediumAndAbove">
 
-            <a-row v-if="viewmode === 'milestone'">
-              <a-col span="6" style="padding: 1%">
-                <div class="taskcolumns">
-                  <p class="rowtitle">Backlog</p>
-                  <a-progress :percent="100" strokeColor="#64C8FB" :showInfo="false"/>
-                  <div style="height:42rem;overflow: auto;">
-                    <div
-                        class="list-group-item"
-                        v-for="(element) in features"
-                        :key="element.name"
-                    >
-                      <div v-if="element.stage === 'backlog'">
+          <div style="min-height: 40vh ;position: relative;">
+            <div style="">
 
-                        <a-card class="milestonecard">
+              <a-row v-if="viewmode === 'milestone'">
+                <a-tabs default-active-key="1" >
+                  <a-tab-pane key="1"
+                  >
+                  <span slot="tab">
+                    <a-icon type="profile"/>
+
+                    Features
+                  </span>
+
+                    <a-col span="6" style="padding: 1%">
+                      <div class="taskcolumns">
+                        <p class="rowtitle">Backlog</p>
+                        <a-progress :percent="100" strokeColor="#64C8FB" :showInfo="false"/>
+                        <div style="height:42rem;overflow: auto;">
+                          <a-card class="milestonecard">
+
+
+
+
+                          <span slot="title" class="featuretitle">
+                                UI/UX files
+                              </span>
+
+                            <template>
+                              <p v-if="developer">Mandatory step.Please upload all wireframes
+                                that relate to the project ie page layout and user process diagrams.Also any other
+                                relevant data</p>
+                              <p v-else>Please insist the developer to create wireframes of the project in relation to the
+                                features.
+                                He/she should provide page layouts and user process flow diagrams.
+                                This will help give a proper image of whats to be created
+
+                              </p>
+
+                              <a-tag color="#64C8FB">
+                                <a-icon type="hourglass" spin/>
+                                continued review
+                              </a-tag>
+
+
+                            </template>
+
+                          </a-card>
+                          <div
+                              class="list-group-item"
+                              v-for="(element) in features"
+                              :key="element.name"
+                          >
+                            <div v-if="element.stage === 'backlog'">
+
+                              <a-card class="milestonecard">
 
 
 
@@ -59,121 +101,44 @@
                           <span slot="title" class="featuretitle">
                                 {{ element.title }}
                               </span>
-                          <a slot="extra" @click="openFeature(element)">view milestone</a>
-                          <template>
-                            <p>User stories</p>
-                            <ul v-for="story in element.userstories" v-bind:key="story">
-                              <li>{{ story.user_story }}</li>
-                            </ul>
+                                <a slot="extra" @click="openFeature(element)">view milestone</a>
+                                <template>
+                                  <p>User stories</p>
+                                  <ul v-for="story in element.userstories" v-bind:key="story.id">
+                                    <li>{{ story.user_story }}</li>
+                                  </ul>
+                                  <a-tag color="orange">
+                                    <a-icon type="clock-circle" />
+                                    due date: {{element.due_date | momentformat}}
+                                  </a-tag>
 
 
+                                </template>
 
-                          </template>
-
-                        </a-card>
-                      </div>
-
-
-                    </div>
-                  </div>
-
-                </div>
-              </a-col>
-              <a-col span="6" style="padding: 1%">
-                <div class="taskcolumns">
-                  <p class="rowtitle">In progress</p>
-
-                  <a-progress :percent="100" strokeColor="#31A6EA" :showInfo="false"/>
-
-
-                  <div style="height:42rem;overflow: auto;">
-                    <div
-                        class="list-group-item"
-                        v-for="(element) in features"
-                        :key="element.name"
-                    >
-                      <div v-if="element.stage === 'inprogress'">
-                        <a-card class="milestonecard">
-
-
-
-
-                          <span slot="title" class="featuretitle">
-                                {{ element.title }}
-                              </span>
-                          <a slot="extra" @click="openFeature(element)">view milestone </a>
-                          <template>
-                            <p>User stories</p>
-                            <ul v-for="story in element.userstories" v-bind:key="story">
-                              <li>{{ story.user_story }}</li>
-                            </ul>
-
-                          </template>
-
-                        </a-card>
-                      </div>
-
-
-                    </div>
-                  </div>
-
-                </div>
-              </a-col>
-              <a-col span="6" style="padding: 1%">
-                <div class="taskcolumns">
-                  <p class="rowtitle">Quality check</p>
-                  <a-progress :percent="100" strokeColor="#0682D1" :showInfo="false"/>
-                  <div style="height:42rem;overflow: auto;">
-
-                    <div
-                        class="list-group-item"
-                        v-for="(element) in features"
-                        :key="element.name"
-                    >
-                      <div v-if="element.stage === 'quality'">
-                        <a-card class="milestonecard">
-
-
-
-
-                          <span slot="title" class="featuretitle">
-                                {{ element.title }}
-                              </span>
-                          <a slot="extra" @click="openFeature(element)">view milestone</a>
-                          <template>
-                            <div
-                                style=" border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
-                              <p>Note to test feature:</p>
-                              <p>{{ element.developer_note }}</p>
+                              </a-card>
                             </div>
-                            <a-button @click="Done(element)" v-if="!developer" size="small"> <a-icon type="check-circle" theme="twoTone"/>Mark as done</a-button>
-                            <a-tag v-else color="#64C8FB">
-                              <a-icon type="hourglass" spin /> QA ongoing
-                            </a-tag>
 
-                          </template>
 
-                        </a-card>
+                          </div>
+                        </div>
+
                       </div>
+                    </a-col>
+                    <a-col span="6" style="padding: 1%">
+                      <div class="taskcolumns">
+                        <p class="rowtitle">In progress</p>
+
+                        <a-progress :percent="100" strokeColor="#31A6EA" :showInfo="false"/>
 
 
-                    </div>
-                  </div>
-                </div>
-              </a-col>
-              <a-col span="6" style="padding: 1%">
-                <div class="taskcolumns">
-                  <p class="rowtitle">Done</p>
-                  <a-progress :percent="100" strokeColor="#056BB4" :showInfo="false"/>
-                  <div style="height:42rem;overflow: auto;">
-
-                    <div
-                        class="list-group-item"
-                        v-for="(element) in features"
-                        :key="element.name"
-                    >
-                      <div v-if="element.stage === 'done'">
-                        <a-card class="milestonecard">
+                        <div style="height:42rem;overflow: auto;">
+                          <div
+                              class="list-group-item"
+                              v-for="(element) in features"
+                              :key="element.name"
+                          >
+                            <div v-if="element.stage === 'inprogress'">
+                              <a-card class="milestonecard">
 
 
 
@@ -181,47 +146,157 @@
                           <span slot="title" class="featuretitle">
                                 {{ element.title }}
                               </span>
-                          <a slot="extra" @click="openFeature(element)">view milestone</a>
+                                <a slot="extra" @click="openFeature(element)">view milestone </a>
+                                <template>
+                                  <p>User stories</p>
+                                  <ul v-for="story in element.userstories" v-bind:key="story.id">
+                                    <li>{{ story.user_story }}</li>
+                                  </ul>
 
-                          <a-tag color="#87d068" v-if="element.escrow">
-                            disbursed
-                          </a-tag>
-                          <a-tag v-else color="#64C8FB">
-                            <a-icon type="dollar" spin /> pending disbusrment
-                          </a-tag>
+                                </template>
+
+                              </a-card>
+                            </div>
 
 
-                        </a-card>
+                          </div>
+                        </div>
+
                       </div>
+                    </a-col>
+                    <a-col span="6" style="padding: 1%">
+                      <div class="taskcolumns">
+                        <p class="rowtitle">Quality check</p>
+                        <a-progress :percent="100" strokeColor="#0682D1" :showInfo="false"/>
+                        <div style="height:42rem;overflow: auto;">
+
+                          <div
+                              class="list-group-item"
+                              v-for="(element) in features"
+                              :key="element.name"
+                          >
+                            <div v-if="element.stage === 'quality'">
+                              <a-card class="milestonecard">
+
+
+
+
+                          <span slot="title" class="featuretitle">
+                                {{ element.title }}
+                              </span>
+                                <a slot="extra" @click="openFeature(element)">view milestone</a>
+                                <template>
+                                  <div
+                                      style=" border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
+                                    <p>Note to test feature:</p>
+                                    <p>{{ element.developer_note }}</p>
+                                  </div>
+                                  <a-button @click="Done(element)" v-if="!developer" size="small">
+                                    <a-icon type="check-circle" theme="twoTone"/>
+                                    Mark as done
+                                  </a-button>
+                                  <a-tag v-else color="#64C8FB">
+                                    <a-icon type="hourglass" spin/>
+                                    QA ongoing
+                                  </a-tag>
+
+                                </template>
+
+                              </a-card>
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </a-col>
+                    <a-col span="6" style="padding: 1%">
+                      <div class="taskcolumns">
+                        <p class="rowtitle">Done</p>
+                        <a-progress :percent="100" strokeColor="#056BB4" :showInfo="false"/>
+                        <div style="height:42rem;overflow: auto;">
+
+                          <div
+                              class="list-group-item"
+                              v-for="(element) in features"
+                              :key="element.name"
+                          >
+                            <div v-if="element.stage === 'done'">
+                              <a-card class="milestonecard">
+
+
+
+
+                          <span slot="title" class="featuretitle">
+                                {{ element.title }}
+                              </span>
+                                <a slot="extra" @click="openFeature(element)">view milestone</a>
+
+                                <a-tag color="#87d068" v-if="element.escrow">
+                                  disbursed
+                                </a-tag>
+                                <a-tag v-else color="#64C8FB">
+                                  <a-icon type="dollar" spin/>
+                                  pending disbusrment
+                                </a-tag>
+
+
+                              </a-card>
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </a-col>
+
+
+
+
+                  </a-tab-pane>
+                  <a-tab-pane key="2" force-render>
+                  <span slot="tab">
+                    <a-icon type="file-sync"/>
+                    Project Documents/UI/UX files
+                  </span>
+                    <Fileshare/>
+
+                  </a-tab-pane>
+                  <a-tab-pane key="3" force-render>
+                  <span slot="tab">
+                    <a-icon type="file-done" />
+                    Project contract
+                  </span>
+                    <contract/>
+
+
+                  </a-tab-pane>
+
+                </a-tabs>
+
+
+              </a-row>
+              <a-row style="color: black" v-if="viewmode === 'feature'">
+                <a-col span="6">
+                  <div class="casecard">
+
+                    <div style="border-bottom: 1px solid #e8e8e8;">
+                      <h3 style="font-family: sofia_problack;">Milestones</h3>
+
+
+                      <p style="font-family: sofia_probold">These are the core milestones of what you want the
+                        application to
+                        do.Each has its own User stories and tasks that have to be
+                        achieved to accomplish it</p>
 
 
                     </div>
-                  </div>
-                </div>
-              </a-col>
+                    <div style="color:black;height: 65vh;overflow-y: scroll;">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="features">
 
-            </a-row>
-            <a-row style="color: black" v-if="viewmode === 'feature'">
-              <a-col span="6">
-                <div class="casecard">
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item">
 
-                  <div style="border-bottom: 1px solid #e8e8e8;">
-                    <h3 style="font-family: sofia_problack;">Milestones</h3>
-
-
-                    <p style="font-family: sofia_probold">These are the core milestones of what you want the
-                      application to
-                      do.Each has its own User stories and tasks that have to be
-                      achieved to accomplish it</p>
-
-
-                  </div>
-                  <div style="color:black;height: 65vh;overflow-y: scroll;">
-                    <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="features">
-
-                      <a-list-item slot="renderItem" key="item.title" slot-scope="item">
-
-                        <a-card>
+                          <a-card>
 
 
 
@@ -229,124 +304,149 @@
                               <span slot="title" class="featuretitle">
                                 {{ item.title }}
                               </span>
-                          <a slot="extra" @click="openFeature(item)">view tasks</a>
-                          <template>
-                            <ul v-for="story in item.userstories" v-bind:key="story">
-                              <li>{{ story.user_story }}</li>
-                            </ul>
+                            <a slot="extra" @click="openFeature(item)">view tasks</a>
+                            <template>
+                              <ul v-for="story in item.userstories" v-bind:key="story">
+                                <li>{{ story.user_story }}</li>
+                              </ul>
 
-                          </template>
+                            </template>
 
-                        </a-card>
+                          </a-card>
 
 
-                      </a-list-item>
-                    </a-list>
+                        </a-list-item>
+                      </a-list>
+                    </div>
+
+
                   </div>
 
 
-                </div>
+                </a-col>
+                <a-col span="18">
+                  <div>
+                    <div v-if="currentfeature">
+                      <div style="padding: 0 1%">
+                        <div class="casecard">
+                          <p style="font-family: sofia_proregular">
+                            <strong>Milestone:</strong> {{ currentfeature.title }}
+                          </p>
+                          <div>
+                            <a-steps style="width: 80%" :current="FeatureStep">
 
-
-              </a-col>
-              <a-col span="18">
-                <div>
-                  <div v-if="currentfeature">
-                    <div style="padding: 0 1%">
-                      <div class="casecard">
-                        <p style="font-family: sofia_proregular">
-                          <strong>Milestone:</strong> {{ currentfeature.title }}
-                        </p>
-                        <div>
-                          <a-steps style="width: 80%" :current="FeatureStep">
-
-                            <a-step title="In progress"/>
-                            <a-step title="Tasks done"/>
-                            <a-step title="Quality check"/>
-                            <a-step title="Done"/>
-                            <a-step title="Escrow paid"/>
-                          </a-steps>
-                        </div>
-
-                        <div>
-
-                        </div>
-
-
-                        <div v-if="FeatureStep=== 2">
-                          <p>Client is using your developer note to test feature completion.</p>
-                          <div
-                              style="margin-top: 16px; border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
-                            <p>Developer Note</p>
-                            <p>{{ currentfeature.developer_note }}</p>
+                              <a-step title="In progress"/>
+                              <a-step title="Tasks done"/>
+                              <a-step title="Quality check"/>
+                              <a-step title="Done"/>
+                              <a-step title="Escrow paid"/>
+                            </a-steps>
                           </div>
 
-                          <a-button v-if="developer"  @click="developernotemodal" size="small" type="primary">edit note</a-button>
+                          <div>
 
-                        </div>
-                        <div v-if="FeatureStep === 1">
-                          <p>Well done :Tasks complete for this feature are complete
-                          </p>
-                          <a-button  v-if="developer" type="primary" icon="check" @click="developernotemodal">mark as complete</a-button>
+                          </div>
 
 
+                          <div v-if="FeatureStep=== 2">
+                            <a-collapse v-model="activeKey" v-if="developer">
+                              <a-collapse-panel key="1"
+                                                header="Client is using your developer note to test feature completion.">
+
+                                <div
+                                    style="border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
+
+                                  <p>{{ currentfeature.developer_note }}</p>
+                                  <a-button v-if="developer" @click="developernotemodal" size="small" type="primary">edit
+                                    note
+                                  </a-button>
+                                </div>
+                              </a-collapse-panel>
+                            </a-collapse>
+                            <a-collapse v-model="activeKey" v-else>
+                              <a-collapse-panel key="1" header="Please use this note to test the feature">
+
+                                <div
+                                    style="border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
+
+                                  <p>{{ currentfeature.developer_note }}</p>
+
+                                </div>
+                              </a-collapse-panel>
+                            </a-collapse>
+
+
+                          </div>
+                          <div v-if="FeatureStep === 1">
+                            <p>Well done :Tasks complete for this feature are complete
+                            </p>
+                            <a-button v-if="developer" type="primary" icon="check" @click="developernotemodal">mark as
+                              complete
+                            </a-button>
+
+
+                          </div>
                         </div>
                       </div>
+                      <div class="tasktabs">
+
+
+                        <a-tabs default-active-key="1" @change="callback">
+                          <a-tab-pane key="1" tab="Tasks">
+                            <Tasks/>
+                          </a-tab-pane>
+                          <a-tab-pane key="2" tab="Feature issues" force-render>
+                            <Issues/>
+                          </a-tab-pane>
+
+                        </a-tabs>
+                      </div>
+
+
                     </div>
-                    <div class="tasktabs">
-
-
-                      <a-tabs default-active-key="1" @change="callback">
-                        <a-tab-pane key="1" tab="Tasks" >
-                          <Tasks/>
-                        </a-tab-pane>
-                        <a-tab-pane key="2" tab="Feature issues" force-render>
-                          <Issues/>
-                        </a-tab-pane>
-
-                      </a-tabs>
-                    </div>
-
 
                   </div>
 
-                </div>
+
+                </a-col>
 
 
-              </a-col>
+              </a-row>
+
+            </div>
+            <a-modal v-model="visible" >
+              <template slot="footer">
+
+                <a-button key="submit" type="primary" :disabled="note_validate" @click="submitDeveloperNote">
+                  Submit
+                </a-button>
+              </template>
+              <a-form layout="vertical">
 
 
-            </a-row>
+                <a-form-item
+                    label="Give directions of how client is to test said feature you marked as complete "
 
+                >
+                  <a-textarea
+                      v-model="developer_note"
+                      :auto-size="{ minRows: 4, maxRows: 5 }"
+                  />
+                  <p v-if="note_validate" style="color: red">
+                    please write something
+                  </p>
+                </a-form-item>
+
+
+              </a-form>
+
+            </a-modal>
           </div>
-          <a-modal v-model="visible" on-ok="handleOk">
-            <template slot="footer">
+        </show-at>
 
-              <a-button key="submit" type="primary" :disabled="note_validate" @click="submitDeveloperNote">
-                Submit
-              </a-button>
-            </template>
-            <a-form layout="vertical">
-
-
-              <a-form-item
-                  label="Give directions of how client is to test said feature you marked as complete "
-
-              >
-                <a-textarea
-                    v-model="developer_note"
-                    :auto-size="{ minRows: 4, maxRows: 5 }"
-                />
-                <p v-if="note_validate" style="color: red">
-                  please write something
-                </p>
-              </a-form-item>
-
-
-            </a-form>
-
-          </a-modal>
-        </div>
+        <show-at :breakpoints="{ small: 900}" breakpoint="small">
+          <basemobileboard/>
+        </show-at>
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -359,15 +459,19 @@ import SmallSider from "@/components/admin/adminkanban/layout/kanbanside";
 import Tasks from "@/components/admin/adminkanban/tasks"
 import Issues from "@/components/admin/adminkanban/issues"
 import Project from "@/services/Projects";
-
+import Fileshare from "@/components/admin/adminkanban/fileshare"
+import contract from "@/components/admin/adminkanban/contract"
+import { showAt} from 'vue-breakpoints'
+import basemobileboard from "@/components/admin/adminkanban/mobile/baseboard"
 class Feature {
-  constructor(id, title, stage, userstories, developer_note, escrow) {
+  constructor(id, title, stage, userstories, developer_note, escrow,due_date) {
     this.id = id;
     this.title = title;
     this.stage = stage;
     this.userstories = userstories;
     this.developer_note = developer_note;
     this.escrow = escrow;
+    this.due_date =due_date
 
 
   }
@@ -379,9 +483,7 @@ name: "adminTrackboard",
 
       Feature,
       pagination: {
-        onChange: page => {
-          console.log(page);
-        },
+
         pageSize: 4,
       },
 
@@ -393,14 +495,22 @@ name: "adminTrackboard",
       note_validate: false,
       project: {},
       features: [],
-      developer:false
+      developer: false,
+      tools: [],
+      yoh:''
 
 
     };
   },
   components: {
-    SmallSider,Tasks,Issues
+    SmallSider,Tasks,Issues,Fileshare,contract,showAt,basemobileboard
 
+
+  },
+  filters: {
+    momentformat: function (date) {
+      return moment(date).format('MMMM Do YYYY');
+    },
 
   },
   mounted() {
@@ -416,14 +526,15 @@ name: "adminTrackboard",
   computed: {
     FeatureStep() {
       let current = 0
-      if (this.currentfeature.stage === 'quality') {
+      if (this.currentfeature.stage === 'quality' && this.currentfeature.developer_note !=='') {
         current = 2
-      } else if (this.currentfeature.escrow) {
+      } else if (this.currentfeature.stage === 'quality' && this.currentfeature.developer_note ==='' ) {
+        current = 1
+      }else if (this.currentfeature.escrow) {
         current = 4
-      }
-      else if (this.currentfeature.stage === 'done') {
+      } else if (this.currentfeature.stage === 'done') {
         current = 3
-      }else if (this.$store.state.feature_complete) {
+      } else if (this.$store.state.feature_complete) {
         current = 1
       } else {
         current = 0
@@ -451,19 +562,17 @@ name: "adminTrackboard",
     },
 
 
+
   },
   watch: {
 
     developer_note: function () {
-      if (this.developer_note !== '') {
-        this.note_validate = false
-      } else {
-        this.note_validate = true
-      }
+      this.note_validate = this.developer_note === '';
     }
 
 
   },
+
   methods: {
     fetchProject() {
       const auth = {
@@ -473,6 +582,8 @@ name: "adminTrackboard",
       Project.getprojectslug(this.$route.params.projectSlug, auth)
           .then(resp => {
                 this.project = resp.data
+
+                this.tools = this.project.tools.split(',')
                 this.fetchFeatures()
 
               }
@@ -507,8 +618,9 @@ name: "adminTrackboard",
                 let userstories = resp.data;
                 let developer_note = feature.developer_note;
                 let escrow = feature.escrow_disbursed;
+                let due_date =feature.due_date
 
-                let onefeature = new Feature(id, title, stage, userstories, developer_note, escrow)
+                let onefeature = new Feature(id, title, stage, userstories, developer_note, escrow,due_date)
                 this.features.push(onefeature)
 
 
@@ -546,8 +658,10 @@ name: "adminTrackboard",
           headers: {Authorization: 'JWT ' + this.$store.state.token}
 
         }
-        Project.updatefeature(this.currentfeature.id,{developer_note:this.developer_note,stage:'quality'}, auth)
-            .then()
+        Project.updatefeature(this.currentfeature.id, {developer_note: this.developer_note, stage: 'quality'}, auth)
+            .then(() => {
+              Project.finishedmilestone(this.currentfeature.id, auth)
+            })
         this.visible = false;
         this.note_validate = false
         this.developer_note = ''
@@ -556,14 +670,14 @@ name: "adminTrackboard",
         this.note_validate = true
       }
     },
-    Done(feature){
+    Done(feature) {
       this.currentfeature = feature
       const auth = {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
       this.currentfeature.stage = 'done'
-      Project.updatefeature(this.currentfeature.id,{stage:'done'}, auth)
+      Project.updatefeature(this.currentfeature.id, {stage: 'done'}, auth)
           .then()
     }
   }

@@ -50,7 +50,7 @@
                 image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
                 :image-style="{height: '60px',}">
               <span slot="description"> No projects created </span>
-              <a-button type="primary">
+              <a-button type="primary" @click="$router.push({ name: 'Create' })">
                 Create a Project
               </a-button>
             </a-empty>

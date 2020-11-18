@@ -4,20 +4,29 @@
       collapsed-width="0"
       @collapse="onCollapse"
       @breakpoint="onBreakpoint"
-      style="box-shadow: 2px 0 6px rgba(0,21,41,.35);background-color: #F4F7FC;height: available"
-      :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
+      style="box-shadow: 2px 0 6px rgba(0,21,41,.35);background-color: #F4F7FC"
   >
     <hide-at :breakpoints="{small: 425, medium: 768}" breakpoint="mediumAndBelow">
       <router-link to="/">
 
-        <img v-bind:style="logo"
+        <img
              style="width: 9rem;height: 2rem;margin-top: 1rem;margin-bottom: 1rem;margin-left: 1rem"
              v-bind:src="defaultlogo"
         >
 
       </router-link>
     </hide-at>
-    <a-menu  mode="inline" :default-selected-keys=key  style="font-family: sofia_proregular;background-color: #F4F7FC">
+    <show-at  breakpoint="mediumAndBelow">
+      <router-link to="/">
+
+        <img
+            style="width: 9rem;height: 2rem;margin-top: 1rem;margin-bottom: 1rem;margin-left: 1rem"
+            v-bind:src="defaultlogo"
+        >
+
+      </router-link>
+    </show-at>
+    <a-menu  mode="inline"   style="font-family: sofia_proregular;background-color: #F4F7FC">
       <a-menu-item key="9" @click="$router.push('/Admindashboard')">
         <a-icon type="dashboard" />
         <span>Home</span>
@@ -61,7 +70,7 @@
 </template>
 
 <script>
-import { hideAt} from 'vue-breakpoints'
+import { hideAt,showAt} from 'vue-breakpoints'
 import Largelogo from '@/assets/logobg.svg'
 export default {
 name: "Adminsider",
@@ -69,13 +78,12 @@ name: "Adminsider",
     return {
       collapsed: false,
       defaultlogo: Largelogo,
-      key:['9'],
       top:0
     }
 
   },
   components: {
-    hideAt,
+    hideAt,showAt
   },
   methods:{
     onCollapse(collapsed, type) {

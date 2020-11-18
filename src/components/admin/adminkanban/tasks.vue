@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="feature.stage === 'done'">
-      <a-row >
+      <a-row>
 
         <a-col span="8" style="padding: 1%">
           <div class="taskcolumns">
@@ -43,7 +43,7 @@
                   sub-title="For feature improvement or bugs please create an issue on the Feature issues.This will enable you to have a conversation as the changes happen"
         >
           <template #icon>
-            <a-icon type="smile" theme="twoTone" />
+            <a-icon type="smile" theme="twoTone"/>
           </template>
           <template #extra>
 
@@ -60,7 +60,9 @@
         <div class="taskcolumns">
           <p>
             <span style="font-family: sofia_prosemibold">To do</span>
-            <a-button style="float: right" v-if="developer" type="primary" icon="plus" size="small" @click="add">new task</a-button>
+            <a-button style="float: right" v-if="developer" type="primary" icon="plus" size="small" @click="add">new
+              task
+            </a-button>
           </p>
 
           <div style="height:37rem;overflow: auto;">
@@ -82,9 +84,9 @@
                         ok-text="Yes"
                         cancel-text="No"
                         @confirm="removetask(element)"
-                        @cancel="cancel"
+
                     >
-                      <a href="#"><a-icon type="delete"  theme="twoTone" two-tone-color="#eb2f96"/></a>
+                      <a href="#"><a-icon type="delete" theme="twoTone" two-tone-color="#eb2f96"/></a>
                       </a-popconfirm>
 
                   </a-space>
@@ -93,6 +95,16 @@
 
 
                   <p style="font-family: sofia_prolight">{{ element.description }} </p>
+                  <p v-if="element.assigned_to">assigned to :
+                    <a-tag color="blue" >
+                      {{ element.assigned_to.user.first_name }}
+                    </a-tag>
+                  </p>
+                  <p v-else>
+                    <a-tag color="orange" >
+                      not assigned
+                    </a-tag>
+                  </p>
 
 
                 </a-card>
@@ -147,13 +159,33 @@
                 <span slot="extra">
                   <a-space>
                     <a-icon type="edit" @click="edittask(element)" theme="twoTone"/>
-                    <a-icon type="delete" @click="removetask(element)" theme="twoTone" two-tone-color="#eb2f96"/>
+                    <a-popconfirm
+                        title="Are you sure delete this task?"
+                        ok-text="Yes"
+                        cancel-text="No"
+                        @confirm="removetask(element)"
+
+                    >
+                      <a href="#"><a-icon type="delete" theme="twoTone" two-tone-color="#eb2f96"/></a>
+                      </a-popconfirm>
+
                   </a-space>
 
                 </span>
 
 
                   <p style="font-family: sofia_prolight">{{ element.description }} </p>
+                  <p v-if="element.assigned_to">assigned to :
+                    <a-tag color="blue" >
+                      {{ element.assigned_to.user.first_name }}
+                    </a-tag>
+                  </p>
+                  <p v-else>
+                    <a-tag color="orange" >
+                      not assigned
+                    </a-tag>
+                  </p>
+
 
 
                 </a-card>
@@ -183,7 +215,7 @@
               </a-card>
 
 
-            </div >
+            </div>
 
           </div>
 
@@ -206,8 +238,17 @@
                         class="shadowsmall">
                 <span slot="extra">
                   <a-space>
-                    <a-icon type="edit" @click="edittask(element)" theme="twoTone"/>
-                    <a-icon type="delete" @click="removetask(element)" theme="twoTone" two-tone-color="#eb2f96"/>
+
+                    <a-popconfirm
+                        title="Are you sure delete this task?"
+                        ok-text="Yes"
+                        cancel-text="No"
+                        @confirm="removetask(element)"
+
+                    >
+                      <a href="#"><a-icon type="delete" theme="twoTone" two-tone-color="#eb2f96"/></a>
+                      </a-popconfirm>
+
                     <a-icon type="check-circle" theme="twoTone"/>
                   </a-space>
 
@@ -215,6 +256,16 @@
 
 
                   <p style="font-family: sofia_prolight">{{ element.description }} </p>
+                  <p v-if="element.assigned_to">assigned to :
+                    <a-tag color="blue" >
+                      {{ element.assigned_to.user.first_name }}
+                    </a-tag>
+                  </p>
+                  <p v-else>
+                    <a-tag color="orange" >
+                      not assigned
+                    </a-tag>
+                  </p>
 
 
                 </a-card>
@@ -251,7 +302,7 @@
       </a-col>
 
     </a-row>
-    <a-modal v-model="visible" on-ok="handleOk">
+    <a-modal v-model="visible">
       <template slot="footer">
 
         <a-button key="submit" type="primary" :disabled="task_description_validate" :loading="loading"
@@ -274,12 +325,28 @@
             please write something
           </p>
         </a-form-item>
+        <div v-if="assigned_to">
+          <span>Currently assigned to :</span>
+          <a-tag color="blue" >
+            {{currenttask.assigned_to.user.first_name}}
+          </a-tag>
+        </div>
+
+        <p>Change to: </p>
+        <a-select style="width: 120px" @change="ChooseTeam">
+          <a-select-option v-for="member in members" v-bind:key="member" :value="member.id">
+            {{ member.user.first_name }}
+          </a-select-option>
+
+
+        </a-select>
+
 
 
       </a-form>
 
     </a-modal>
-    <a-modal v-model="newtask" on-ok="handleOk">
+    <a-modal v-model="newtask" >
       <template slot="footer">
 
         <a-button key="submit" type="primary" :disabled="task_description_validate" :loading="loading"
@@ -288,6 +355,7 @@
         </a-button>
       </template>
       <a-form layout="vertical">
+        {{newtask}}
 
 
         <a-form-item
@@ -302,6 +370,14 @@
             please write something
           </p>
         </a-form-item>
+        <p>Assign to:</p>
+        <a-select style="width: 120px" @change="ChooseTeam">
+          <a-select-option v-for="member in members" v-bind:key="member" :value="member.id">
+            {{ member.user.first_name }}
+          </a-select-option>
+
+
+        </a-select>
 
 
       </a-form>
@@ -315,9 +391,12 @@
 <script>
 
 
-
 import draggable from "vuedraggable";
 import Project from "@/services/Projects";
+import Projects from "@/services/Projects";
+import User from "@/services/UsersService";
+
+
 export default {
   name: "tasks",
   data() {
@@ -333,13 +412,11 @@ export default {
       newtask: false,
       task_description: '',
       task_description_validate: false,
-      feature:null,
-      developer:false,
-
-
-
-
-
+      feature: null,
+      developer: false,
+      team: null,
+      members: [],
+      assigned_to: ''
 
 
     };
@@ -352,12 +429,13 @@ export default {
   async mounted() {
 
     this.fetchtasks()
+    this.task_description =''
 
     this.$store.dispatch('setFeaturestatus', false)
-    if(this.$store.state.user_object.user_type === 'developer'){
+    if (this.$store.state.user_object.user_type === 'developer') {
       this.developer = true
     }
-
+    this.fetchmyteams()
 
 
   },
@@ -373,7 +451,6 @@ export default {
       this.inprogress = []
       this.todolist = []
       this.fetchtasks()
-
 
 
     },
@@ -431,6 +508,10 @@ export default {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.newtask = false
+      this.todolist =[]
+      this.inprogress =[]
+      this.donelist =[]
       Project.fetchfeaturetask(this.$store.state.feature_id, auth)
           .then(
               resp => {
@@ -456,14 +537,14 @@ export default {
           )
 
     },
-    getFeature(){
+    getFeature() {
       const auth = {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
       Project.getfeature(this.$store.state.feature_id, auth)
           .then(
-              resp=>{
+              resp => {
                 this.feature = resp.data
               }
           )
@@ -479,19 +560,24 @@ export default {
       if (evt.removed) {
 
         if (this.todolist.includes(evt.removed.element)) {
-          console.log(evt.removed.element)
+
           Project.featuretaskpatch(evt.removed.element.id, {stage: evt.removed.element.stage}, auth).then(
+              this.FeatureStageMove()
           )
 
 
         } else if (this.inprogress.includes(evt.removed.element)) {
           Project.featuretaskpatch(evt.removed.element.id, {stage: evt.removed.element.stage}, auth).then(
+              this.FeatureStageMove()
           )
 
 
         } else if (this.donelist.includes(evt.removed.element)) {
           Project.featuretaskpatch(evt.removed.element.id, {stage: evt.removed.element.stage}, auth).then(
+              this.FeatureStageMove()
           )
+
+
           let self = this
           self.Checkcomplete()
 
@@ -539,6 +625,12 @@ export default {
       this.visible = true
       this.currenttask = element
       this.task_description = this.currenttask.description
+      this.assigned_to = this.currenttask.assigned_to.id
+    },
+    ChooseTeam(value) {
+      this.assigned_to = value
+
+
     },
     submitTaskEdit() {
       const auth = {
@@ -549,10 +641,15 @@ export default {
         this.currenttask.description = this.task_description
         this.loading = true;
         this.loading = false
-        this.visible = false
-        Project.featuretaskpatch(this.currenttask.id, {description: this.task_description}, auth).then(
-            ()=>{
+
+        Project.featuretaskpatch(this.currenttask.id, {
+          description: this.task_description,
+          assigned_to: this.assigned_to
+        }, auth).then(
+            () => {
               this.$message.info('edits saved');
+              this.visible = false
+              this.fetchtasks()
             }
         )
         this.task_description = ''
@@ -568,31 +665,46 @@ export default {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.newtask = false
       if (this.task_description !== '') {
+
+
         let task = {
           'stage': 'todo',
           'feature': this.$store.state.feature_id,
-          'description': this.task_description
+          'description': this.task_description,
+          'assigned_to': this.assigned_to
         }
 
         Project.newfeaturetask(task, auth).then(
-            (resp) => {
+            () => {
+
               this.task_description = ''
-              this.newtask = false;
-              this.$message.info('task has been saved');
-              this.todolist.push(resp.data);
+              this.$message.info('task added');
+              this.fetchtasks()
+
+
+
 
             }
+
+
         )
+        this.task_description = ''
+        this.task_description_validate = false
+
+
+
 
 
       } else {
         this.task_description_validate = true
       }
+      this.newtask = false
+
 
 
     },
-
 
 
     Checkcomplete() {
@@ -603,7 +715,73 @@ export default {
           this.$store.dispatch('setFeaturestatus', false)
         }
       }
+    },
+    fetchmyteams() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      this.team = []
+
+      Projects.fetchteams(this.$store.state.user.pk, auth)
+          .then(resp => {
+            this.team = resp.data[0]
+            this.fetchmembers()
+
+          })
+
+
+    },
+    fetchmembers() {
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+
+      let members = []
+      members = this.team.members.split(',')
+      if (this.team.members.length > 0) {
+        members = this.team.members.split(',')
+        members.forEach(onemember => {
+          User.currentuser(onemember, auth)
+              .then(resp => {
+                this.members.push(resp.data)
+
+
+              })
+        })
+      }
+    },
+    FeatureStageMove(){
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      if(this.taskslist.length>0){
+        if(this.todolist.length === 0 && this.inprogress.length === 0  && this.donelist.length>0){
+
+          Project.updatefeature(this.feature.id, { stage: 'quality'}, auth)
+              .then(() => {
+                this.fetchtasks()
+
+
+              })
+
+        }else if( this.inprogress.length>0){
+          Project.updatefeature(this.feature.id, { stage: 'inprogress'}, auth)
+              .then(() => {
+                this.fetchtasks()
+
+              })
+
+
+        }
+      }
+
+
     }
+
+
   }
 }
 </script>

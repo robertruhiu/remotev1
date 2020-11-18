@@ -73,5 +73,10 @@ export default {
         return Api().patch(`portfoliolikeupdate/${portfolio_id} `, path_data, auth)
     },
 
+    remoteappliedusers(auth){
+        return Api().get('remotedevs', auth)
+
+    }
+
 
 }

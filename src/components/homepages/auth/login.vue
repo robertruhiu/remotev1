@@ -97,6 +97,11 @@
             </a-card>
           </a-col>
         </a-row>
+        <a-modal v-model="visible" title="User unverified" :footer="null" >
+          <a-result title="Unfortunately your profile has not been cleared for Remote Codeln">
+
+          </a-result>
+        </a-modal>
 
 
       </div>
@@ -133,6 +138,7 @@ export default {
       currentUserProfile: {},
       loading: false,
       form: this.$form.createForm(this),
+      visible:false
     }
   },
 
@@ -168,9 +174,20 @@ export default {
                         }
                         else {
                           if (this.$store.state.user_object.user_type === 'developer') {
-                            this.$router.push({
-                              name: 'Developer'
-                            })
+                            if(this.$store.state.user_object.remote_verified){
+                              this.$router.push({
+                                name: 'Developer'
+                              })
+                            }else {
+                              this.visible = true
+                              this.$store.dispatch('setToken', null);
+                              this.$store.dispatch('setUser', null)
+                              this.$store.dispatch('setisLoggedIn', false)
+                              this.$store.dispatch('setUser_object', null)
+                              this.$store.dispatch('setProjectedit', null)
+                              this.loading = false
+                            }
+
 
 
                           } else {

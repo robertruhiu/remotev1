@@ -44,6 +44,17 @@
         </div>
 
         <div style="min-height: 40vh ;position: relative">
+          <div style="padding: 3%" v-if="myprojects.length=== 0">
+
+            <a-empty
+                image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                :image-style="{height: '60px',}">
+              <span slot="description"> No jobs applied for </span>
+              <a-button type="primary"  @click="$router.push({ name: 'Jobs' })">
+                View available jobs
+              </a-button>
+            </a-empty>
+          </div>
 
           <div style="padding: 0 3%">
 

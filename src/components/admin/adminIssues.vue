@@ -1,5 +1,5 @@
 <template>
-  <a-layout  style="min-height: 100vh;background-color: #F4F7FC;margin-left: 200px">
+  <a-layout  style="min-height: 100vh;background-color: #F4F7FC">
 
 
     <AdminSider/>
@@ -13,7 +13,9 @@
         <a-card class="hellocard">
 
           <a-row>
-            <a-col span="12">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 12, offset: 0 }"
+                   :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
               <a-breadcrumb>
                 <a-breadcrumb-item><a @click="$router.push('Admindashboard')">Home</a></a-breadcrumb-item>
                 <a-breadcrumb-item><a @click="$router.push('AdminIssues')">Bugs &Issues</a></a-breadcrumb-item>
@@ -22,22 +24,28 @@
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 Admin:Bugs &Issues</span>
             </a-col>
-            <a-col span="6">
-              <div style="text-align: center">
-                <img src="@/assets/images/alert.svg" style="width: 20%"/>
-              </div>
+            <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 12, offset: 0 }" :sm="{span: 12, offset: 0 }"
+                     :md="{span: 12, offset: 0 }"
+                     :lg="{span: 8, offset: 0 }" :xl="{span: 6,offset: 0 }">
+                <div style="text-align: center">
+                  <img src="@/assets/images/alert.svg" style="width: 20%"/>
+                </div>
 
 
-            </a-col>
+              </a-col>
+            </hide-at>
           </a-row>
 
 
         </a-card>
         <div style="min-height: 40vh ;position: relative">
-          <a-row gutter="16">
-            <a-col span="16">
+          <a-row :gutter="gutter">
+            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                   :md="{span: 14, offset: 0 }"
+                   :lg="{span: 14, offset: 0 }" :xl="{span: 16,offset: 0 }">
               <div style="padding: 3%;">
-                <a-tabs default-active-key="1" @change="callback">
+                <a-tabs default-active-key="1" >
                   <a-tab-pane key="1"  force-render>
                     <span slot="tab">
                       In Abitration
@@ -257,182 +265,206 @@
 
 
             </a-col>
-            <a-col span="8" v-if="issueopen">
-              <div style="padding: 2%">
-                <a-card style="width: 100%">
-                  <a-icon type="close" style="float: right" @click="Close"/>
-                  <p>Project name : {{ currentissue.feature.project.title }} </p>
+            <hide-at breakpoint="mediumAndBelow">
+              <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                     :md="{span: 10, offset: 0 }"
+                     :lg="{span: 10, offset: 0 }" :xl="{span: 8,offset:0  }" v-if="issueopen">
 
-                  <p style="font-weight: bold">Issue title:{{ currentissue.title }} </p>
+                <div style="padding: 2%">
+                  <a-card style="width: 100%">
+                    <a-icon type="close" style="float: right" @click="Close"/>
+                    <p>Project name : {{ currentissue.feature.project.title }} </p>
 
-
-                  <div
-                      style="background-color: white;border: 1px solid #e8e8e8;padding: 2%;margin-bottom: 1rem">
-                    <p>Issue description:</p>
-
-                    <p style="font-family: sofia_proregular">{{ currentissue.description }}</p>
-
-                  </div>
-                  <a-space>
-                    <a-button type="primary" v-if="currentissue.closed" @click="CloseOpen" size="small">Re open issue
-                    </a-button>
-
-                    <a-button type="primary" v-else @click="CloseOpen" size="small"> Mark as done</a-button>
+                    <p style="font-weight: bold">Issue title:{{ currentissue.title }} </p>
 
 
-                    <div v-if="!currentissue.closed">
-                      <a-button v-if="!currentissue.arbitration_required" @click="Abitration" size="small">
-                        <a-icon type="usergroup-add"/>
-                        Abitrate
+                    <div
+                        style="background-color: white;border: 1px solid #e8e8e8;padding: 2%;margin-bottom: 1rem">
+                      <p>Issue description:</p>
+
+                      <p style="font-family: sofia_proregular">{{ currentissue.description }}</p>
+
+                    </div>
+                    <a-space>
+                      <a-button type="primary" v-if="currentissue.closed" @click="CloseOpen" size="small">Re open issue
                       </a-button>
-                      <a-button v-if="currentissue.arbitration_required" @click="Abitration" size="small">
-                        <a-icon type="usergroup-add"/>
-                        Close abitration
-                      </a-button>
+
+                      <a-button type="primary" v-else @click="CloseOpen" size="small"> Mark as done</a-button>
+
+
+                      <div v-if="!currentissue.closed">
+                        <a-button v-if="!currentissue.arbitration_required" @click="Abitration" size="small">
+                          <a-icon type="usergroup-add"/>
+                          Request abitration
+                        </a-button>
+                        <a-button v-if="currentissue.arbitration_required" @click="Abitration" size="small">
+                          <a-icon type="usergroup-add"/>
+                          Close abitration
+                        </a-button>
+                      </div>
+
+
+                    </a-space>
+                    <div>
+                      <a-list style="height: 30vh;overflow-y: scroll"
+                              v-if="currentcomments.length"
+                              :data-source="currentcomments"
+                              :header="`${currentcomments.length} ${currentcomments.length > 1 ? 'replies' : 'reply'}`"
+                              item-layout="horizontal"
+                      >
+                        <a-list-item slot="renderItem" slot-scope="item">
+                          <a-comment
+                              :author="item.author.user.first_name"
+
+                              :content="item.text"
+                              :datetime="item.created"
+                          />
+                        </a-list-item>
+                      </a-list>
+                      <a-comment v-if="!currentissue.closed">
+
+                        <div slot="content">
+                          <a-form-item>
+                            <a-textarea :rows="4" :value="value" @change="handleChange"/>
+                          </a-form-item>
+                          <a-form-item>
+                            <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
+                              Add Comment
+                            </a-button>
+                          </a-form-item>
+                        </div>
+                      </a-comment>
                     </div>
 
 
-                  </a-space>
-                  <div>
-                    <a-list style="height: 30vh;overflow-y: scroll"
-                            v-if="currentcomments.length"
-                            :data-source="currentcomments"
-                            :header="`${currentcomments.length} ${currentcomments.length > 1 ? 'replies' : 'reply'}`"
-                            item-layout="horizontal"
+                  </a-card>
+
+
+                </div>
+
+
+
+              </a-col>
+              <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                     :md="{span: 8, offset: 0 }"
+                     :lg="{span: 8, offset: 0 }" :xl="{span: 4,offset:0  }" v-else>
+
+                <div style="padding: 2%">
+                  <p>Overview</p>
+                  <a-card>
+                    <a-statistic
+                        title="Bugs"
+                        :value=Bugcount
+
+
+                        class="demo-class"
+                        :value-style="{ color: '#cf1322' }"
                     >
-                      <a-list-item slot="renderItem" slot-scope="item">
-                        <a-comment
-                            :author="item.author.user.first_name"
 
-                            :content="item.text"
-                            :datetime="item.created"
-                        />
-                      </a-list-item>
-                    </a-list>
-                    <a-comment v-if="!currentissue.closed">
-
-                      <div slot="content">
-                        <a-form-item>
-                          <a-textarea :rows="4" :value="value" @change="handleChange"/>
-                        </a-form-item>
-                        <a-form-item>
-                          <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
-                            Add Comment
-                          </a-button>
-                        </a-form-item>
-                      </div>
-                    </a-comment>
-                  </div>
+                    </a-statistic>
+                  </a-card>
+                  <a-card>
+                    <a-statistic
+                        title="Issue in Abitration"
+                        :value=Abitrationcount
 
 
-                </a-card>
+                        :value-style="{ color: '#3f8600' }"
+                        style="margin-right: 50px"
+                    >
+
+                    </a-statistic>
+                  </a-card>
+                  <a-card>
+                    <a-statistic
+                        title="Incomplete tasks"
+                        :value=Incompletecount
 
 
-              </div>
-
-
-            </a-col>
-            <a-col span="8" v-else-if="newissue">
-              <div style="padding: 2%">
-                <a-card style="width: 100%">
-
-
-                  <a-form layout="vertical">
-
-                    <a-form-item
-                        label="Title"
+                        class="demo-class"
 
                     >
-                      <a-input v-model="issuetitle"/>
-                    </a-form-item>
-                    <a-form-item
-                        label="Describe the issue"
 
-                    >
-                      <a-textarea
-                          v-model="issuedescription"
-                          :auto-size="{ minRows: 3, maxRows: 5 }"
-                      />
-                    </a-form-item>
-                    <p>Which of the below does the issue fall under?</p>
-                    <a-radio-group button-style="solid" style="margin-bottom: 1rem" default-value="bug"
-                                   v-model="issuetag">
-                      <a-radio-button value="bug">
-                        bug
-                      </a-radio-button>
-                      <a-radio-button value="question">
-                        question
-                      </a-radio-button>
-                      <a-radio-button value="incomplete">
-                        incomplete
-                      </a-radio-button>
+                    </a-statistic>
+                  </a-card>
+                </div>
 
-                    </a-radio-group>
-                    <a-form-item>
-                      <a-space>
-                        <a-button type="primary" @click="SubmitIssue">
-                          Submit
-                        </a-button>
-                        <a-button @click="Close">
-                          Cancel
-                        </a-button>
-                      </a-space>
-                    </a-form-item>
-                  </a-form>
-
-
-                </a-card>
-
-
-              </div>
-
-
-            </a-col>
-
-            <a-col span="4" v-else>
-              <div style="padding: 2%">
-                <p>Overview</p>
-                <a-card>
-                  <a-statistic
-                      title="Bugs"
-                      :value=Bugcount
-
-
-                      class="demo-class"
-                      :value-style="{ color: '#cf1322' }"
-                  >
-
-                  </a-statistic>
-                </a-card>
-                <a-card>
-                  <a-statistic
-                      title="Issue in Abitration"
-                      :value=Abitrationcount
-
-
-                      :value-style="{ color: '#3f8600' }"
-                      style="margin-right: 50px"
-                  >
-
-                  </a-statistic>
-                </a-card>
-                <a-card>
-                  <a-statistic
-                      title="Incomplete tasks"
-                      :value=Incompletecount
-
-
-                      class="demo-class"
-
-                  >
-
-                  </a-statistic>
-                </a-card>
-              </div>
-            </a-col>
+              </a-col>
+            </hide-at>
           </a-row>
 
         </div>
+        <showAt breakpoint="mediumAndBelow">
+          <div v-if="currentissue">
+            <a-modal v-model="issueopen" :footer="null">
+
+              <p style="font-weight: bold">Issue title:{{ currentissue.title }} </p>
+
+
+              <div
+                  style="background-color: white;border: 1px solid #e8e8e8;padding: 2%;margin-bottom: 1rem">
+                <p>Issue description:</p>
+
+                <p style="font-family: sofia_proregular">{{ currentissue.description }}</p>
+
+              </div>
+              <a-space>
+                <a-button type="primary" v-if="currentissue.closed" @click="CloseOpen" size="small">Re open issue
+                </a-button>
+
+                <a-button type="primary" v-else @click="CloseOpen" size="small"> Mark as done</a-button>
+
+
+                <div v-if="!currentissue.closed">
+                  <a-button v-if="!currentissue.arbitration_required" @click="Abitration" size="small">
+                    <a-icon type="usergroup-add"/>
+                    Request abitration
+                  </a-button>
+                  <a-button v-if="currentissue.arbitration_required" @click="Abitration" size="small">
+                    <a-icon type="usergroup-add"/>
+                    Close abitration
+                  </a-button>
+                </div>
+
+
+              </a-space>
+              <div>
+                <a-list style="height: 30vh;overflow-y: scroll"
+                        v-if="currentcomments.length"
+                        :data-source="currentcomments"
+                        :header="`${currentcomments.length} ${currentcomments.length > 1 ? 'replies' : 'reply'}`"
+                        item-layout="horizontal"
+                >
+                  <a-list-item slot="renderItem" slot-scope="item">
+                    <a-comment
+                        :author="item.author.user.first_name"
+
+                        :content="item.text"
+                        :datetime="item.created"
+                    />
+                  </a-list-item>
+                </a-list>
+                <a-comment v-if="!currentissue.closed">
+
+                  <div slot="content">
+                    <a-form-item>
+                      <a-textarea :rows="4" :value="value" @change="handleChange"/>
+                    </a-form-item>
+                    <a-form-item>
+                      <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
+                        Add Comment
+                      </a-button>
+                    </a-form-item>
+                  </div>
+                </a-comment>
+              </div>
+
+
+
+
+            </a-modal>
+          </div>
+        </showAt>
 
 
 
@@ -450,12 +482,13 @@
 import AdminSider from '@/components/admin/layout/Adminsider'
 import moment from 'moment';
 import Project from "@/services/Projects";
+import { showAt,hideAt} from 'vue-breakpoints'
 
 export default {
 name: "adminIssues",
   data() {
     return {
-
+      gutter:16,
       Issueslist: [],
       issueopen: false,
       currentissue: {},
@@ -470,9 +503,7 @@ name: "adminIssues",
       issuedescription: '',
       currentcomments: [],
       pagination: {
-        onChange: page => {
-          console.log(page);
-        },
+
         pageSize: 5,
       },
 
@@ -481,7 +512,7 @@ name: "adminIssues",
     };
   },
   components: {
-    AdminSider
+    AdminSider,showAt,hideAt
 
 
   },
