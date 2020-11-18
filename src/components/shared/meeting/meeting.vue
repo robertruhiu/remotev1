@@ -22,6 +22,7 @@
         </a-card>
 
 
+
         <div style="min-height: 40vh ;position: relative">
           <a-row :gutter="gutter">
             <a-col span="24">
@@ -1161,8 +1162,8 @@ export default {
                   this.teampick(2)
 
                 }
-                this.getfeatures()
                 this.fetchParties()
+                this.getfeatures()
 
 
               }
@@ -1182,11 +1183,16 @@ export default {
 
 
                 this.featureslist = resp.data
-                this.featureslist.forEach(feature => {
-                  this.getStories(feature)
+                if (this.featureslist.length > 0) {
+                  this.featureslist.forEach(feature => {
+                    this.getStories(feature)
 
 
-                })
+                  })
+
+                }else {
+                  this.meetingData()
+                }
 
 
               }
@@ -1253,6 +1259,7 @@ export default {
                     this.devsign = ''
 
                   })
+                  this.meetingData()
 
                 }
             )
