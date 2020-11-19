@@ -2,9 +2,10 @@
   <a-layout>
     <h2> Type your message</h2>
     <br>
+    {{ messages }}
     <br>
-    <a-textarea  v-model="message" placeholder="Basic usage" :rows="4"/>
-     <br>
+    <a-textarea v-model="message" placeholder="Basic usage" :rows="4"/>
+    <br>
     <br>
     <a-button type="primary" @click="sendMessage()">Send Message</a-button>
   </a-layout>
@@ -23,6 +24,33 @@ export default {
     return {
       myChannels: {},
       message: '',
+      messages: {
+        "message_id": 273779321,
+        "type": "MESG",     // File and admin messages aren't supported by the message auto-translation feature.
+        "custom_type": "",
+        "channel_url": "sendbird_group_channel_6037267_600ddc81a5e23049c804193370d47217fa2ed5f9",
+        "user": {
+          "user_id": "Julia",
+          "nickname": "Yogini",
+          "profile_url": "https://sendbird.com/main/img/profiles/profile_94_512px.png",
+          "metadata": {
+            "location": "Bali",
+            "marriage": "N"
+          }
+        },
+        "mention_type": "users",
+        "mentioned_users": [],
+        "is_removed": false,
+        "message": "Hi, nice to meet you!",
+        "translations": {   // The message has been translated into the specified languages.
+          "es": "¡Hola, encantado de conocerte!",     // Spanish
+          "de": "Hallo, schön, Sie zu treffen!"       // German
+        },
+        "data": "",
+        "created_at": 1544810640267,
+        "updated_at": 0,
+        "file": {}
+      },
       channel: 'sendbird_group_channel_63269494_bb5a7597b3a9ca55256c52a54369359317e7a0b4',
 
     };
