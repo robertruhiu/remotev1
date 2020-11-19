@@ -62,9 +62,7 @@
                       class="login-form-forgot"
 
                   >
-                    <router-link to="/Forgot">
-                      Forgot password
-                    </router-link>
+
 
                   </a>
 
@@ -79,9 +77,9 @@
 
 
                   Or
-                  <router-link to="/Register">
+                  <a @click="register">
                     register now!
-                  </router-link>
+                  </a>
                 </a-form-item>
                 <a-form-item v-else>
 
@@ -171,6 +169,7 @@ export default {
                           this.$router.push({
                             name: 'Admindashboard'
                           })
+
                         }
                         else {
                           if (this.$store.state.user_object.user_type === 'developer') {
@@ -191,9 +190,8 @@ export default {
 
 
                           } else {
-                            this.$router.push({
-                              name: 'Dashboard'
-                            })
+                            this.$router.push(this.$route.query.redirect || 'Dashboard')
+
 
 
                           }
@@ -229,6 +227,17 @@ export default {
         }
       })
     },
+    register(){
+      if(this.$route.query.redirect){
+        this.$router.push({ name: 'Register', query: { redirect: this.$route.query.redirect } });
+
+      }else {
+        this.$router.push({
+          name: 'Register'
+        })
+      }
+
+    }
 
 
   }

@@ -44,7 +44,7 @@
 
         <div style="min-height: 40vh ;position: relative">
           <div v-if="loading">
-            <a-spin />
+            <a-skeleton active />
           </div>
           <div v-else>
             <div style="padding: 3%" v-if="myprojects.length=== 0">
@@ -57,7 +57,7 @@
               </a-empty>
             </div>
             <div style="padding: 0 3%">
-              <a-tabs default-active-key="1" >
+              <a-tabs :default-active-key="Defaulttab" >
                 <a-tab-pane key="1" tab="In developement" v-if="Inprogress.length>0">
                   <a-row>
                     <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
@@ -386,6 +386,24 @@ name: "adminprojects",
         }
       })
       return projects
+    },
+    Defaulttab(){
+      let tab = '1'
+      if(this.Inprogress.length>0){
+        tab = '1'
+      }else if(this.Incontract.length>0){
+        tab = '2'
+      }
+      else if(this.Inbidding.length>0){
+        tab = '3'
+      }
+      else if(this.AwaitingVerification.length>0){
+        tab = '4'
+      }
+      else if(this.InCreation.length>0){
+        tab = '5'
+      }
+      return tab
     }
 
 
@@ -396,10 +414,12 @@ name: "adminprojects",
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.loading = true
 
       Projects.myprojects(this.$store.state.user.pk,auth)
           .then(resp=>{
             this.myprojects = resp.data
+            this.loading = false
 
           })
 

@@ -43,233 +43,242 @@
         </div>
 
         <div style="min-height: 40vh ;position: relative">
-
-          <div style="padding: 3%" v-if="myprojects.length=== 0">
-
-            <a-empty
-                image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
-                :image-style="{height: '60px',}">
-              <span slot="description"> No projects created </span>
-              <a-button type="primary" @click="$router.push({ name: 'Create' })">
-                Create a Project
-              </a-button>
-            </a-empty>
+          <div v-if="loading">
+            <a-skeleton active />
           </div>
-          <div style="padding: 0 3%">
+          <div v-else>
 
-            <a-tabs default-active-key="1">
-              <a-tab-pane key="1" tab="In development" v-if="Inprogress.length>0">
-                <a-row>
-                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
-                         :md="{span: 18, offset: 0 }"
-                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" >
+            <div style="padding: 3%" v-if="myprojects.length=== 0">
 
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card >
-                    <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse  >
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
+              <a-empty
+                  image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                  :image-style="{height: '60px',}">
+                <span slot="description"> No projects created </span>
+                <a-button type="primary" @click="$router.push({ name: 'Create' })">
+                  Create a Project
+                </a-button>
+              </a-empty>
+            </div>
+            <div style="padding: 0 3%">
 
+              <a-tabs :default-active-key="Defaulttab">
+                <a-tab-pane key="1" tab="In development" v-if="Inprogress.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inprogress" >
 
-
-                    <div slot="actions">
-                      <a-row style="padding: 1%">
-                        <a-col span="4">
-                          <a-button type="primary" @click="$router.push({ name: 'ProjectBoard', params: { projectSlug: item.slug } })">
-                            View project
-                          </a-button>
-
-                        </a-col>
-
-
-                      </a-row>
-                    </div>
-                  </a-card>
-
-                  </a-list-item>
-                </a-list>
-                  </a-col>
-                </a-row>
-
-
-              </a-tab-pane>
-              <a-tab-pane key="2" tab="Contract discussions" force-render v-if="Incontract.length>0">
-                <a-row>
-                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
-                         :md="{span: 18, offset: 0 }"
-                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" >
-
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card >
-                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse  >
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                            <a-collapse  >
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
 
 
 
-                      <div slot="actions">
-                        <a-row style="padding: 1%">
-                          <a-col span="4">
-                            <a-button type="primary" @click="$router.push({ name: 'Contract', params: { projectSlug: item.slug } })" >
-                              Start negotiations
-                            </a-button>
+                            <div slot="actions">
+                              <a-row style="padding: 1%">
+                                <a-col span="4">
+                                  <a-button type="primary" @click="$router.push({ name: 'ProjectBoard', params: { projectSlug: item.slug } })">
+                                    View project
+                                  </a-button>
 
-                          </a-col>
-                          <a-col span="20">
+                                </a-col>
 
 
-                          </a-col>
+                              </a-row>
+                            </div>
+                          </a-card>
 
-                        </a-row>
-                      </div>
-                    </a-card>
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
 
-                  </a-list-item>
-                </a-list>
-                  </a-col>
-                </a-row>
 
-              </a-tab-pane>
+                </a-tab-pane>
+                <a-tab-pane key="2" tab="Contract discussions" force-render v-if="Incontract.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Incontract" >
 
-              <a-tab-pane key="3" tab="Bids " v-if="Inbidding.length>0">
-                <a-row>
-                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
-                         :md="{span: 18, offset: 0 }"
-                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inbidding" >
-
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card >
-                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse>
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                            <a-collapse  >
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
 
 
 
-                      <div slot="actions">
-                        <a-row style="padding: 1%">
-                          <a-col span="4">
-                            <a-button type="primary" @click="$router.push({ name: 'Bids', params: { projectSlug: item.slug } })">
-                              View bids
-                            </a-button>
+                            <div slot="actions">
+                              <a-row style="padding: 1%">
+                                <a-col span="4">
+                                  <a-button type="primary" @click="$router.push({ name: 'Contract', params: { projectSlug: item.slug } })" >
+                                    Start negotiations
+                                  </a-button>
 
-                          </a-col>
-                          <a-col span="20">
-
-
-                          </a-col>
-
-                        </a-row>
-                      </div>
-                    </a-card>
-
-                  </a-list-item>
-                </a-list>
-                  </a-col>
-                </a-row>
-
-              </a-tab-pane>
-
-              <a-tab-pane key="4" tab="Awaiting Codeln verification " v-if="PendingVerification.length>0">
-                <a-row>
-                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
-                         :md="{span: 18, offset: 0 }"
-                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="PendingVerification" >
-
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card >
-                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse  >
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
+                                </a-col>
+                                <a-col span="20">
 
 
+                                </a-col>
 
-                      <div slot="actions">
-                        <a-row style="padding: 1%">
-                          <a-col span="4">
-                            <a-button type="primary" @click="Edit(item.id)">
-                              Edit Project
-                            </a-button>
+                              </a-row>
+                            </div>
+                          </a-card>
 
-                          </a-col>
-                          <a-col span="20">
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
 
+                </a-tab-pane>
 
-                          </a-col>
+                <a-tab-pane key="3" tab="Bids " v-if="Inbidding.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="Inbidding" >
 
-                        </a-row>
-                      </div>
-                    </a-card>
-
-                  </a-list-item>
-                </a-list>
-                  </a-col>
-                </a-row>
-
-              </a-tab-pane>
-
-              <a-tab-pane key="5" tab="Unfinished projects (Continue creation) " v-if="InComplete.length>0">
-                <a-row>
-                  <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
-                         :md="{span: 18, offset: 0 }"
-                         :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
-
-                <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="InComplete" >
-
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
-                    <a-card >
-                      <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
-                      <a-collapse  >
-                        <a-collapse-panel key="1" header="Project description.">
-                          <markdown>{{ item.description }}</markdown>
-                        </a-collapse-panel>
-                      </a-collapse>
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                            <a-collapse>
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
 
 
 
-                      <div slot="actions">
-                        <a-row style="padding: 1%">
-                          <a-col span="4">
-                            <a-button type="primary" @click="Edit(item.id)">
-                              Edit Project
-                            </a-button>
+                            <div slot="actions">
+                              <a-row style="padding: 1%">
+                                <a-col span="4">
+                                  <a-button type="primary" @click="$router.push({ name: 'Bids', params: { projectSlug: item.slug } })">
+                                    View bids
+                                  </a-button>
 
-                          </a-col>
-                          <a-col span="20">
-
-
-                          </a-col>
-
-                        </a-row>
-                      </div>
-                    </a-card>
-
-                  </a-list-item>
-                </a-list>
-                  </a-col>
-                </a-row>
-
-              </a-tab-pane>
-            </a-tabs>
+                                </a-col>
+                                <a-col span="20">
 
 
+                                </a-col>
+
+                              </a-row>
+                            </div>
+                          </a-card>
+
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
+
+                </a-tab-pane>
+
+                <a-tab-pane key="4" tab="Awaiting Codeln verification " v-if="PendingVerification.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="PendingVerification" >
+
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                            <a-collapse  >
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
+
+
+
+                            <div slot="actions">
+                              <a-row style="padding: 1%">
+                                <a-col span="4">
+                                  <a-button type="primary" @click="Edit(item.id)">
+                                    Edit Project
+                                  </a-button>
+
+                                </a-col>
+                                <a-col span="20">
+
+
+                                </a-col>
+
+                              </a-row>
+                            </div>
+                          </a-card>
+
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
+
+                </a-tab-pane>
+
+                <a-tab-pane key="5" tab="Unfinished projects (Continue creation) " v-if="InComplete.length>0">
+                  <a-row>
+                    <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
+                           :md="{span: 18, offset: 0 }"
+                           :lg="{span: 18, offset: 0 }" :xl="{span: 14,offset: 0 }">
+
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="InComplete" >
+
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="shadowsmall">
+                          <a-card >
+                            <span slot="title" style="font-size: 1rem;font-family: sofia_prosemibold;color: black">{{item.title}}</span>
+                            <a-collapse  >
+                              <a-collapse-panel key="1" header="Project description.">
+                                <markdown>{{ item.description }}</markdown>
+                              </a-collapse-panel>
+                            </a-collapse>
+
+
+
+                            <div slot="actions">
+                              <a-row style="padding: 1%">
+                                <a-col span="4">
+                                  <a-button type="primary" @click="Edit(item.id)">
+                                    Edit Project
+                                  </a-button>
+
+                                </a-col>
+                                <a-col span="20">
+
+
+                                </a-col>
+
+                              </a-row>
+                            </div>
+                          </a-card>
+
+                        </a-list-item>
+                      </a-list>
+                    </a-col>
+                  </a-row>
+
+                </a-tab-pane>
+              </a-tabs>
+
+
+
+            </div>
 
           </div>
+
+
+
         </div>
 
       </a-layout-content>
@@ -292,6 +301,14 @@ export default {
       pagination: {
         pageSize: 3,
       },
+      loading:false,
+      Inprogress:[],
+      Incontract:[],
+      Inbidding:[],
+      PendingVerification:[],
+      InComplete:[]
+
+
 
     }
   },
@@ -325,52 +342,24 @@ export default {
       }
       return greeting
     },
-    Inprogress() {
-      let projects = []
-      this.myprojects.forEach(project => {
-        if (project.stage === 'developement') {
-          projects.push(project)
-        }
-      })
-      return projects
-    },
-    Incontract() {
-      let projects = []
-      this.myprojects.forEach(project => {
-        if (project.stage === 'contract') {
-          projects.push(project)
-        }
-      })
-      return projects
-    },
-    Inbidding() {
-      let projects = []
-      this.myprojects.forEach(project => {
-        if (project.stage === 'bid' && project.verified) {
-          projects.push(project)
-        }
-      })
-      return projects
-    },
-    PendingVerification() {
-      let projects = []
-      this.myprojects.forEach(project => {
-        if (project.stage === 'bid' && project.verified === false) {
-          projects.push(project)
-        }
-      })
-      return projects
-    },
-    InComplete() {
-      let projects = []
-      this.myprojects.forEach(project => {
-        if (project.stage === 'creation' || project.stage ==='escrow1') {
-          projects.push(project)
-        }
-      })
-      return projects
+    Defaulttab(){
+      let tab = '1'
+      if(this.Inprogress.length>0){
+        tab = '1'
+      }else if(this.Incontract.length>0){
+        tab = '2'
+      }
+      else if(this.Inbidding.length>0){
+        tab = '3'
+      }
+      else if(this.PendingVerification.length>0){
+        tab = '4'
+      }
+      else if(this.InComplete.length>0){
+        tab = '5'
+      }
+      return tab
     }
-
 
   },
   methods:{
@@ -379,15 +368,43 @@ export default {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.loading = true
       Projects.myprojects(this.$store.state.user.pk,auth)
           .then(resp=>{
             this.myprojects = resp.data
+            this.ClassifyProject()
+
           })
 
     },
     Edit(id){
       this.$store.dispatch('setProjectedit', id)
       this.$router.push('Create')
+    },
+    ClassifyProject(){
+      this.myprojects.forEach(project => {
+        if (project.stage === 'developement') {
+          this.Inprogress.push(project)
+        }
+        else if(project.stage === 'contract'){
+          this.Incontract.push(project)
+
+        }
+        else if(project.stage === 'bid' && project.verified){
+          this.Inbidding.push(project)
+
+        }
+        else if(project.stage === 'bid' && project.verified === false){
+          this.PendingVerification.push(project)
+
+        }
+        else if(project.stage === 'creation' || project.stage ==='escrow1'){
+          this.InComplete.push(project)
+
+        }
+        this.loading = false
+      })
+
     }
   }
 }

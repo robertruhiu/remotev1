@@ -35,6 +35,11 @@
         </div>
 
         <div id="developertabs">
+          <div v-if="fetchdevsstate">
+
+            <a-skeleton active />
+          </div>
+          <div v-else>
           <a-row :gutter="gutter">
             <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
                    :md="{span: 12, offset: 0 }"
@@ -207,8 +212,123 @@
               </a-col>
             </hide-at>
           </a-row>
+          </div>
 
         </div>
+        <showAt breakpoint="mediumAndBelow">
+        <a-modal v-model="visible"  :footer="null">
+          <div style="padding: 0 1%" v-if="profile !== null  ">
+
+            <div >
+              <div style="padding: 2%">
+
+                <p><strong>Name:</strong> {{ profile.name }} </p>
+                <p><strong>Email: {{ profile.profile.user.email }}</strong></p>
+                <p><strong>Country: {{ profile.profile.country }}</strong></p>
+                <p><strong>Skills: </strong>
+                  <a-tag v-for="tag in profile.tags" color="blue"
+                         :key="tag">
+                    {{ tag }}
+                  </a-tag>
+                </p>
+
+
+              </div>
+
+
+              <div >
+                <a-space>
+                  <a-popconfirm v-if="!profile.profile.remote_verified && profile.profile.remote_entry"
+                                title="Are you sure you want to verify with this developer?"
+                                ok-text="Yes"
+                                cancel-text="No"
+                                @confirm="VerifyDev"
+
+                  >
+                    <a>
+                      <a-button type="primary" size="small">
+                        Verify developer
+                      </a-button>
+                    </a>
+                  </a-popconfirm>
+
+
+                  <a-button type="danger" size="small" v-if="profile.profile.remote_verified"
+                            @click="removeVerification">
+                    Remove verification
+                  </a-button>
+
+
+                </a-space>
+
+                <a-tabs default-active-key="2">
+
+                  <a-tab-pane key="2" tab="Project portfolio" force-render>
+                    <div v-if="Portfoliolist">
+
+                      <div style="border-bottom: 1px solid #e8e8e8;padding-bottom: 2%;padding-top: 2%"
+                           v-for="item in Portfoliolist" v-bind:key="item.id">
+                        <p style="font-weight: 700">
+                          {{ item.title }}
+
+
+                        </p>
+                        <p>
+                          Tools used:
+                          <a-tag v-for="tag in item.tags" color="blue"
+                                 :key="tag">
+                            {{ tag }}
+                          </a-tag>
+
+                        </p>
+                        <p>{{ item.description }}
+                        </p>
+                        <a :href=" item.demo" target="_blank">view project</a>
+
+                      </div>
+                    </div>
+                  </a-tab-pane>
+                  <a-tab-pane key="3" tab="Work experience">
+                    <div v-if="Experiencelist">
+                      <a-timeline>
+                        <a-timeline-item v-for="item in Experiencelist"
+                                         v-bind:key="item.id">
+
+                          <p style="font-weight: 700">
+                            {{ item.title }}
+
+
+                          </p>
+                          <p><span><a-icon type="bank"/>  {{ item.company }} <a-icon
+                              type="environment"/>  {{ item.location }} <a-icon
+                              type="hourglass"/>  {{ item.duration }}months</span>
+                          </p>
+                          <p>
+                            Technologies used:
+                            <a-tag v-for="tag in item.tags" color="blue"
+                                   :key="tag">
+                              {{ tag }}
+                            </a-tag>
+
+                          </p>
+
+
+                          <p>{{ item.description }}</p>
+
+                        </a-timeline-item>
+
+                      </a-timeline>
+                    </div>
+                  </a-tab-pane>
+                </a-tabs>
+
+              </div>
+
+
+            </div>
+          </div>
+        </a-modal>
+        </showAt>
 
 
       </a-layout-content>
@@ -220,7 +340,7 @@
 import AdminSider from '@/components/admin/layout/Adminsider'
 import moment from 'moment';
 import User from "@/services/UsersService";
-import {hideAt} from 'vue-breakpoints'
+import {hideAt,showAt} from 'vue-breakpoints'
 
 class Experience {
   constructor(id, title, description, company, location, duration, tech_used) {
@@ -307,11 +427,13 @@ export default {
       myprojects: [],
       experienceslist: [],
       columns,
+      fetchdevsstate:false,
+      visible:false
 
     }
   },
   components: {
-    AdminSider, hideAt
+    AdminSider, hideAt,showAt
 
 
   },
@@ -393,6 +515,7 @@ export default {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.fetchdevsstate = true
       User.remoteappliedusers(auth).then(
           resp => {
             this.penndingusers = resp.data
@@ -423,7 +546,8 @@ export default {
               id, name, cv, tags, profile
           );
           this.verified.push(one_dev)
-        } else if (!user.remote_verified && user.remote_entry) {
+        }
+        else if (!user.remote_verified && user.remote_entry) {
           let id = user.id
           let name = user.user.first_name + ' ' + user.user.last_name
 
@@ -444,6 +568,7 @@ export default {
           this.appliedusers.push(one_dev)
 
         }
+        this.fetchdevsstate = false
       })
 
     },

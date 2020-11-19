@@ -166,7 +166,8 @@
 <script>
 import ClientSider from '@/components/client/layout/ClientSider'
 import moment from 'moment';
-
+import io from "socket.io-client";
+var socket = io.connect(process.env.VUE_APP_SOCKET);
 export default {
   name: "ClientDashboard",
   data() {
@@ -210,7 +211,15 @@ export default {
 
 
 
-}
+},
+  created() {
+    window.onbeforeunload = () => {
+      // this triggers the socket server if users are to go to meeting.thus spin up server
+      socket.emit('leave', this.username);
+    }
+
+
+  },
 }
 </script>
 

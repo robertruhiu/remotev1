@@ -285,9 +285,7 @@ export default {
                           this.currentUserProfile.user_type = 'recruiter'
                           User.update(this.$store.state.user.pk, this.currentUserProfile, auth)
                               .then(() => {
-                                this.$router.push({
-                                  name: 'Dashboard'
-                                })
+                                this.$router.push(this.$route.query.redirect || 'Dashboard')
                               })
                         }
                     )

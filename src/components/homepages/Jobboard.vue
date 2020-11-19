@@ -8,6 +8,17 @@
 
 
         <div style="">
+          <div v-if="fetchjobs">
+            <a-row style="color: black">
+              <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }" :md="{span: 20, offset: 2 }"
+                     :lg="{span: 18, offset: 4 }" :xl="{span: 18, offset: 4 }">
+
+            <a-skeleton active />
+
+              </a-col>
+            </a-row>
+          </div>
+          <div v-else>
           <div style="padding: 2% 5%" v-if="bidstageprojects.length>0">
             <a-row style="color: black">
               <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }" :md="{span: 20, offset: 2 }"
@@ -89,6 +100,7 @@
           <a-result status="404" title="" sub-title="Sorry, no new jobs available at the moment." v-else>
 
           </a-result>
+          </div>
         </div>
         <!--        place bid modal -->
         <a-modal
@@ -198,9 +210,6 @@ export default {
     return {
 
       pagination: {
-        onChange: page => {
-          console.log(page);
-        },
         pageSize: 4,
       },
       visible: false,
@@ -217,7 +226,8 @@ export default {
       datetype: 'days',
       applicationerrors: [],
       loading: false,
-      bids: []
+      bids: [],
+      fetchjobs:false
 
     }
   },
@@ -273,6 +283,7 @@ export default {
 
     FetchProjects() {
       this.bidstageprojects = []
+      this.fetchjobs = true
       Project.bidstageprojects()
           .then(resp => {
 
@@ -284,6 +295,8 @@ export default {
             if (this.$store.state.user && this.$store.state.user_object.user_type === 'developer') {
               this.DeveloperBids()
 
+            }else {
+              this.fetchjobs = false
             }
 
 
@@ -299,6 +312,7 @@ export default {
       Project.fetchadeveloperbids(this.$store.state.user.pk, auth).then(
           resp => {
             this.bids = resp.data
+            this.fetchjobs = false
 
 
 

@@ -44,6 +44,11 @@
         </div>
 
         <div style="min-height: 40vh ;position: relative">
+          <div v-if="loading">
+
+            <a-skeleton active />
+          </div>
+          <div v-else>
           <div style="padding: 3%" v-if="myprojects.length=== 0 && bids.length === 0">
 
             <a-empty
@@ -58,7 +63,7 @@
 
           <div style="padding: 0 3%">
 
-            <a-tabs default-active-key="1">
+            <a-tabs :default-active-key="Defaulttab">
               <a-tab-pane key="1" tab="In developement" v-if="Inprogress.length>0">
                 <a-row>
                   <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 24, offset: 0 }"
@@ -367,6 +372,7 @@
 
 
           </div>
+          </div>
         </div>
 
       </a-layout-content>
@@ -414,6 +420,9 @@ export default {
       time:0,
       editload:false,
       myprojects: [],
+      Inprogress:[],
+      Incontract:[],
+      loading:false
 
     }
   },
@@ -453,24 +462,6 @@ export default {
       }
       return greeting
     },
-    Inprogress() {
-      let projects = []
-      this.myprojects.forEach(project => {
-        if (project.stage === 'developement') {
-          projects.push(project)
-        }
-      })
-      return projects
-    },
-    Incontract() {
-      let projects = []
-      this.myprojects.forEach(project => {
-        if (project.stage === 'contract') {
-          projects.push(project)
-        }
-      })
-      return projects
-    },
     BidProjects() {
       let bidlist = []
 
@@ -497,6 +488,21 @@ export default {
       return bidlist
 
     },
+    Defaulttab(){
+      let tab = '1'
+      if(this.Inprogress.length>0){
+        tab = '1'
+      }else if(this.Incontract.length>0){
+        tab  = '2'
+      }
+      else if(this.BidProjects.length>0){
+
+        tab  = '3'
+
+      }
+      return tab
+    }
+
 
 
   },
@@ -506,29 +512,46 @@ export default {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.loading = true
       Projects.developerprojects(this.$store.state.user.pk,auth)
           .then(resp=>{
             this.myprojects = resp.data
+            this.ClassifyProjects()
+            this.loading = false
           })
 
+
+    },
+    ClassifyProjects(){
+      this.myprojects.forEach(project => {
+        if (project.stage === 'developement') {
+          this.Inprogress.push(project)
+        }else if(project.stage === 'contract'){
+          this.Incontract.push(project)
+
+        }
+
+      })
     },
     DeveloperBids() {
       const auth = {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.loading = true
       Project.activedeveloperbids(this.$store.state.user.pk, auth).then(
           resp => {
             this.bids = resp.data
-
-
+            this.loading = false
 
 
 
           }
       )
 
+
     },
+
     viewbid(item) {
       if (item !== this.bid) {
         this.bid = item
