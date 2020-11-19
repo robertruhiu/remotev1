@@ -17,7 +17,7 @@
         <router-link to="/Jobs"   class="ant-menu-item" style="margin-bottom: 0">Job board</router-link>
 
 
-        <router-link to="/Admindashboard"   class="ant-menu-item" style="margin-bottom: 0">Admin</router-link>
+
 
         <router-link to="/Dashboard" class="ant-menu-item" style="margin-bottom: 0"
                      v-if="$store.state.isUserLoggedIn && $store.state.user_object.user_type ==='recruiter' && $store.state.user_object.stage ==='complete' ">
