@@ -3,16 +3,14 @@
 
   <a-card title="All Chats">
 
-<div v-for="channel in myChannels" v-bind:key="channel">
+<div v-for="chat in chats" v-bind:key="chat">
   <a-card :style="{ marginTop: '16px' }">
 
-    <p>Chat between {{ channel.creator.userId }} last message by {{ channel.lastMessage.message}}</p>
-      <br>
-<!--    todo: implement if statement for the messages-->
+    {{chats}}
     <a-button type="primary" @click="$router.push('ViewChat')">Open Chat</a-button>
     <br>
     <br>
-      <a-button type="primary" @click="createChannel('HARRY')">Start New Chat</a-button>
+      <a-button type="primary" @click="createChannel('david')">Start New Chat</a-button>
       <br>
 
     </a-card>
@@ -25,6 +23,7 @@
 <script>
 
 import SendBird from 'sendbird';
+import * as axios from "axios";
 
 var sb = new SendBird({appId: '96D6AA91-434B-41D6-8541-2F9B9096E4B2'});
 
@@ -32,7 +31,7 @@ export default {
   name: "Chat",
   data() {
     return {
-      myChannels: {},
+      chats: {},
       channel: 'sendbird_group_channel_63269494_bb5a7597b3a9ca55256c52a54369359317e7a0b4',
 
     };
@@ -49,39 +48,48 @@ export default {
   computed: {},
   async mounted() {
     let self = this;
-     var channelListQuery = sb.GroupChannel.createMyGroupChannelListQuery();
-      channelListQuery.includeEmpty = true;
-      channelListQuery.order = 'latest_last_message'; // 'chronological', 'latest_last_message', 'channel_name_alphabetical', and 'metadata_value_alphabetical'
-      channelListQuery.limit = 15;    // The value of pagination limit could be set up to 100.
+     // var channelListQuery = sb.GroupChannel.createMyGroupChannelListQuery();
+     //  channelListQuery.includeEmpty = true;
+     //  channelListQuery.order = 'latest_last_message'; // 'chronological', 'latest_last_message', 'channel_name_alphabetical', and 'metadata_value_alphabetical'
+     //  channelListQuery.limit = 15;    // The value of pagination limit could be set up to 100.
+     //
+     //  if (channelListQuery.hasNext) {
+     //    channelListQuery.next(function (groupChannels, error) {
+     //      if (error) {
+     //        return;
+     //      }
+     //
+     //      // console.log(groupChannels);
+     //      self.myChannels = groupChannels;
+     //    });
+     //  }
+      axios.get("http://localhost:8000/remote/v1/projects/chat/all",
+           {
+             params:{
+               user: 'philisiah',
+             }
+           })
+       .then(response =>
+         this.chats = response.data
+       ).catch(function (error) { console.log(error); });
 
-      if (channelListQuery.hasNext) {
-        channelListQuery.next(function (groupChannels, error) {
-          if (error) {
-            return;
-          }
-
-          // console.log(groupChannels);
-          self.myChannels = groupChannels;
-        });
-      }
+      console.log(self.chats);
   },
   methods: {
     createChannel(USER_ID) {
       console.log('pressed');
-      var userIds = ['PHIL', USER_ID];
+       axios.get("http://localhost:8000/remote/v1/projects/chat/with",
+           {
+             params:{
+               user: 'philisiah',
+               other_user: USER_ID,
+             }
+           })
+       .then(response => console.log(response.data))
+           .catch(function (error) { console.log(error); });
 
-
-      // When 'distinct' is false
-      sb.GroupChannel.createChannelWithUserIds(userIds, true, function (groupChannel, error) {
-        if (error) {
-          console.log(error);
-          return;
-        }
-        console.log(groupChannel);
-      });
     },
     sendMessage(MESSAGE) {
-      // var CHANNEL_URL = this.channel;
       sb.GroupChannel.getChannel('sendbird_group_channel_63269494_bb5a7597b3a9ca55256c52a54369359317e7a0b4',
           function (openChannel, error) {
             if (error) {
