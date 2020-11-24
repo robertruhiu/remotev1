@@ -15,6 +15,7 @@
 <script>
 
 import SendBird from 'sendbird';
+import * as axios from "axios";
 
 var sb = new SendBird({appId: '96D6AA91-434B-41D6-8541-2F9B9096E4B2'});
 
@@ -24,34 +25,8 @@ export default {
     return {
       myChannels: {},
       message: '',
-      messages: {
-        "message_id": 273779321,
-        "type": "MESG",     // File and admin messages aren't supported by the message auto-translation feature.
-        "custom_type": "",
-        "channel_url": "sendbird_group_channel_6037267_600ddc81a5e23049c804193370d47217fa2ed5f9",
-        "user": {
-          "user_id": "Julia",
-          "nickname": "Yogini",
-          "profile_url": "https://sendbird.com/main/img/profiles/profile_94_512px.png",
-          "metadata": {
-            "location": "Bali",
-            "marriage": "N"
-          }
-        },
-        "mention_type": "users",
-        "mentioned_users": [],
-        "is_removed": false,
-        "message": "Hi, nice to meet you!",
-        "translations": {   // The message has been translated into the specified languages.
-          "es": "¡Hola, encantado de conocerte!",     // Spanish
-          "de": "Hallo, schön, Sie zu treffen!"       // German
-        },
-        "data": "",
-        "created_at": 1544810640267,
-        "updated_at": 0,
-        "file": {}
-      },
-      channel: 'sendbird_group_channel_63269494_bb5a7597b3a9ca55256c52a54369359317e7a0b4',
+      messages: {},
+      channel_url: 'sendbird_group_channel_64386779_4ce2a5ec0bd2650b43d1976c6d2ba32c90377515',
 
     };
   },
@@ -67,27 +42,26 @@ export default {
   },
   methods: {
     sendMessage() {
-      var MESSAGE = this.message;
-      sb.GroupChannel.getChannel('sendbird_group_channel_63269494_bb5a7597b3a9ca55256c52a54369359317e7a0b4',
-          function (openChannel, error) {
-            if (error) {
-              return;
-            }
+      const self = this;
 
-
-            openChannel.sendUserMessage(MESSAGE, function (message, error) {
-              if (error) {
-                return;
-              }
-              // this.$router.push('/chat');
-            });
-
-
+      // var MESSAGE = this.message;
+      // var url = this.channel_url;
+      //todo: use passed channel url from chat list
+      var params = {
+        message : this.message,
+      }
+      axios.post('http://localhost:8000/remote/v1/projects/chat/send_message/philisiah/' +
+            'david/sendbird_group_channel_64386779_4ce2a5ec0bd2650b43d1976c6d2ba32c90377515/', params).
+      then(function (response) {
+        self.messages = response.data['messages'];
+      })
+          .catch(function (error) {
+            console.log(error);
           });
-    },
   }
 
-}
+}}
+
 </script>
 
 <style scoped>
