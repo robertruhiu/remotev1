@@ -3,18 +3,22 @@
 
   <a-card title="All Chats">
 
-<div v-for="chat in chats" v-bind:key="chat">
+<!--<div v-for="conversation in chats.conversations" v-bind:key="conversation">-->
   <a-card :style="{ marginTop: '16px' }">
+    <h2>Existing chats</h2>
 
-    {{chats}}
+    {{chats.conversations}}
     <a-button type="primary" @click="$router.push('ViewChat')">Open Chat</a-button>
     <br>
     <br>
-      <a-button type="primary" @click="createChannel('david')">Start New Chat</a-button>
-      <br>
-
     </a-card>
-</div>
+
+    <br>
+    <br>
+    <br>
+     <!-- pass the user.username when calling this function-->
+      <a-button type="primary" @click="createChannel('david')">Chat New User</a-button>
+<!--</div>-->
 
   </a-card>
 
@@ -48,21 +52,7 @@ export default {
   computed: {},
   async mounted() {
     let self = this;
-     // var channelListQuery = sb.GroupChannel.createMyGroupChannelListQuery();
-     //  channelListQuery.includeEmpty = true;
-     //  channelListQuery.order = 'latest_last_message'; // 'chronological', 'latest_last_message', 'channel_name_alphabetical', and 'metadata_value_alphabetical'
-     //  channelListQuery.limit = 15;    // The value of pagination limit could be set up to 100.
-     //
-     //  if (channelListQuery.hasNext) {
-     //    channelListQuery.next(function (groupChannels, error) {
-     //      if (error) {
-     //        return;
-     //      }
-     //
-     //      // console.log(groupChannels);
-     //      self.myChannels = groupChannels;
-     //    });
-     //  }
+
       axios.get("http://localhost:8000/remote/v1/projects/chat/all",
            {
              params:{
@@ -85,27 +75,12 @@ export default {
                other_user: USER_ID,
              }
            })
-       .then(response => console.log(response.data))
+       .then(response => console.log(response.data)
+       //    redirect to view chat
+
+       )
            .catch(function (error) { console.log(error); });
-
     },
-    sendMessage(MESSAGE) {
-      sb.GroupChannel.getChannel('sendbird_group_channel_63269494_bb5a7597b3a9ca55256c52a54369359317e7a0b4',
-          function (openChannel, error) {
-            if (error) {
-              return;
-            }
-
-
-            openChannel.sendUserMessage(MESSAGE, function (message, error) {
-              if (error) {
-                return;
-              }
-            });
-
-          });
-    },
-
   }
 
 }

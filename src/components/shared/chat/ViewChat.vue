@@ -39,7 +39,18 @@ export default {
     });
   },
   async mounted() {
+    axios.get("http://localhost:8000/remote/v1/projects/chat/with",
+        {
+          params: {
+            user: 'philisiah',
+            other_user: 'david',
+          }
+        })
+        .then(response => this.messages = response.data).catch(function (error) {
+      console.log(error);
+    });
   },
+
   methods: {
     sendMessage() {
       const self = this;
@@ -48,19 +59,19 @@ export default {
       // var url = this.channel_url;
       //todo: use passed channel url from chat list
       var params = {
-        message : this.message,
+        message: this.message,
       }
       axios.post('http://localhost:8000/remote/v1/projects/chat/send_message/philisiah/' +
-            'david/sendbird_group_channel_64386779_4ce2a5ec0bd2650b43d1976c6d2ba32c90377515/', params).
-      then(function (response) {
+          'david/sendbird_group_channel_64386779_4ce2a5ec0bd2650b43d1976c6d2ba32c90377515/', params).then(function (response) {
         self.messages = response.data['messages'];
       })
           .catch(function (error) {
             console.log(error);
           });
-  }
+    }
 
-}}
+  }
+}
 
 </script>
 
