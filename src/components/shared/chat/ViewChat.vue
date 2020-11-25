@@ -14,29 +14,20 @@
 
 <script>
 
-import SendBird from 'sendbird';
 import * as axios from "axios";
 
-var sb = new SendBird({appId: '96D6AA91-434B-41D6-8541-2F9B9096E4B2'});
 
 export default {
   name: "ViewChat",
   data() {
     return {
-      myChannels: {},
       message: '',
       messages: {},
-      channel_url: 'sendbird_group_channel_64386779_4ce2a5ec0bd2650b43d1976c6d2ba32c90377515',
-
     };
   },
   components: {},
   beforeCreate() {
-    sb.connect('PHIL', function (user, error) {
-      if (error) {
-        return;
-      }
-    });
+
   },
   async mounted() {
     axios.get("http://localhost:8000/remote/v1/projects/chat/with",

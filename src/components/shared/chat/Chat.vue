@@ -17,7 +17,7 @@
     <br>
     <br>
      <!-- pass the user.username when calling this function-->
-      <a-button type="primary" @click="createChannel('david')">Chat New User</a-button>
+      <a-button type="primary" @click="startChat('david')">Chat New User</a-button>
 <!--</div>-->
 
   </a-card>
@@ -29,24 +29,18 @@
 import SendBird from 'sendbird';
 import * as axios from "axios";
 
-var sb = new SendBird({appId: '96D6AA91-434B-41D6-8541-2F9B9096E4B2'});
+
 
 export default {
   name: "Chat",
   data() {
     return {
       chats: {},
-      channel: 'sendbird_group_channel_63269494_bb5a7597b3a9ca55256c52a54369359317e7a0b4',
-
     };
   },
   components: {},
   beforeCreate() {
-    sb.connect('PHIL', function (user, error) {
-      if (error) {
-        return;
-      }
-    });
+
   },
 
   computed: {},
@@ -66,7 +60,7 @@ export default {
       console.log(self.chats);
   },
   methods: {
-    createChannel(USER_ID) {
+    startChat(USER_ID) {
       console.log('pressed');
        axios.get("http://localhost:8000/remote/v1/projects/chat/with",
            {
