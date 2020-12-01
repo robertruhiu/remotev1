@@ -31,7 +31,7 @@ const ManageDevs = () => import('@/components/admin/ManageDevs')
 
 //chat
 const Chat = () => import('@/components/shared/chat/Chat')
-const viewchat = () => import('@/components/shared/chat/ViewChat')
+
 Vue.use(Router);
 
 let router = new Router({
