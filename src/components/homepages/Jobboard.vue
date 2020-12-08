@@ -288,7 +288,7 @@ export default {
           .then(resp => {
 
             resp.data.forEach(project => {
-              if (project.verified && project.stage !== 'developement') {
+              if (project.verified && project.stage === 'bid') {
                 this.bidstageprojects.push(project)
               }
             })
