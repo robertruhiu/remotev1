@@ -12,7 +12,7 @@
   "dependencies": {
     "@mycure/vue-jitsi-meet": "0.0.7",
     "ant-design-vue": "^1.6.5",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "chart.js": "^2.8.0",
     "connect-history-api-fallback": "^1.6.0",
     "core-js": "^3.6.5",
