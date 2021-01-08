@@ -382,28 +382,34 @@ export default {
       this.$router.push('Create')
     },
     ClassifyProject(){
-      this.myprojects.forEach(project => {
-        if (project.stage === 'developement') {
-          this.Inprogress.push(project)
-        }
-        else if(project.stage === 'contract'){
-          this.Incontract.push(project)
+      if(this.myprojects.length >0){
+        this.myprojects.forEach(project => {
+          if (project.stage === 'developement') {
+            this.Inprogress.push(project)
+          }
+          else if(project.stage === 'contract'){
+            this.Incontract.push(project)
 
-        }
-        else if(project.stage === 'bid' && project.verified){
-          this.Inbidding.push(project)
+          }
+          else if(project.stage === 'bid' && project.verified){
+            this.Inbidding.push(project)
 
-        }
-        else if(project.stage === 'bid' && project.verified === false){
-          this.PendingVerification.push(project)
+          }
+          else if(project.stage === 'bid' && project.verified === false){
+            this.PendingVerification.push(project)
 
-        }
-        else if(project.stage === 'creation' || project.stage ==='escrow1'){
-          this.InComplete.push(project)
+          }
+          else if(project.stage === 'creation' || project.stage ==='escrow1'){
+            this.InComplete.push(project)
 
-        }
+          }
+          this.loading = false
+        })
+
+      }else {
         this.loading = false
-      })
+      }
+
 
     }
   }

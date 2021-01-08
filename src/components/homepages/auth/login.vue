@@ -9,8 +9,7 @@
           <a-col :xs="{span: 18, offset: 0 }" :sm="{span: 12, offset: 6 }" :md="{span: 12, offset: 6 }"
                  :lg="{span: 12, offset: 8 }" :xl="{span: 12, offset: 9 }">
             <a-card title="Login" :style="{width:'21rem'}">
-
-
+              <p class="alert" v-if="error">{{error}}</p>
               <a-form
                   id="components-form-demo-normal-login"
                   :form="form"
@@ -38,7 +37,7 @@
                 </a-form-item>
                 <a-form-item>
 
-                  <a-input
+                  <a-input-password
                       v-model="password"
                       placeholder="Password"
                       style="z-index: 0"
@@ -51,7 +50,7 @@
                         type="lock"
                         style="color: rgba(0,0,0,.25)"
                     />
-                  </a-input>
+                  </a-input-password>
 
 
                 </a-form-item>
@@ -207,7 +206,7 @@ export default {
                     })
                     .catch(error => {
                       this.loading = false
-
+                      this.error = 'login details incorrect'
                       return error
 
 
