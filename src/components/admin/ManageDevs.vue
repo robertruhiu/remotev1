@@ -45,7 +45,7 @@
                    :md="{span: 12, offset: 0 }"
                    :lg="{span: 12, offset: 0 }" :xl="{span: 12,offset: 0 }">
               <a-tabs default-active-key="1">
-                <a-tab-pane key="1" tab="Verified" v-if="verified.length>0">
+                <a-tab-pane key="1" tab="Verified" >
 
                   <a-table :columns="columns" :data-source="verified">
 
@@ -67,7 +67,7 @@
                     </span>
                   </a-table>
                 </a-tab-pane>
-                <a-tab-pane key="2" tab="Applied" v-if="appliedusers.length>0">
+                <a-tab-pane key="2" tab="Applied" >
 
 
                   <a-table :columns="columns" :data-source="appliedusers">
