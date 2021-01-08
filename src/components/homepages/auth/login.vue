@@ -207,6 +207,7 @@ export default {
                     })
                     .catch(error => {
                       this.loading = false
+
                       return error
 
 
@@ -216,6 +217,7 @@ export default {
               })
               .catch(error => {
                 this.loading = false
+                console.log(error)
                 this.error = 'login details incorrect'
                 return error
 
