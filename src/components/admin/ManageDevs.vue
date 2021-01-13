@@ -556,7 +556,11 @@ export default {
           let name = user.user.first_name + ' ' + user.user.last_name
 
           let cv = ''
-          let tags = user.skills.split(',')
+          let tags =[]
+          if(user.skills){
+            tags = user.skills.split(',')
+
+          }
           if (user.file) {
             if (user.file.includes("http")) {
               cv = user.file
