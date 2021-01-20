@@ -30,22 +30,13 @@
             <a-icon type="bank" />
             <span>Escrow Management</span>
           </a-menu-item>
-          <a-menu-item key="4">
-            <a-icon type="calendar" />
-            <span>My Meetings</span>
-          </a-menu-item>
+
           <a-menu-item key="5" @click="$router.push('/ClientBugs')">
             <a-icon type="exclamation" />
             <span>Bugs & issues</span>
           </a-menu-item>
-          <a-menu-item key="6">
-            <a-icon type="message" />
-            <span>Chat</span>
-          </a-menu-item>
-          <a-menu-item key="7">
-            <a-icon type="solution" />
-            <span>Edit Profile</span>
-          </a-menu-item>
+
+
           <a-menu-item key="8" @click="logout">
             <a-icon type="logout" />
             <span>logout</span>

@@ -97,7 +97,7 @@
             </a-row>
 
           </div>
-          <a-result status="404" title="" sub-title="Sorry, no new jobs available at the moment." v-else>
+          <a-result status="404" title="" sub-title="Sorry, no new gigs available at the moment." v-else>
 
           </a-result>
           </div>

@@ -44,10 +44,7 @@
         <a-icon type="message" />
         <span>Chat</span>
       </a-menu-item>
-      <a-menu-item key="7">
-        <a-icon type="solution" />
-        <span>Edit Profile</span>
-      </a-menu-item>
+
       <a-menu-item key="8" @click="logout">
         <a-icon type="logout" />
         <span>logout</span>

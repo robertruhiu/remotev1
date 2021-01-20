@@ -164,13 +164,7 @@ export default {
 
 
                       if (response.data.stage === 'complete') {
-                        if (this.$store.state.user_object.user.is_staff) {
-                          this.$router.push({
-                            name: 'Admindashboard'
-                          })
 
-                        }
-                        else {
                           if (this.$store.state.user_object.user_type === 'developer') {
                             if(this.$store.state.user_object.remote_verified){
                               this.$router.push({
@@ -194,7 +188,7 @@ export default {
 
 
                           }
-                        }
+
 
                       } else {
                         this.$router.push({

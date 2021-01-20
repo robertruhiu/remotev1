@@ -140,29 +140,7 @@
 
 
             </a-col>
-            <a-col :xs="{span: 24, offset: 0 }" :sm="{span: 12, offset: 0 }"
-                   :md="{span: 12, offset: 0 }"
-                   :lg="{span: 10, offset: 1 }" :xl="{span: 6,offset: 0 }">
-              <a-card class="cardshadow" hoverable style="width: 100%;margin-bottom: 1rem;">
 
-                <div>
-                  <p style="font-family: sofia_proregular;font-size: 1.5rem;color: black;margin-bottom: 0">Chat</p>
-                  <div >
-                    <img src="@/assets/images/chat1.svg" style="width: 30%"/>
-
-                  </div>
-
-
-
-
-
-
-                </div>
-
-              </a-card>
-
-
-            </a-col>
           </a-row>
         </div>
       </a-layout-content>

@@ -14,7 +14,10 @@
         </div>
       <hide-at breakpoint="mediumAndBelow">
       <div class="ant-menu-horizontal " :style="{ lineHeight: '64px',float: 'right',borderBottom: 0}">
-        <router-link to="/Jobs"   class="ant-menu-item" style="margin-bottom: 0">Job board</router-link>
+        <a href="https://www.codeln.com/" target="_blank" class="ant-menu-item" style="margin-bottom: 0">
+          Go to Codeln
+        </a>
+        <router-link to="/Jobs"   class="ant-menu-item" style="margin-bottom: 0">Gigs board</router-link>
 
 
 

@@ -126,12 +126,12 @@
                                :lg="{span: 24, offset: 0 }" :xl="{span: 16,offset: 4 }" class="stepcard">
                           <div style="text-align: center">
 
-                            <p style="font-family: sofia_problack">Which tools to be used</p>
+                            <p style="font-family: sofia_problack">Tools to be used</p>
 
                           </div>
 
                           <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol">
-                            <a-form-model-item label="Project type(you can pick than one type)">
+                            <a-form-model-item label="Project type">
                               <div v-if="notoolserror" style="color: red">
                                 required
                               </div>

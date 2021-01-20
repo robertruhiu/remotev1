@@ -471,7 +471,7 @@
                         <p>
                           {{ bid.proposal }}
                         </p>
-                        <p>Tools am going to use</p>
+                        <p>Tools I am going to use</p>
                         <p>
                           <a-tag v-for="tag in bid.tools" color="blue"
                                  :key="tag">

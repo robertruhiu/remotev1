@@ -372,6 +372,7 @@ export default {
       Projects.myprojects(this.$store.state.user.pk,auth)
           .then(resp=>{
             this.myprojects = resp.data
+            console.log(this.myprojects)
             this.ClassifyProject()
 
           })

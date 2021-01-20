@@ -673,7 +673,7 @@ export default {
     createProject() {
       if(this.$store.state.isUserLoggedIn) {
         // If not authenticated, add a path where to redirect after login.
-        this.$router.push({ name: 'Login', query: { redirect: '/Create' } });
+        this.$router.push({ name: 'Create' });
       }else {
         this.$router.push({ name: 'Login', query: { redirect: '/Create' } });
       }
