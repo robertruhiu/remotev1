@@ -97,7 +97,23 @@ Vue.use(Comment)
 Vue.use(Popconfirm)
 Vue.prototype.$message = message;
 import VueSignaturePad from 'vue-signature-pad';
+import * as Sentry from "@sentry/browser";
+import { Vue as VueIntegration } from "@sentry/integrations";
+import { Integrations } from "@sentry/tracing";
+Sentry.init({
+  dsn: process.env.VUE_APP_DSN,
+  integrations: [
+    new VueIntegration({
+      Vue,
+      tracing: true,
+    }),
+    new Integrations.BrowserTracing(),
+  ],
 
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0,
+});
 Vue.use(VueSignaturePad);
 import VueSimpleMarkdown from 'vue-simple-markdown'
 import 'vue-simple-markdown/dist/vue-simple-markdown.css'

@@ -792,6 +792,7 @@ export default {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
 
       }
+      this.project.stage = 'bid'
       Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
           .then(() => {
                 this.$router.push('Myprojects')
