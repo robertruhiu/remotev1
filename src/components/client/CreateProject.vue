@@ -24,6 +24,9 @@
               </a-breadcrumb>
               <span style="font-size: 1.7rem;font-family: sofia_prosemibold;margin-bottom: 0;color: black">
                 Create Project</span>
+              <p v-if="$store.state.projectedit_id">Want to create another project <a-button type="primary" icon="plus" v-on:click="BlankSlate">
+                blank slate
+              </a-button></p>
             </a-col>
 
             <hide-at breakpoint="mediumAndBelow">
@@ -257,27 +260,37 @@
                           <div style="text-align: center">
 
                             <p style="font-family: sofia_problack">Escrow Stage 1</p>
+                            <div v-if="!payed">
+                              <p>A 40 % escrow is needed to be deposited .This is to serve more as a commitment fee
+                                towards
+                                your project.
+                                Amount is held in escrow
+                              </p>
+                              <p>A second escrow on the remaining amount will happen when you contract a developer </p>
+                              <p style="font-family: sofia_probold">Amount Payable :$ {{ deposit }}</p>
+                              <paystack
+                                  :amount="deposit*100"
+                                  :email="email"
+                                  :paystackkey="paystackkey"
+                                  :currency="currency"
+                                  :reference="reference"
+                                  :callback="callback"
+                                  :close="close"
+                                  :embed="false"
+                              >
+                                <i class="fas fa-money-bill-alt"></i>
+                                Make Payment
+                              </paystack>
+                            </div>
+                            <div v-else>
+                              <div style="text-align: center">
+                                <img src="@/assets/images/credit-card.svg" style="width: 20%"/>
+                                <p style="font-family: sofia_problack">Escrow stage 1 payment made</p>
+                              </div>
 
-                            <p>A 40 % escrow is needed to be deposited .This is to serve more as a commitment fee
-                              towards
-                              your project.
-                              Amount is held in escrow
-                            </p>
-                            <p>A second escrow on the remaining amount will happen when you contract a developer </p>
-                            <p style="font-family: sofia_probold">Amount Payable :$ {{ deposit }}</p>
-                            <paystack
-                                :amount="deposit*100"
-                                :email="email"
-                                :paystackkey="paystackkey"
-                                :currency="currency"
-                                :reference="reference"
-                                :callback="callback"
-                                :close="close"
-                                :embed="false"
-                            >
-                              <i class="fas fa-money-bill-alt"></i>
-                              Make Payment
-                            </paystack>
+                            </div>
+
+
 
 
                           </div>
@@ -298,13 +311,27 @@
                           <a-button v-if="current < steps.length - 1" type="primary" @click="next">
                             Next
                           </a-button>
-                          <a-button
-                              v-if="current == steps.length - 1"
-                              type="primary"
-                              @click="Done"
-                          >
-                            Done
-                          </a-button>
+                          <!------- removed for removal from demo mode----->
+
+                          <a-tooltip placement="topLeft" v-if="current == steps.length - 1 && payed">
+                            <template slot="title">
+                              <span>All things set for the next stage</span>
+                            </template>
+                            <a-button
+                                type="primary"
+                                @click="Done"
+                            >Done</a-button>
+                          </a-tooltip>
+                          <a-tooltip placement="topLeft" v-if="current == steps.length - 1 && !payed">
+                            <template slot="title">
+                              <span>Exit project for now you can still come back to finish up</span>
+                            </template>
+                            <a-button
+                                type="primary"
+                                @click="ExitCreation"
+                            >Exit for now</a-button>
+                          </a-tooltip>
+
                           <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
                             Previous
                           </a-button>
@@ -350,6 +377,7 @@
 import ClientSider from "@/components/client/layout/ClientSider";
 import paystack from 'vue-paystack';
 import Project from '@/services/Projects'
+import Escrow from '@/services/Escrow'
 import VueSimplemde from 'vue-simplemde'
 import 'simplemde/dist/simplemde.min.css';
 import { hideAt} from 'vue-breakpoints'
@@ -402,7 +430,8 @@ export default {
       notoolserror: false,
       step4errors: [],
       loading: false,
-      tips:true
+      tips:true,
+      payed:false
 
 
     };
@@ -459,6 +488,7 @@ export default {
 
       }
       if (this.$store.state.projectedit_id) {
+
         this.features = []
         Project.getproject(this.$store.state.projectedit_id, auth)
             .then(
@@ -488,6 +518,7 @@ export default {
                       }
                     })
                   }
+                  this.EscrowPaymentLookup()
 
 
                 }
@@ -497,6 +528,31 @@ export default {
       }
 
 
+    },
+    EscrowPaymentLookup(){
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Escrow.lookupescrow(this.$store.state.projectedit_id, auth)
+      .then(()=>{
+        this.payed =true
+
+
+      }).catch(()=>{
+        this.payed = false
+
+      })
+
+    },
+    BlankSlate(){
+      this.$store.dispatch('setProjectedit', null)
+      this.project ={}
+      this.project.description =''
+      this.selectedTags=[]
+      this.projectype=''
+      this.tags =[]
+      this.payed = false
     },
 
 
@@ -708,6 +764,11 @@ export default {
           )
 
     },
+    ExitCreation() {
+      this.$router.push('Myprojects')
+      this.$store.dispatch('setProjectedit', null)
+
+    },
 
     stepsaves() {
       const auth = {
@@ -786,22 +847,56 @@ export default {
 
 
     },
+    callback: function (response) {
 
-    callback() {
-      const auth = {
-        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+
+
+      if (response.status === 'success') {
+        const auth = {
+          headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+        }
+        this.payed = true
+
+
+        let escrowdata = {
+          client:this.project.posted_by,
+          project:this.$store.state.projectedit_id,
+          amount:this.deposit,
+          data:response
+
+
+
+        }
+
+        Escrow.newescrow(escrowdata, auth)
+            .then(()=>{
+              this.project.stage = 'bid'
+              Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
+                  .then(() => {
+                        this.$router.push('Myprojects')
+                        this.$store.dispatch('setProjectedit', null)
+
+                      }
+                  )
+            })
+
+
+
+
+
+
+
+
+
 
       }
-      this.project.stage = 'bid'
-      Project.updateproject(this.$store.state.projectedit_id, this.project, auth)
-          .then(() => {
-                this.$router.push('Myprojects')
-                this.$store.dispatch('setProjectedit', null)
 
-              }
-          )
 
-    }
+    },
+
+
 
   }
 
