@@ -18,6 +18,12 @@
         </router-link>
 
       </a-menu-item>
+      <a-menu-item key="9">
+        <a href="https://www.codeln.com/" target="_blank" class="ant-menu-item" style="margin-bottom: 0">
+          Go to Codeln
+        </a>
+
+      </a-menu-item>
 
       <a-menu-item key="1" v-if="$store.state.isUserLoggedIn && $store.state.user_object.user_type ==='recruiter'">
         <router-link to="/Dashboard">
