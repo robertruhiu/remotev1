@@ -301,6 +301,7 @@
                       </a-row>
                     </div>
 
+
                     <div style="text-align: center">
                       <div class="steps-action" style="margin: 2% auto">
                         <div v-if="loading">
@@ -513,10 +514,14 @@ export default {
                         if (index > -1) {
                           tools.splice(index, 1);
                         }
-                        this.tags = tools
+
+
 
                       }
+
                     })
+                    this.tags = tools
+
                   }
                   this.EscrowPaymentLookup()
 
