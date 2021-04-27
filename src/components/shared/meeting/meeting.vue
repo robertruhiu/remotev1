@@ -746,14 +746,14 @@
                             <div>
                               <p style="font-family: sofia_probold">If satisfied with the contract please print a copy
                                 for yourself and then (Exit Contract Meeting)</p>
-                              <p style="font-family: sofia_prolight;color: red" v-if="Signed">Button will activate when
+                              <p style="font-family: sofia_prolight;color: red" v-if="Signed">Buttons will activate when
                                 both parties have signed</p>
                               <a-space>
                                 <a-button type="primary" :disabled="Signed" @click="printDiv('contract')">Print
                                   contract
                                 </a-button>
 
-                                <a-button style="background-color: #52c41a;color: white" @click="Done">Exit Contract
+                                <a-button style="background-color: #52c41a;color: white" :disabled="Signed" @click="Done">Complete Contract
                                   meeting
                                 </a-button>
                               </a-space>

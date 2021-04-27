@@ -9,6 +9,7 @@ const AdminProjects = () => import('@/components/admin/adminprojects')
 const AdminBids = () => import('@/components/admin/AdminBids')
 const AdminTracker = () => import('@/components/admin/adminkanban/adminTrackboard')
 const AdminCreateEditProject =()=>import('@/components/admin/AdminCreateProject')
+
 const Home = () => import('@/components/homepages/Home')
 const Jobs = () => import('@/components/homepages/Jobboard')
 const ClientDashboard = () => import('@/components/client/ClientDashboard')
@@ -31,6 +32,10 @@ const Login = () => import('@/components/homepages/auth/login')
 const Register = () => import('@/components/homepages/auth/register')
 const Forgot = () => import('@/components/homepages/auth/forgot')
 const ManageDevs = () => import('@/components/admin/ManageDevs')
+
+//chat
+const Chat = () => import('@/components/shared/chat/Chat')
+import ViewChat from "@/components/shared/chat/ViewChat";
 Vue.use(Router);
 
 let router = new Router({
@@ -181,6 +186,16 @@ let router = new Router({
             path: '/ManageDevs',
             name: 'ManageDevs',
             component: ManageDevs
+        },
+        {
+            path: '/chat',
+            name: 'Chat',
+            component: Chat
+        },
+        {
+            path: '/viewchat',
+            name: 'ViewChat',
+            component: ViewChat
         },
 
 
