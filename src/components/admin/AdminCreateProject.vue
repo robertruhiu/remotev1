@@ -276,27 +276,37 @@
                           <div style="text-align: center">
 
                             <p style="font-family: sofia_problack">Escrow Stage 1</p>
+                            <div v-if="!payed">
+                              <p>A 40 % escrow is needed to be deposited .This is to serve more as a commitment fee
+                                towards
+                                your project.
+                                Amount is held in escrow
+                              </p>
+                              <p>A second escrow on the remaining amount will happen when you contract a developer </p>
+                              <p style="font-family: sofia_probold">Amount Payable :$ {{ deposit }}</p>
+                              <paystack
+                                  :amount="deposit*100"
+                                  :email="email"
+                                  :paystackkey="paystackkey"
+                                  :currency="currency"
+                                  :reference="reference"
+                                  :callback="callback"
+                                  :close="close"
+                                  :embed="false"
+                              >
+                                <i class="fas fa-money-bill-alt"></i>
+                                Make Payment
+                              </paystack>
+                            </div>
+                            <div v-else>
+                              <div style="text-align: center">
+                                <img src="@/assets/images/credit-card.svg" style="width: 20%"/>
+                                <p style="font-family: sofia_problack">Escrow stage 1 payment made</p>
+                              </div>
 
-                            <p>A 40 % escrow is needed to be deposited .This is to serve more as a commitment fee
-                              towards
-                              your project.
-                              Amount is held in escrow
-                            </p>
-                            <p>A second escrow on the remaining amount will happen when you contract a developer </p>
-                            <p style="font-family: sofia_probold">Amount Payable :$ {{ deposit }}</p>
-                            <paystack
-                                :amount="deposit*100"
-                                :email="email"
-                                :paystackkey="paystackkey"
-                                :currency="currency"
-                                :reference="reference"
-                                :callback="callback"
-                                :close="close"
-                                :embed="false"
-                            >
-                              <i class="fas fa-money-bill-alt"></i>
-                              Make Payment
-                            </paystack>
+                            </div>
+
+
 
 
                           </div>
@@ -317,13 +327,27 @@
                           <a-button v-if="current < steps.length - 1" type="primary" @click="next">
                             Next
                           </a-button>
-                          <a-button
-                              v-if="current == steps.length - 1"
-                              type="primary"
-                              @click="Done"
-                          >
-                            Done
-                          </a-button>
+                          <!------- removed for removal from demo mode----->
+
+                          <a-tooltip placement="topLeft" v-if="current == steps.length - 1 && payed">
+                            <template slot="title">
+                              <span>All things set for the next stage</span>
+                            </template>
+                            <a-button
+                                type="primary"
+                                @click="Done"
+                            >Done</a-button>
+                          </a-tooltip>
+                          <a-tooltip placement="topLeft" v-if="current == steps.length - 1 && !payed">
+                            <template slot="title">
+                              <span>Exit project for now you can still come back to finish up</span>
+                            </template>
+                            <a-button
+                                type="primary"
+                                @click="ExitCreation"
+                            >Exit for now</a-button>
+                          </a-tooltip>
+
                           <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
                             Previous
                           </a-button>
@@ -392,6 +416,7 @@ import Project from '@/services/Projects'
 import VueSimplemde from 'vue-simplemde'
 import 'simplemde/dist/simplemde.min.css';
 import { hideAt,showAt} from 'vue-breakpoints'
+import Escrow from "@/services/Escrow";
 export default {
 name: "AdminCreateProject",
   data() {
@@ -441,7 +466,8 @@ name: "AdminCreateProject",
       notoolserror: false,
       step4errors: [],
       loading: false,
-      tips:true
+      tips:true,
+      payed:false
 
 
     };
@@ -506,9 +532,9 @@ name: "AdminCreateProject",
                   this.project.time = Number(time[0])
 
                   this.tags = []
-
+                  this.projectype = this.project.project_type
                   if (this.project.tools) {
-                    this.projectype = this.project.project_type
+
                     this.selectprojectype(this.projectype)
 
                     let tools = this.project.tools.split(',')
@@ -520,11 +546,14 @@ name: "AdminCreateProject",
                         if (index > -1) {
                           tools.splice(index, 1);
                         }
-                        this.tags = tools
+
 
                       }
                     })
+                    this.tags = tools
                   }
+                  this.EscrowPaymentLookup()
+
 
 
                 }
@@ -533,6 +562,22 @@ name: "AdminCreateProject",
 
       }
 
+
+    },
+    EscrowPaymentLookup(){
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+      }
+      Escrow.lookupescrow(this.$store.state.projectedit_id, auth)
+          .then(()=>{
+            this.payed =true
+
+
+          }).catch(()=>{
+        this.payed = false
+
+      })
 
     },
 
@@ -737,6 +782,11 @@ name: "AdminCreateProject",
 
               }
           )
+
+    },
+    ExitCreation() {
+      this.$router.push('Myprojects')
+      this.$store.dispatch('setProjectedit', null)
 
     },
 
