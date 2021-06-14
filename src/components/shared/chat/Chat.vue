@@ -109,7 +109,7 @@
                 <div v-if="loadingusers">
                   <a-skeleton active/>
                 </div>
-                <div v-else>
+                <div v-else style="height:55vh;overflow: auto;">
                   <div v-for="user in users" v-bind:key="user">
                     <a-card size="small" @click="createChannel(user)">
 
