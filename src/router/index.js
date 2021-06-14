@@ -188,7 +188,7 @@ let router = new Router({
             component: ManageDevs
         },
         {
-            path: '/chat',
+            path: '/chat/:member?',
             name: 'Chat',
             component: Chat
         },

@@ -45,6 +45,10 @@
         <a-icon type="exclamation" />
         <span>Bugs & issues</span>
       </a-menu-item>
+      <a-menu-item key="10" @click="$router.push('Chat')">
+        <a-icon type="message" />
+        <span>Chat</span>
+      </a-menu-item>
 
 
       <a-menu-item key="8" @click="logout">

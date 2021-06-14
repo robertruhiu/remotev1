@@ -12,30 +12,58 @@
       >
         <div>
           <a-card class="hellocard">
+            <a-row>
+              <a-col span="16">
+                <a-breadcrumb v-if="developer">
+                  <a-breadcrumb-item><a @click="$router.push('/Developer')">Home</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('/DeveloperProjects')">My projects</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a>{{ project.title }}</a></a-breadcrumb-item>
 
+                </a-breadcrumb>
+                <a-breadcrumb v-else>
+                  <a-breadcrumb-item><a @click="$router.push('/Dashboard')">Home</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a @click="$router.push('/Myprojects')">My projects</a></a-breadcrumb-item>
+                  <a-breadcrumb-item><a>{{ project.title }}</a></a-breadcrumb-item>
 
-            <a-breadcrumb v-if="developer">
-              <a-breadcrumb-item><a @click="$router.push('/Developer')">Home</a></a-breadcrumb-item>
-              <a-breadcrumb-item><a @click="$router.push('/DeveloperProjects')">My projects</a></a-breadcrumb-item>
-              <a-breadcrumb-item><a>{{ project.title }}</a></a-breadcrumb-item>
-
-            </a-breadcrumb>
-            <a-breadcrumb v-else>
-              <a-breadcrumb-item><a @click="$router.push('/Dashboard')">Home</a></a-breadcrumb-item>
-              <a-breadcrumb-item><a @click="$router.push('/Myprojects')">My projects</a></a-breadcrumb-item>
-              <a-breadcrumb-item><a>{{ project.title }}</a></a-breadcrumb-item>
-
-            </a-breadcrumb>
-            <p style="font-size: 1.7rem;font-family: sofia_prosemibold;color: black;margin-bottom: 0">
-              {{ project.title }}</p>
-            <showAt breakpoint="mediumAndAbove">
-            <span style="margin-bottom: 0">You can switch between milestone overview kanban to in depth view kanban
+                </a-breadcrumb>
+                <p style="font-size: 1.7rem;font-family: sofia_prosemibold;color: black;margin-bottom: 0">
+                  {{ project.title }}</p>
+                <showAt breakpoint="mediumAndAbove">
+                  <span style="margin-bottom: 0">You can switch between milestone overview kanban to in depth view kanban
                   <a-button-group style="margin-left: 1%">
                     <a-button type="primary" @click="viewMode(1)"> <a-icon type="appstore"/>Milestone view </a-button>
                     <a-button type="primary" @click="viewMode(2)"> In depth view<a-icon type="profile"/> </a-button>
+
                   </a-button-group>
                 </span>
-            </showAt>
+                </showAt>
+              </a-col>
+              <a-col span="8">
+
+                <div v-if="developer">
+                  <p>
+                    Chat with Client
+                  </p>
+
+                  <a-button icon="message" type="primary"
+                            @click="navigateTo({name:'Chat',params: { member: project.client }})">
+                    Chat
+                  </a-button>
+                </div>
+                <div v-else>
+                  <p>
+                    Chat with Developer
+                  </p>
+
+                  <a-button icon="message" type="primary"
+                            @click="navigateTo({name:'Chat',params: { member: project.assigned_to }})">
+                    Chat
+                  </a-button>
+                </div>
+
+
+              </a-col>
+            </a-row>
 
 
           </a-card>
@@ -46,13 +74,13 @@
 
         <show-at :breakpoints="{small: 900}" breakpoint="mediumAndAbove">
 
-        <div style="min-height: 40vh ;position: relative;">
-          <div style="">
+          <div style="min-height: 40vh ;position: relative;">
+            <div style="">
 
-            <a-row v-if="viewmode === 'milestone'">
-              <a-tabs default-active-key="1" >
-                <a-tab-pane key="1"
-                >
+              <a-row v-if="viewmode === 'milestone'">
+                <a-tabs default-active-key="1">
+                  <a-tab-pane key="1"
+                  >
                   <span slot="tab">
                     <a-icon type="profile"/>
 
@@ -77,7 +105,8 @@
                               <p v-if="developer">Mandatory step.Please upload all wireframes
                                 that relate to the project ie page layout and user process diagrams.Also any other
                                 relevant data</p>
-                              <p v-else>Please insist the developer to create wireframes of the project in relation to the
+                              <p v-else>Please insist the developer to create wireframes of the project in relation to
+                                the
                                 features.
                                 He/she should provide page layouts and user process flow diagrams.
                                 This will help give a proper image of whats to be created
@@ -115,8 +144,8 @@
                                     <li>{{ story.user_story }}</li>
                                   </ul>
                                   <a-tag color="orange">
-                                    <a-icon type="clock-circle" />
-                                    due date: {{element.due_date | momentformat}}
+                                    <a-icon type="clock-circle"/>
+                                    due date: {{ element.due_date | momentformat }}
                                   </a-tag>
 
 
@@ -258,52 +287,50 @@
                     </a-col>
 
 
-
-
-                </a-tab-pane>
-                <a-tab-pane key="2" force-render>
+                  </a-tab-pane>
+                  <a-tab-pane key="2" force-render>
                   <span slot="tab">
                     <a-icon type="file-sync"/>
                     Project Documents/UI/UX files
                   </span>
-                  <Fileshare/>
+                    <Fileshare/>
 
-                </a-tab-pane>
-                <a-tab-pane key="3" force-render>
+                  </a-tab-pane>
+                  <a-tab-pane key="3" force-render>
                   <span slot="tab">
-                    <a-icon type="file-done" />
+                    <a-icon type="file-done"/>
                     Project contract
                   </span>
-                  <contract/>
+                    <contract/>
 
 
-                </a-tab-pane>
+                  </a-tab-pane>
 
-              </a-tabs>
-
-
-            </a-row>
-            <a-row style="color: black" v-if="viewmode === 'feature'">
-              <a-col span="6">
-                <div class="casecard">
-
-                  <div style="border-bottom: 1px solid #e8e8e8;">
-                    <h3 style="font-family: sofia_problack;">Milestones</h3>
+                </a-tabs>
 
 
-                    <p style="font-family: sofia_probold">These are the core milestones of what you want the
-                      application to
-                      do.Each has its own User stories and tasks that have to be
-                      achieved to accomplish it</p>
+              </a-row>
+              <a-row style="color: black" v-if="viewmode === 'feature'">
+                <a-col span="6">
+                  <div class="casecard">
+
+                    <div style="border-bottom: 1px solid #e8e8e8;">
+                      <h3 style="font-family: sofia_problack;">Milestones</h3>
 
 
-                  </div>
-                  <div style="color:black;height: 65vh;overflow-y: scroll;">
-                    <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="features">
+                      <p style="font-family: sofia_probold">These are the core milestones of what you want the
+                        application to
+                        do.Each has its own User stories and tasks that have to be
+                        achieved to accomplish it</p>
 
-                      <a-list-item slot="renderItem" key="item.title" slot-scope="item">
 
-                        <a-card>
+                    </div>
+                    <div style="color:black;height: 65vh;overflow-y: scroll;">
+                      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="features">
+
+                        <a-list-item slot="renderItem" key="item.title" slot-scope="item">
+
+                          <a-card>
 
 
 
@@ -311,144 +338,145 @@
                               <span slot="title" class="featuretitle">
                                 {{ item.title }}
                               </span>
-                          <a slot="extra" @click="openFeature(item)">view tasks</a>
-                          <template>
-                            <ul v-for="story in item.userstories" v-bind:key="story">
-                              <li>{{ story.user_story }}</li>
-                            </ul>
+                            <a slot="extra" @click="openFeature(item)">view tasks</a>
+                            <template>
+                              <ul v-for="story in item.userstories" v-bind:key="story">
+                                <li>{{ story.user_story }}</li>
+                              </ul>
 
-                          </template>
+                            </template>
 
-                        </a-card>
+                          </a-card>
 
 
-                      </a-list-item>
-                    </a-list>
+                        </a-list-item>
+                      </a-list>
+                    </div>
+
+
                   </div>
 
 
-                </div>
-
-
-              </a-col>
-              <a-col span="18">
-                <div>
-                  <div v-if="currentfeature">
-                    <div style="padding: 0 1%">
-                      <div class="casecard">
-                        <p style="font-family: sofia_proregular">
-                          <strong>Milestone:</strong> {{ currentfeature.title }}
-                        </p>
-                        <div>
-                          <a-steps style="width: 80%" :current="FeatureStep">
-
-                            <a-step title="In progress"/>
-                            <a-step title="Tasks done"/>
-                            <a-step title="Quality check"/>
-                            <a-step title="Done"/>
-                            <a-step title="Escrow paid"/>
-                          </a-steps>
-                        </div>
-
-                        <div>
-
-                        </div>
-
-
-                        <div v-if="FeatureStep=== 2">
-                          <a-collapse v-model="activeKey" v-if="developer">
-                            <a-collapse-panel key="1"
-                                              header="Client is using your developer note to test feature completion.">
-
-                              <div
-                                  style="border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
-
-                                <p>{{ currentfeature.developer_note }}</p>
-                                <a-button v-if="developer" @click="developernotemodal" size="small" type="primary">edit
-                                  note
-                                </a-button>
-                              </div>
-                            </a-collapse-panel>
-                          </a-collapse>
-                          <a-collapse v-model="activeKey" v-else>
-                            <a-collapse-panel key="1" header="Please use this note to test the feature">
-
-                              <div
-                                  style="border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
-
-                                <p>{{ currentfeature.developer_note }}</p>
-
-                              </div>
-                            </a-collapse-panel>
-                          </a-collapse>
-
-
-                        </div>
-                        <div v-if="FeatureStep === 1">
-                          <p>Well done :Tasks complete for this feature are complete
+                </a-col>
+                <a-col span="18">
+                  <div>
+                    <div v-if="currentfeature">
+                      <div style="padding: 0 1%">
+                        <div class="casecard">
+                          <p style="font-family: sofia_proregular">
+                            <strong>Milestone:</strong> {{ currentfeature.title }}
                           </p>
-                          <a-button v-if="developer" type="primary" icon="check" @click="developernotemodal">mark as
-                            complete
-                          </a-button>
+                          <div>
+                            <a-steps style="width: 80%" :current="FeatureStep">
+
+                              <a-step title="In progress"/>
+                              <a-step title="Tasks done"/>
+                              <a-step title="Quality check"/>
+                              <a-step title="Done"/>
+                              <a-step title="Escrow paid"/>
+                            </a-steps>
+                          </div>
+
+                          <div>
+
+                          </div>
 
 
+                          <div v-if="FeatureStep=== 2">
+                            <a-collapse v-model="activeKey" v-if="developer">
+                              <a-collapse-panel key="1"
+                                                header="Client is using your developer note to test feature completion.">
+
+                                <div
+                                    style="border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
+
+                                  <p>{{ currentfeature.developer_note }}</p>
+                                  <a-button v-if="developer" @click="developernotemodal" size="small" type="primary">
+                                    edit
+                                    note
+                                  </a-button>
+                                </div>
+                              </a-collapse-panel>
+                            </a-collapse>
+                            <a-collapse v-model="activeKey" v-else>
+                              <a-collapse-panel key="1" header="Please use this note to test the feature">
+
+                                <div
+                                    style="border: 1px dashed #e9e9e9; border-radius: 6px;background-color: #fafafa;padding: 2%;margin-bottom: 1rem">
+
+                                  <p>{{ currentfeature.developer_note }}</p>
+
+                                </div>
+                              </a-collapse-panel>
+                            </a-collapse>
+
+
+                          </div>
+                          <div v-if="FeatureStep === 1">
+                            <p>Well done :Tasks complete for this feature are complete
+                            </p>
+                            <a-button v-if="developer" type="primary" icon="check" @click="developernotemodal">mark as
+                              complete
+                            </a-button>
+
+
+                          </div>
                         </div>
                       </div>
+                      <div class="tasktabs">
+
+
+                        <a-tabs default-active-key="1" @change="callback">
+                          <a-tab-pane key="1" tab="Tasks">
+                            <Tasks/>
+                          </a-tab-pane>
+                          <a-tab-pane key="2" tab="Feature issues" force-render>
+                            <Issues/>
+                          </a-tab-pane>
+
+                        </a-tabs>
+                      </div>
+
+
                     </div>
-                    <div class="tasktabs">
-
-
-                      <a-tabs default-active-key="1" @change="callback">
-                        <a-tab-pane key="1" tab="Tasks">
-                          <Tasks/>
-                        </a-tab-pane>
-                        <a-tab-pane key="2" tab="Feature issues" force-render>
-                          <Issues/>
-                        </a-tab-pane>
-
-                      </a-tabs>
-                    </div>
-
 
                   </div>
 
-                </div>
+
+                </a-col>
 
 
-              </a-col>
+              </a-row>
+
+            </div>
+            <a-modal v-model="visible">
+              <template slot="footer">
+
+                <a-button key="submit" type="primary" :disabled="note_validate" @click="submitDeveloperNote">
+                  Submit
+                </a-button>
+              </template>
+              <a-form layout="vertical">
 
 
-            </a-row>
+                <a-form-item
+                    label="Give directions of how client is to test said feature you marked as complete "
 
+                >
+                  <a-textarea
+                      v-model="developer_note"
+                      :auto-size="{ minRows: 4, maxRows: 5 }"
+                  />
+                  <p v-if="note_validate" style="color: red">
+                    please write something
+                  </p>
+                </a-form-item>
+
+
+              </a-form>
+
+            </a-modal>
           </div>
-          <a-modal v-model="visible" >
-            <template slot="footer">
-
-              <a-button key="submit" type="primary" :disabled="note_validate" @click="submitDeveloperNote">
-                Submit
-              </a-button>
-            </template>
-            <a-form layout="vertical">
-
-
-              <a-form-item
-                  label="Give directions of how client is to test said feature you marked as complete "
-
-              >
-                <a-textarea
-                    v-model="developer_note"
-                    :auto-size="{ minRows: 4, maxRows: 5 }"
-                />
-                <p v-if="note_validate" style="color: red">
-                  please write something
-                </p>
-              </a-form-item>
-
-
-            </a-form>
-
-          </a-modal>
-        </div>
         </show-at>
 
         <show-at :breakpoints="{ small: 900}" breakpoint="small">
@@ -471,17 +499,18 @@ import Issues from "@/components/shared/trackerboard/issues"
 import Project from "@/services/Projects";
 import Fileshare from "@/components/shared/trackerboard/fileshare"
 import contract from "@/components/shared/trackerboard/contract"
-import { showAt} from 'vue-breakpoints'
+import {showAt} from 'vue-breakpoints'
 import basemobileboard from "@/components/shared/trackerboard/mobile/baseboard"
+
 class Feature {
-  constructor(id, title, stage, userstories, developer_note, escrow,due_date) {
+  constructor(id, title, stage, userstories, developer_note, escrow, due_date) {
     this.id = id;
     this.title = title;
     this.stage = stage;
     this.userstories = userstories;
     this.developer_note = developer_note;
     this.escrow = escrow;
-    this.due_date =due_date
+    this.due_date = due_date
 
 
   }
@@ -508,13 +537,13 @@ export default {
       features: [],
       developer: false,
       tools: [],
-      yoh:''
+      yoh: ''
 
 
     };
   },
   components: {
-    SmallSider, Tasks, Issues, DeveloperSmall, Fileshare,contract,showAt,basemobileboard
+    SmallSider, Tasks, Issues, DeveloperSmall, Fileshare, contract, showAt, basemobileboard
 
   },
   filters: {
@@ -536,11 +565,11 @@ export default {
   computed: {
     FeatureStep() {
       let current = 0
-      if (this.currentfeature.stage === 'quality' && this.currentfeature.developer_note !=='') {
+      if (this.currentfeature.stage === 'quality' && this.currentfeature.developer_note !== '') {
         current = 2
-      } else if (this.currentfeature.stage === 'quality' && this.currentfeature.developer_note ==='' ) {
+      } else if (this.currentfeature.stage === 'quality' && this.currentfeature.developer_note === '') {
         current = 1
-      }else if (this.currentfeature.escrow) {
+      } else if (this.currentfeature.escrow) {
         current = 4
       } else if (this.currentfeature.stage === 'done') {
         current = 3
@@ -572,7 +601,6 @@ export default {
     },
 
 
-
   },
   watch: {
 
@@ -584,6 +612,9 @@ export default {
   },
 
   methods: {
+    navigateTo(route) {
+      this.$router.push(route)
+    },
     fetchProject() {
       const auth = {
         headers: {Authorization: 'JWT ' + this.$store.state.token}
@@ -628,9 +659,9 @@ export default {
                 let userstories = resp.data;
                 let developer_note = feature.developer_note;
                 let escrow = feature.escrow_disbursed;
-                let due_date =feature.due_date
+                let due_date = feature.due_date
 
-                let onefeature = new Feature(id, title, stage, userstories, developer_note, escrow,due_date)
+                let onefeature = new Feature(id, title, stage, userstories, developer_note, escrow, due_date)
                 this.features.push(onefeature)
 
 

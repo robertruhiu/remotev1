@@ -5,6 +5,9 @@ export default {
     getuserchats(user, auth) {
         return Api().get(`remote/v1/projects/chat/all/${user}`, auth)
     },
+    createChat(newchat, auth) {
+        return Api().post(`remote/v1/projects/chat/createChat/`,newchat,auth)
+    },
     chatwith(user, other_user, auth) {
         return Api().get(`remote/v1/projects/chat/with/${user}/${other_user}`, auth)
     },

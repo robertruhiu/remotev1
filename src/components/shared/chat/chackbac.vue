@@ -11,7 +11,10 @@
 
       >
         <div>
+
           <a-row>
+
+
             <a-col span="6">
               <a-card title="All Chats" style="height: 90vh">
                 <span slot="extra">
@@ -43,22 +46,17 @@
 
                 </div>
                 <div v-else>
-                  <div v-for="chat in chats" v-bind:key="chat.id">
-                    <a-row class="hero" style="margin-bottom: 1rem">
-                      <a @click="fetchmessages('admin')" style="color: black">
-                        <a-col span="4">
-                          <a-avatar style="color: #f56a00; backgroundColor: #fde3cf;margin-top: 1rem">
-                            U
-                          </a-avatar>
-                        </a-col>
-                        <a-col span="18">
-                          <span>Name{{ chat }}</span><br>
-                          last message
 
-                        </a-col>
-                      </a>
+                  <div v-for="chat in chatmod" v-bind:key="chat">
+                    <a-card size="small" :title="chat.other_user" style="width: 300px;margin-bottom: 1rem">
 
-                    </a-row>
+                      <p>{{ chat.messages[chat.messages.length - 1].messagelist.message }}</p>
+                      <a-button type="primary" @click="fetchmessages(chat.other_user,chat.channel_url)">
+                        chat
+                      </a-button>
+
+
+                    </a-card>
 
 
                   </div>
@@ -68,7 +66,7 @@
               </a-card>
             </a-col>
             <a-col span="18">
-              <div v-if="other_user ===''" style="padding: 5%">
+              <div v-if="currentchat === null && loading === false" style="padding: 5%">
                 <a-result
                     title="Welcome to the chat.You can start or continue converation .Please click on the person u want to chat with to start">
                   <template #icon>
@@ -80,154 +78,51 @@
 
               <a-card v-else>
                 <span slot="title">
-                  {{ other_user }}
+                  {{ currentchat.other_user }}
                 </span>
                 <div style="position: relative;height: 79vh">
                   <div id="out" style="overflow-y: auto;position: absolute;width: 100%;height: 75vh">
                     <div v-if="loading">
                       <a-skeleton active/>
                     </div>
-                    <div v-else>
-                      {{ messages }}
-                      <div class="chat-msg">
-                        <div class="chat-msg-profile">
+                    <div v-else style="margin-bottom: 1rem">
 
-                          <div class="chat-msg-date">2.45pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">Aenean tristique maximus tortor non tincidunt. Vestibulum ante
-                            ipsum
-                            primis in faucibus orci luctus et ultrices posuere cubilia curae😊
+                      <div v-for="onemessage in currentchat.chat" v-bind:key="onemessage">
+
+
+                        <div class="chat-msg owner" v-if="onemessage._sender.userId === user">
+                          <div class="chat-msg-profile">
+
+                            <div class="chat-msg-date">{{ onemessage.created | momentformat }}</div>
                           </div>
+                          <div class="chat-msg-content">
+                            <div class="chat-msg-text">{{ onemessage.message.message }}</div>
 
-                        </div>
-                      </div>
-                      <div class="chat-msg owner">
-                        <div class="chat-msg-profile">
-
-                          <div class="chat-msg-date">2.50pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">posuere eget augue sodales, aliquet posuere eros.</div>
-
-                        </div>
-                      </div>
-                      <div class="chat-msg">
-                        <div class="chat-msg-profile">
-                          <div class="chat-msg-date">3.16pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">Egestas tellus rutrum tellus pellentesque</div>
-                        </div>
-                      </div>
-                      <div class="chat-msg">
-                        <div class="chat-msg-profile">
-
-                          <div class="chat-msg-date">2.45pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">Aenean tristique maximus tortor non tincidunt. Vestibulum ante
-                            ipsum
-                            primis in faucibus orci luctus et ultrices posuere cubilia curae😊
                           </div>
+                        </div>
+                        <div class="chat-msg" v-else>
+                          <div class="chat-msg-profile">
 
-                        </div>
-                      </div>
-                      <div class="chat-msg owner">
-                        <div class="chat-msg-profile">
-
-                          <div class="chat-msg-date">2.50pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">posuere eget augue sodales, aliquet posuere eros.</div>
-
-                        </div>
-                      </div>
-                      <div class="chat-msg">
-                        <div class="chat-msg-profile">
-                          <div class="chat-msg-date">3.16pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">Egestas tellus rutrum tellus pellentesque</div>
-                        </div>
-                      </div>
-                      <div class="chat-msg">
-                        <div class="chat-msg-profile">
-
-                          <div class="chat-msg-date">2.45pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">Aenean tristique maximus tortor non tincidunt. Vestibulum ante
-                            ipsum
-                            primis in faucibus orci luctus et ultrices posuere cubilia curae😊
+                            <div class="chat-msg-date">{{ onemessage.created | momentformat }}</div>
                           </div>
+                          <div class="chat-msg-content">
+                            <div class="chat-msg-text">{{ onemessage.message.message }}
+                            </div>
 
-                        </div>
-                      </div>
-                      <div class="chat-msg owner">
-                        <div class="chat-msg-profile">
-
-                          <div class="chat-msg-date">2.50pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">posuere eget augue sodales, aliquet posuere eros.</div>
-
-                        </div>
-                      </div>
-                      <div class="chat-msg">
-                        <div class="chat-msg-profile">
-                          <div class="chat-msg-date">3.16pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">Egestas tellus rutrum tellus pellentesque</div>
-                        </div>
-                      </div>
-                      <div class="chat-msg">
-                        <div class="chat-msg-profile">
-
-                          <div class="chat-msg-date">2.45pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">Aenean tristique maximus tortor non tincidunt. Vestibulum ante
-                            ipsum
-                            primis in faucibus orci luctus et ultrices posuere cubilia curae😊
                           </div>
-
                         </div>
                       </div>
-                      <div class="chat-msg owner">
-                        <div class="chat-msg-profile">
 
-                          <div class="chat-msg-date">2.50pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">posuere eget augue sodales, aliquet posuere eros.</div>
 
-                        </div>
-                      </div>
-                      <div class="chat-msg">
-                        <div class="chat-msg-profile">
-                          <div class="chat-msg-date">3.16pm</div>
-                        </div>
-                        <div class="chat-msg-content">
-                          <div class="chat-msg-text">Egestas tellus rutrum tellus pellentesque</div>
-                        </div>
-                      </div>
                     </div>
 
                   </div>
 
                   <div style="position: absolute;bottom: 0;width: 100%">
-                    <a-row>
-                      <a-col span="22">
-                        <a-textarea placeholder="Type something here..." :auto-size="{ minRows: 2, maxRows: 6 }"
-                                    v-model="message" v-on:click.enter="sendMessage"/>
-
-                      </a-col>
-                      <a-col span="2">
-                        <a-button type="primary" @click="sendMessage">Send</a-button>
-                      </a-col>
-                    </a-row>
+                    <a-textarea v-model="message" placeholder="Basic usage" :rows="4"/>
+                    <br>
+                    <br>
+                    <a-button type="primary" @click="sendMessage()">Send Message</a-button>
 
 
                   </div>
@@ -241,75 +136,159 @@
           </a-row>
 
         </div>
+
+
       </a-layout-content>
     </a-layout>
   </a-layout>
 
-
 </template>
 
 <script>
-
+import ClientSider from "@/components/client/layout/ClientSider";
+import Chat from '@/services/Chat'
+import moment from "moment";
 import * as axios from "axios";
 
-import ClientSider from "@/components/client/layout/ClientSider";
+import 'vue-advanced-chat/dist/vue-advanced-chat.css'
+
+class ChatObj {
+  constructor(id, ids, users, channel_url, messages, other_user) {
+    this.id = id;
+    this.ids = ids;
+    this.users = users;
+    this.channel_url = channel_url;
+    this.messages = messages;
+    this.other_user = other_user
+
+
+  }
+}
+
+
+
+
 
 export default {
   name: "Chat",
   data() {
     return {
       chats: {},
-      user: 'dennis',
+      chatmod: [],
+      user: '',
       other_user: '',
-      users: ['dennis',  'admin'],
+      users: ['dennis', 'admin'],
       message: '',
-      messages: {},
+      groupchannel: '',
       loading: false,
-      newchat: false
+      newchat: false,
+      currentchat: null,
+      currentchatmod: [],
+      sendlink: '',
+
+
+
     };
   },
   components: {ClientSider},
   beforeCreate() {
+  },
+  filters: {
+    parseHi: function (value) {
+
+      return JSON.parse(value)
+    },
+    capitalize: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    },
+    momentformat: function (date) {
+      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+    },
 
   },
-
   computed: {},
   async mounted() {
-    axios.get("http://localhost:9000/remote/v1/projects/chat/all",
-        {
-          params: {
-            user: this.user,
+    const auth = {
+      headers: {Authorization: 'JWT ' + this.$store.state.token}
+
+    }
+    this.user = this.$store.state.user.username
+    this.currentUserId =this.$store.state.user.pk
+    Chat.getuserchats(this.$store.state.user.username, auth)
+        .then(response => {
+          this.chats = response.data
+          if (this.chats.length > 0) {
+
+
+            this.chats.forEach(chat => {
+              let id = chat.id
+              let ids = chat.ids
+              let users = chat.users
+              let channel_url = chat.channel_url
+
+              let other_user = ''
+              users.forEach(user => {
+                if (user !== this.user) {
+                  other_user = user
+
+                }
+              })
+
+              let messagesparse = JSON.parse(chat.messages)
+              messagesparse.forEach(fullmessageobj => {
+
+
+                let onemessage = JSON.parse(fullmessageobj.message)
+
+                fullmessageobj.messagelist = onemessage
+
+
+              })
+              let messages = messagesparse
+
+
+
+
+
+              let onechat = new ChatObj(id, ids, users, channel_url, messages, other_user)
+              this.chatmod.push(onechat)
+
+
+            })
           }
+
+
         })
-        .then(response =>
-            this.chats = response.data
-        ).catch(function (error) {
-      console.log(error);
-    });
 
 
   },
   methods: {
-    fetchmessages(user) {
-      var objDiv = document.getElementById("out");
-      objDiv.scrollTop = objDiv.scrollHeight;
-      if (user !== this.other_user) {
-        this.other_user = user
-        this.loading = true
-        axios.get("http://localhost:9000/remote/v1/projects/chat/with",
-            {
-              params: {
-                user: this.user,
-                other_user: this.other_user,
-              }
-            })
-            .then(response => {
-                  this.messages = response.data
-                  this.loading = false
 
-                }
-            )
+    fetchmessages(other_user, channel_url) {
+
+      const auth = {
+        headers: {Authorization: 'JWT ' + this.$store.state.token}
+
       }
+      this.groupchannel = channel_url
+      this.other_user = other_user
+      this.currentchat = null
+      this.loading = true
+      Chat.chatwith(this.user, other_user, auth)
+          .then(response => {
+            this.messages = response.data
+            this.currentchat = response.data
+            this.currentchat.chat = JSON.parse(response.data.chat)
+            this.currentchat.chat.forEach(onechat => {
+              onechat.message = JSON.parse(onechat.message)
+            })
+
+            this.loading = false
+
+
+          })
 
 
     },
@@ -317,45 +296,36 @@ export default {
     newChat() {
       this.newchat = !this.newchat
     },
-    startChat(USER_ID) {
-      console.log('pressed');
-      axios.get("http://localhost:8000/remote/v1/projects/chat/with",
-          {
-            params: {
-              user: this.user,
-              other_user: USER_ID,
-            }
-          })
-          .then(response => console.log(response.data)
-              //    redirect to view chat
 
-          )
+
+    sendMessage() {
+
+      this.sendlink = process.env.VUE_APP_PATH
+
+
+      var params = {
+        message: this.message,
+      }
+      axios.post(`${this.sendlink}/remote/v1/projects/chat/send_message/${this.user}/' +
+          '${this.other_user}/${this.groupchannel}`, params)
+          .then(function (response) {
+            this.currentchat = null
+            this.currentchat = response.data
+            this.currentchat.chat = JSON.parse(response.data.chat)
+            this.currentchat.chat.forEach(onechat => {
+              onechat.message = JSON.parse(onechat.message)
+            })
+            this.messages = response.data['messages']
+            this.loading = false
+          })
           .catch(function (error) {
             console.log(error);
           });
     },
-    sendMessage() {
-      const self = this;
 
 
-      // var MESSAGE = this.message;
-      // var url = this.channel_url;
-      //todo: use passed channel url from chat list
-      var params = {
-        message: this.message,
-      }
-      axios.post('http://localhost:8000/remote/v1/projects/chat/send_message/dennis/' +
-          'admin/sendbird_group_channel_64617788_0a254aec2957b80c11d1cb411040f5277dd01074/', params).then(function (response) {
-        self.messages = response.data['messages'];
 
-      })
-          .catch(function (error) {
-            console.log(error);
-          });
-      this.message = ''
-    }
   }
-
 }
 </script>
 
